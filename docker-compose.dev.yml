@@ -1,0 +1,8 @@
+services:
+  backend:
+    volumes: # For hot reloads during development
+    - ./:/app
+    environment:
+      ENV: dev
+      DEBUG: TRUE
+    
