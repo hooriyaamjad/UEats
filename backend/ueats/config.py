@@ -14,11 +14,11 @@ class AppConfig(BaseSettings):
     postgres_password: Optional[str] = None
     postgres_host: Optional[str] = None
     postgres_port: Optional[int] = None
-    debug: bool = False
+    debug: bool = True
 
 def get_db_config(cfg: AppConfig, base_dir: Path) -> dict:
     """Get the db configs based on the app configs"""
-    
+
     if cfg.env == 'prod':
         if not all([cfg.postgres_db, cfg.postgres_user, cfg.postgres_password, cfg.postgres_host]):
             raise ImproperlyConfigured("Missing Postgres environment variables for prod.")
