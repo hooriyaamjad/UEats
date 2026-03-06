@@ -20,7 +20,7 @@ def get_db_config(cfg: AppConfig, base_dir: Path) -> dict:
     """Get the db configs based on the app configs"""
 
     if cfg.env == 'prod':
-        if not all([cfg.postgres_db, cfg.postgres_user, cfg.postgres_password, cfg.postgres_host]):
+        if not all([cfg.postgres_db, cfg.postgres_user, cfg.postgres_password, cfg.postgres_host, cfg.postgres_port]):
             raise ImproperlyConfigured("Missing Postgres environment variables for prod.")
         
         return {
@@ -30,7 +30,7 @@ def get_db_config(cfg: AppConfig, base_dir: Path) -> dict:
                 'USER': cfg.postgres_user,
                 'PASSWORD': cfg.postgres_password,
                 'HOST': cfg.postgres_host,
-                'PORT': cfg.postgres_port or 5432,
+                'PORT': cfg.postgres_port,
             }
         }
     else:
