@@ -40,11 +40,17 @@ python manage.py runserver
 Frontend
 ```bash
 cd frontend
-npm start
+npm run dev
 ```
 
 ### Run with Docker
 
+Dev Environment
 ```bash
-docker compose up --build
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+```
+
+Prod Environment
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build
 ```

@@ -1,0 +1,11 @@
+services:
+  backend:
+    volumes: # For hot reloads during development
+    - ./backend/:/app
+    environment:
+      ENV: dev
+      DEBUG: TRUE
+  frontend:
+    volumes:
+    - ./frontend:/app
+    - /app/node_modules

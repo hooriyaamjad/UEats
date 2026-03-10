@@ -1,1 +1,3 @@
 Django
+pydantic-settings
+psycopg2-binary

@@ -1,9 +1,9 @@
 services:
   backend:
-    build: .
+    build: ./backend
     ports:
       - "8000:8000"
-    volumes: # For hot reloads during development
-      - ./backend:/app
-    environment:
-      DEBUG: True 
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
