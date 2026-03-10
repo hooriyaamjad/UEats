@@ -40,7 +40,7 @@ python manage.py runserver
 Frontend
 ```bash
 cd frontend
-npm start
+npm run dev
 ```
 
 ### Run with Docker
