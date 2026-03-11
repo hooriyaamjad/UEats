@@ -20,6 +20,11 @@ Run migrations to initialize the local sqlite db
 python manage.py migrate
 ```
 
+Populate database with seed data
+```bash
+python manage.py seed_db
+```
+
 Create a local superuser so you can access the admin panel (localhost:.../admin)
 ```
 python manage.py createsuperuser
