@@ -10,6 +10,14 @@ class Profile(models.Model):
     is_student = models.BooleanField()
     university = models.CharField()
     student_id = models.CharField(blank=True, null=True)
+    favourites = models.ManyToManyField(
+        'restaurants.Restaurant',
+        blank=True,
+        related_name='favourited_by'
+    )
+    preferences = models.JSONField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         unique_together = ('student_id', 'university')

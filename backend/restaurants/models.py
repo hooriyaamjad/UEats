@@ -1,6 +1,7 @@
+from decimal import Decimal
+
 from django.db import models
 
-# Create your models here.
 class Restaurant(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)    
@@ -12,7 +13,7 @@ class Restaurant(models.Model):
     days_of_operation = models.CharField(max_length=255)
     opening_hours = models.CharField(max_length=255)
     closing_hours = models.CharField(max_length=255)
-    rating = models.DecimalField(max_digits=2, decimal_places=1, default=0.0)
+    rating = models.DecimalField(max_digits=2, decimal_places=1, default=Decimal(0.0))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -20,9 +21,9 @@ class Restaurant(models.Model):
         return self.name
     
 class Review(models.Model):
-    # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews') //TODO: Define relationship with profile model
+    profile = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE, related_name='reviews')
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='reviews')
-    rating = models.DecimalField(max_digits=2, decimal_places=1, default=0.0)
+    rating = models.DecimalField(max_digits=2, decimal_places=1, default=Decimal(0.0))
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -35,7 +36,7 @@ class Review(models.Model):
     
 
 class Recommendation(models.Model):
-    # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recommendations') //TODO: Define relationship with profile model
+    profile = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE, related_name='recommendations')
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='recommendations')
     description = models.TextField(blank=True)
     like_count = models.IntegerField(default=0)
