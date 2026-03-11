@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-class LoginIntegrationTest(APITestCase):
+class LoginTest(APITestCase):
 
     def setUp(self):
         self.login_url = reverse('login')
