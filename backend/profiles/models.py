@@ -7,9 +7,9 @@ class Profile(models.Model):
     """
     
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    is_student = models.BooleanField()
-    university = models.CharField()
-    student_id = models.CharField(blank=True, null=True)
+    is_student = models.BooleanField(default=False)
+    university = models.CharField(max_length=100)
+    student_id = models.CharField(max_length=10, blank=True, null=True)
     favourites = models.ManyToManyField(
         'restaurants.Restaurant',
         blank=True,

@@ -3,6 +3,9 @@ from decimal import Decimal
 from django.db import models
 
 class Restaurant(models.Model):
+    """
+    Stores information about restaurants.
+    """
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)    
     location = models.CharField(max_length=255)
@@ -21,6 +24,9 @@ class Restaurant(models.Model):
         return self.name
     
 class Review(models.Model):
+    """
+    Stores information about restaurant reviews.
+    """
     profile = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE, related_name='reviews')
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='reviews')
     rating = models.DecimalField(max_digits=2, decimal_places=1, default=Decimal(0.0))
@@ -36,6 +42,8 @@ class Review(models.Model):
     
 
 class Recommendation(models.Model):
+    """Stores information about restaurant recommendations given by users.
+    """
     profile = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE, related_name='recommendations')
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='recommendations')
     description = models.TextField(blank=True)
