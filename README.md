@@ -4,6 +4,9 @@
 
 Before starting development do the following things.
 
+### Env File
+Please reach out to a team member for the .env file details and place the file in the project root.
+
 ### Backend
 
 Navigate to the backend directory, make a venv, and install dependencies
