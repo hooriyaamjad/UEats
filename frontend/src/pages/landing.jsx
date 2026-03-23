@@ -6,6 +6,7 @@ export default function Landing() {
       <h1 className="text-2xl font-bold">UEats — Landing Page</h1>
       <Link to="/login" className="text-blue-600 underline">Login</Link>
       <Link to="/signup" className="text-blue-600 underline">Sign Up</Link>
+      <Link to="/preferences" className="text-blue-600 underline">Preferences</Link>
     </div>
   );
 }
