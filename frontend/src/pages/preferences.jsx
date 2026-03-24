@@ -25,9 +25,15 @@ const allergenOptions = [
 
 export default function Preferences() {
 return (
-    <div>
-      Preferences
-      <Link to="/">Landing</Link>
+    <div className="main-container">
+        <h2 className="price-range-title">Price Range</h2>
+        <div className="price-range">$0 - $100</div>
+        <input
+            type="range"
+            min="0"
+            max="100"
+            className="slider"
+        />
     </div>
   );
 }
