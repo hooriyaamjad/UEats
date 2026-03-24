@@ -29,6 +29,8 @@ export default function Preferences() {
     
     return (
         <div className="main-container">
+            <h2 className="dietary-title">Dietary Restrictions</h2>
+            <h2 className="allergen-title">Allergens</h2>
             <h2 className="price-range-title">Price Range</h2>
             <div className="price-range">$100</div>
             <input
