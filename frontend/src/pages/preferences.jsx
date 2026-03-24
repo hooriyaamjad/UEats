@@ -1,8 +1,19 @@
 import { Link } from "react-router-dom";
-import "./preferences.css";
+import "../preferences.css";
+
+const dietaryOptions = [
+  "Halal",
+  "Vegetarian",
+  "Kosher",
+  "Vegan",
+  "Pescatarian",
+  "Gluten-Free",
+  "Lactose-Intolerance",
+  "Dairy-Free",
+];
 
 export default function Preferences() {
-  return (
+return (
     <div>
       Preferences
       <Link to="/">Landing</Link>
