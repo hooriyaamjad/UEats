@@ -38,9 +38,7 @@ export default function Preferences() {
                 value={priceRange}
                 onChange={(e) => setPriceRange(e.target.value)}
                 className="slider"
-                style={{
-                    background: `linear-gradient(to right, skyblue ${priceRange}%, lightgrey ${priceRange}%)`,
-                    }}
+                style={{ "--value": `${priceRange}%` }}
             />
 
             <p> priceRange: {priceRange} </p>

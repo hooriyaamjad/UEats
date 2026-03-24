@@ -12,9 +12,14 @@
 
 .slider {
   width: 100%;
-  appearance: none;        
+  appearance: none;
   height: 6px;
-  background: #ccc;       
-  border-radius: 5px;
   outline: none;
+  background: linear-gradient(
+    to right,
+    rgb(150, 150, 207) 0%,
+    rgb(150, 150, 207) var(--value),
+    #ccc var(--value),
+    #ccc 100%
+  );
 }
