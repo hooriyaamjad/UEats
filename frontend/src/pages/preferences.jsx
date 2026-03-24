@@ -30,7 +30,7 @@ export default function Preferences() {
     return (
         <div className="main-container">
             <h2 className="price-range-title">Price Range</h2>
-            <div className="price-range">$0 - {priceRange}</div>
+            <div className="price-range">$100</div>
             <input
                 type="range"
                 min="0"
@@ -41,7 +41,7 @@ export default function Preferences() {
                 style={{ "--value": `${priceRange}%` }}
             />
 
-            <p> priceRange: {priceRange} </p>
+            <p className="set-price-range"> Set Price Range: $0 - ${priceRange} </p>
         </div>
     );
 }
