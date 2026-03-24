@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Landing from "./pages/landing";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
+import SignupRole from "./pages/signupRole";
+import SignupConfirmation from "./pages/signupConfirmation";
 import Home from "./pages/home";
 import Preferences from "./pages/preferences";
 
@@ -13,6 +15,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/signup/role" element={<SignupRole />} />
+        <Route path="/signup/confirmation" element={<SignupConfirmation />} />
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
         <Route path="/preferences" element={<Preferences />} />
