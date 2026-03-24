@@ -1,4 +1,5 @@
 import "../preferences.css";
+import { useState } from "react";
 
 const dietaryOptions = [
   "Halal",
@@ -23,16 +24,26 @@ const allergenOptions = [
 ];
 
 export default function Preferences() {
-return (
-    <div className="main-container">
-        <h2 className="price-range-title">Price Range</h2>
-        <div className="price-range">$0 - $100</div>
-        <input
-            type="range"
-            min="0"
-            max="100"
-            className="slider"
-        />
-    </div>
-  );
+
+    const [priceRange, setPriceRange] = useState(100);
+    
+    return (
+        <div className="main-container">
+            <h2 className="price-range-title">Price Range</h2>
+            <div className="price-range">$0 - {priceRange}</div>
+            <input
+                type="range"
+                min="0"
+                max="100"
+                value={priceRange}
+                onChange={(e) => setPriceRange(e.target.value)}
+                className="slider"
+                style={{
+                    background: `linear-gradient(to right, skyblue ${priceRange}%, lightgrey ${priceRange}%)`,
+                    }}
+            />
+
+            <p> priceRange: {priceRange} </p>
+        </div>
+    );
 }
