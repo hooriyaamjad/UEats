@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import "../preferences.css";
 
 const dietaryOptions = [
