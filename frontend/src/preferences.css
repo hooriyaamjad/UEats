@@ -9,3 +9,12 @@
     max-width: 100%;
   }
 }
+
+.slider {
+  width: 100%;
+  appearance: none;        
+  height: 6px;
+  background: #ccc;       
+  border-radius: 5px;
+  outline: none;
+}
