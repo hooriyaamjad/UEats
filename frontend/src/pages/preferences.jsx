@@ -26,6 +26,8 @@ const allergenOptions = [
 export default function Preferences() {
 
     const [priceRange, setPriceRange] = useState(100);
+    const [selectedDietary, setSelectedDietaryRestrictions] = useState([]);
+    const [selectedAllergens, setSelectedAllergens] = useState([]);
     
     return (
         <div className="main-container">
