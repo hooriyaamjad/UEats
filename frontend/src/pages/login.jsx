@@ -4,12 +4,18 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const login = async (username, password) => {
-  const response = await api.post('/profiles/login/', { username, password });
-  if (response.data) {
-    localStorage.setItem('access_token', response.data.access);
-    localStorage.setItem('refresh_token', response.data.refresh);
-    return true
+
+  try {
+    const response = await api.post('/profiles/login/', { username, password });
+    if (response.data) {
+      localStorage.setItem('access_token', response.data.access);
+      localStorage.setItem('refresh_token', response.data.refresh);
+      return true
+    }
+  } catch (error) {
+    console.error("Login failed:", error?.response?.data);
   }
+
   return false;
 };
 
