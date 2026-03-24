@@ -1,0 +1,11 @@
+.main-container {
+  padding: 30px;
+  font-family: Inter, sans-serif;
+  margin: auto;
+}
+
+@media (max-width: 393px) {
+  .main-container {
+    max-width: 100%;
+  }
+}
