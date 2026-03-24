@@ -12,6 +12,17 @@ const dietaryOptions = [
   "Dairy-Free",
 ];
 
+const allergenOptions = [
+  "Peanuts",
+  "Wheat",
+  "Milk",
+  "Soy",
+  "Eggs",
+  "Shellfish",
+  "Treenuts",
+  "Fish",
+];
+
 export default function Preferences() {
 return (
     <div>
