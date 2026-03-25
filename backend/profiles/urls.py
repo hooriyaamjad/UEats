@@ -1,9 +1,16 @@
-from django.urls import path
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from .views import SignupView
+
+from .views import SignupView, ProfileViewSet
+
+router = DefaultRouter()
+router.register(r'', ProfileViewSet, basename='profile')
 
 urlpatterns = [
     path('signup/', SignupView.as_view(), name='signup'),
     path('login/', TokenObtainPairView.as_view(), name='login'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path("me/", ProfileViewSet.as_view({"get": "retrieve", "patch": "partial_update"}), {"pk": "me"}, name="me"),
+    path('', include(router.urls)),
 ]
