@@ -31,11 +31,11 @@ class Command(BaseCommand):
 
 		descriptions = [
 			"Chicken Bun + Spicy Beef Sub.",
-			"I reccomend the Chicken Yakisoba.",
+			"I recommend the Chicken Yakisoba.",
 			"Any vegetarian item is good here!",
-			"Get the chicken bun and pizza bun and alterante bites between each.",
+			"Get the chicken bun and pizza bun and alternate bites between each.",
 			"Anything thats deep fried is really good here.",
-			"Get the Filet O' Fish with no cheese and extra tarter sauce.",
+			"Get the Filet O' Fish with no cheese and extra tartar sauce.",
 			"3 Piece Chicken Tender combo with gravy and fries.",
 			"16 inch chicken delight.",
 			"Chicken shawarma platter.",
