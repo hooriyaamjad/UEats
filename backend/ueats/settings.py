@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'corsheaders',
     'restaurants',
-    'profiles'
+    'profiles',
+    'common'
 ]
 
 MIDDLEWARE = [
