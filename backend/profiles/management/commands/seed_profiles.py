@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from profiles.models import Profile
+from restaurants.models import Restaurant
 
 class Command(BaseCommand):
     help = "Seed the database with sample user profiles"
@@ -8,11 +9,11 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         # Delete existing profiles and users
         Profile.objects.all().delete()
-        User.objects.filter(username__in=['john_doe', 'jane_smith', 'mike_ross']).delete()
+        User.objects.filter(username__in=['user123', 'jane_smith', 'mike_ross']).delete()
 
         profiles_data = [
             {
-                "username": "john_doe",
+                "username": "user123",
                 "email": "john.doe@ucalgary.ca",
                 "first_name": "John",
                 "last_name": "Doe",
@@ -24,7 +25,8 @@ class Command(BaseCommand):
                     "dietary": ["vegetarian"],
                     "cuisines": ["asian", "italian"],
                     "price_range": "medium"
-                }
+                },
+                "favourites": ["Subway", "Canadian Pizza Unlimited"]
             },
             {
                 "username": "jane_smith",
@@ -39,7 +41,8 @@ class Command(BaseCommand):
                     "dietary": ["gluten-free"],
                     "cuisines": ["mexican", "american"],
                     "price_range": "budget"
-                }
+                },
+                "favourites": ["Canadian Pizza Unlimited"]
             },
             {
                 "username": "mike_ross",
@@ -54,7 +57,8 @@ class Command(BaseCommand):
                     "dietary": [],
                     "cuisines": ["all"],
                     "price_range": "premium"
-                }
+                },
+                "favourites": ["Canadian Pizza Unlimited"]
             }
         ]
 
@@ -66,12 +70,19 @@ class Command(BaseCommand):
                 last_name=data['last_name'],
                 password=data['password']
             )
-            Profile.objects.create(
+            
+            favourites = data.pop('favourites', [])
+            
+            profile = Profile.objects.create(
                 user=user,
                 is_student=data['is_student'],
                 university=data['university'],
                 student_id=data.get('student_id'),
                 preferences=data.get('preferences')
             )
+            
+            if favourites:
+                restaurants = Restaurant.objects.filter(name__in=favourites)
+                profile.favourites.set(restaurants)
 
         self.stdout.write(self.style.SUCCESS('Successfully seeded profiles'))
