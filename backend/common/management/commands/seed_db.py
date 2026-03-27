@@ -13,4 +13,10 @@ class Command(BaseCommand):
         self.stdout.write("Seeding Profiles...")
         call_command('seed_profiles')
 
+        self.stdout.write("Seeding Reccomendations...")
+        call_command('seed_reccomendations')
+
+        self.stdout.write("Seeding Reviews...")
+        call_command('seed_reviews')
+
         self.stdout.write(self.style.SUCCESS("All data seeded successfully!"))

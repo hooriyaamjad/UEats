@@ -7,8 +7,16 @@ class Command(BaseCommand):
     help = "Seed the database with sample user profiles"
 
     def handle(self, *args, **kwargs):
-        # Delete existing profiles and users
-        Profile.objects.all().delete()
+        restaurants = list(Restaurant.objects.all())
+
+        if not restaurants:
+            self.stdout.write(
+				self.style.WARNING(
+					"No restaurants found. Run seed_restaurants before seeding recommendations."
+				)
+			)
+            return
+        
         User.objects.filter(username__in=['user123', 'jane_smith', 'mike_ross']).delete()
 
         profiles_data = [
