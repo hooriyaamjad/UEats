@@ -11,6 +11,17 @@ class Command(BaseCommand):
         Profile.objects.all().delete()
         User.objects.filter(username__in=['user123', 'jane_smith', 'mike_ross']).delete()
 
+
+        restaurants = list(Restaurant.objects.all())
+
+        if not restaurants:
+            self.stdout.write(
+				self.style.WARNING(
+					"No restaurants found. Run seed_restaurants before seeding recommendations."
+				)
+			)
+            return
+
         profiles_data = [
             {
                 "username": "user123",
