@@ -30,23 +30,22 @@ class Command(BaseCommand):
 		Recommendation.objects.all().delete()
 
 		descriptions = [
-			"Perfect for a quick bite before lecture.",
-			"Best value-for-money meal on campus.",
-			"Great vegetarian choices and fast prep.",
-			"Ideal place for group lunch.",
-			"Healthy options that still taste great.",
-			"Reliable late-afternoon meal stop.",
-			"Strong flavor and generous portions.",
-			"Good atmosphere for casual hangouts.",
-			"Consistently fresh and satisfying.",
-			"Underrated spot worth trying.",
+			"Chicken Bun + Spicy Beef Sub.",
+			"I reccomend the Chicken Yakisoba.",
+			"Any vegetarian item is good here!",
+			"Get the chicken bun and pizza bun and alterante bites between each.",
+			"Anything thats deep fried is really good here.",
+			"Get the Filet O' Fish with no cheese and extra tarter sauce.",
+			"3 Piece Chicken Tender combo with gravy and fries.",
+			"16 inch chicken delight.",
+			"Chicken shawarma platter.",
 		]
 		likes = [3, 5, 7, 9, 12, 4, 8, 6, 10, 2]
 		dislikes = [0, 1, 2, 1, 0, 2, 1, 3, 1, 0]
 
 		created_count = 0
 		for i, restaurant in enumerate(restaurants):
-			profile = profiles[(i + 1) % len(profiles)]
+			profile = profiles[i % len(profiles)]
 			Recommendation.objects.create(
 				profile=profile,
 				restaurant=restaurant,
