@@ -109,7 +109,7 @@ python manage.py migrate
 
 ## Seeding Scripts
 
-Seed data is split into four management commands:
+Seed data has four commands:
 
 | Command | File | What it seeds |
 |---|---|---|
@@ -123,13 +123,13 @@ Seed data is split into four management commands:
 
 ## Running the Seeding Script
 
-The easiest way is to run the master `seed_db` command from the `backend/` directory, which handles ordering automatically:
+Run the main `seed_db` command from the `backend/` directory, which handles ordering automatically:
 
 ```bash
 python manage.py seed_db
 ```
 
-To run individual seeders:
+To run individual seeds:
 
 ```bash
 python manage.py seed_restaurants
