@@ -13,7 +13,7 @@ class Command(BaseCommand):
                 "name": "A&W",
                 "description": "Fast food chain serving burgers, fries, breakfast items, and root beer.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/bc/A%26W_Canada_Logo.svg",
                 "menu_items": [
                     {"name": "Teen Burger", "price": 8.99},
                     {"name": "Mama Burger", "price": 6.49},
@@ -37,7 +37,7 @@ class Command(BaseCommand):
                 "name": "Bake Chef Co.",
                 "description": "Popular campus spot serving Asian-style sandwiches, bowls, and quick meals.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://img.cdn4dd.com/cdn-cgi/image/fit=contain,width=1200,height=672,format=auto/https://doordash-static.s3.amazonaws.com/media/restaurant/cover/156157e6-c146-4b5a-866d-8461d82cdf50.png",
                 "menu_items": [
                     {"name": "Beef Sub", "price": 7.99},
                     {"name": "Chicken Sub", "price": 7.49},
@@ -61,7 +61,7 @@ class Command(BaseCommand):
                 "name": "Canadian Pizza Unlimited",
                 "description": "Pizza counter serving slices, whole pizzas, and sides.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://franchise-opportunities.ca/wp-content/uploads/2026/02/Canadian-Pizza-Unlimited-Franchise-Cost-Canada.png",
                 "menu_items": [
                     {"name": "Pepperoni Slice", "price": 4.99},
                     {"name": "Cheese Slice", "price": 4.79},
@@ -85,7 +85,7 @@ class Command(BaseCommand):
                 "name": "Carl's Jr.",
                 "description": "American burger chain known for charbroiled burgers and fries.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://logos-world.net/wp-content/uploads/2022/11/Carls-Jr.-Logo.png",
                 "menu_items": [
                     {"name": "Famous Star Burger", "price": 8.99},
                     {"name": "Western Bacon Cheeseburger", "price": 9.49},
@@ -109,7 +109,7 @@ class Command(BaseCommand):
                 "name": "Chaiiwala of London",
                 "description": "Cafe serving chai, wraps, and Indian street-food style snacks.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://www.tourism-langley.ca/wp-content/uploads/2024/01/chaiwalla-banner.jpg",
                 "menu_items": [
                     {"name": "Karak Chai", "price": 3.99},
                     {"name": "Masala Chai", "price": 3.99},
@@ -133,7 +133,7 @@ class Command(BaseCommand):
                 "name": "Coffee Company",
                 "description": "Campus coffee kiosk serving hot drinks, pastries, and snacks.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png",
                 "menu_items": [
                     {"name": "Latte", "price": 4.25},
                     {"name": "Cappuccino", "price": 4.25},
@@ -157,7 +157,7 @@ class Command(BaseCommand):
                 "name": "Dairy Queen/Orange Julius",
                 "description": "Ice cream and fast food chain with frozen drinks, burgers, and desserts.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Dairy_Queen_logo.svg/1280px-Dairy_Queen_logo.svg.png",
                 "menu_items": [
                     {"name": "Blizzard", "price": 5.99},
                     {"name": "Orange Julius", "price": 4.99},
@@ -181,7 +181,7 @@ class Command(BaseCommand):
                 "name": "The Den & Black Lounge",
                 "description": "Campus pub and lounge serving casual meals and snacks.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://i0.wp.com/den.su.ucalgary.ca/wp-content/uploads/2015/03/Den2014-logo-1.png?fit=571%2C416&ssl=1",
                 "menu_items": [
                     {"name": "Classic Burger", "price": 12.99},
                     {"name": "Chicken Wings", "price": 11.99},
@@ -205,7 +205,7 @@ class Command(BaseCommand):
                 "name": "Freshco Poke",
                 "description": "Poke bowl spot serving seafood, chicken, tofu, and fresh toppings.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://img.cdn4dd.com/cdn-cgi/image/fit=contain,width=1200,height=672,format=auto/https://doordash-static.s3.amazonaws.com/media/restaurant/cover/bc251f33-aa32-46d3-8f1c-8ab79273e4ed.png",
                 "menu_items": [
                     {"name": "Salmon Poke Bowl", "price": 13.99},
                     {"name": "Tuna Poke Bowl", "price": 14.99},
@@ -229,7 +229,7 @@ class Command(BaseCommand):
                 "name": "Jugo Juice",
                 "description": "Juice and smoothie bar with bowls, wraps, and healthy snacks.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://getlogovector.com/wp-content/uploads/2021/02/jugo-juice-logo-vector.png",
                 "menu_items": [
                     {"name": "Strawberry Banana Smoothie", "price": 6.99},
                     {"name": "Mango Magic Smoothie", "price": 6.99},
@@ -253,7 +253,7 @@ class Command(BaseCommand):
                 "name": "Kobe Beef",
                 "description": "Japanese grill spot serving teriyaki bowls, tempura, and bento-style meals.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png",
                 "menu_items": [
                     {"name": "Teriyaki Chicken Bowl", "price": 11.99},
                     {"name": "Beef Teriyaki Bowl", "price": 12.99},
@@ -277,7 +277,7 @@ class Command(BaseCommand):
                 "name": "Korean BBQ",
                 "description": "Korean eatery serving BBQ plates, bowls, and rice dishes.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png",
                 "menu_items": [
                     {"name": "Bibimbap", "price": 11.99},
                     {"name": "Korean BBQ Chicken", "price": 12.99},
@@ -301,7 +301,7 @@ class Command(BaseCommand):
                 "name": "La Fe Dim Sum",
                 "description": "Dim sum counter serving dumplings, buns, and noodle dishes.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzizGBkPigw4rM6dFIaU232iSaAV7fdgFFhQ&s",
                 "menu_items": [
                     {"name": "Pork Dumplings", "price": 7.99},
                     {"name": "Shrimp Dumplings", "price": 8.99},
@@ -325,7 +325,7 @@ class Command(BaseCommand):
                 "name": "Last Defence Lounge",
                 "description": "Casual campus lounge serving pub-style meals and appetizers.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1N30viVeTMCYW4lEiV-80XqXbjymEqXBqlg&s",
                 "menu_items": [
                     {"name": "Nachos", "price": 11.99},
                     {"name": "Chicken Wings", "price": 12.99},
@@ -349,7 +349,7 @@ class Command(BaseCommand):
                 "name": "Mr. Pretzels",
                 "description": "Snack kiosk specializing in pretzels, dips, and bite-sized treats.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://www.mrpretzels.com/images/logo.png",
                 "menu_items": [
                     {"name": "Classic Pretzel", "price": 4.49},
                     {"name": "Cinnamon Pretzel", "price": 4.99},
@@ -373,7 +373,7 @@ class Command(BaseCommand):
                 "name": "Noodle and Grill Express",
                 "description": "Asian fast-casual counter serving noodles, stir-fries, and rice plates.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png",
                 "menu_items": [
                     {"name": "Chicken Chow Mein", "price": 10.99},
                     {"name": "Beef Stir Fry", "price": 11.99},
@@ -397,7 +397,7 @@ class Command(BaseCommand):
                 "name": "OPA! of Greece",
                 "description": "Mediterranean fast-casual spot serving wraps, platters, and salads.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://cdn.mappedin.com/588a403e031d9c3fdf000000/resized/6e0b5be7f9ea944e902b3ba4d69429c75b920047.PjIwNDh4MjA0OA.png",
                 "menu_items": [
                     {"name": "Chicken Gyro", "price": 9.99},
                     {"name": "Lamb Platter", "price": 12.99},
@@ -421,7 +421,7 @@ class Command(BaseCommand):
                 "name": "Starbucks",
                 "description": "Global coffee chain serving espresso drinks, refreshers, and pastries.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://instantlogodesign.com/blog/wp-content/uploads/2022/04/1992-Starbucks-Logo.jpg",
                 "menu_items": [
                     {"name": "Latte", "price": 5.25},
                     {"name": "Caramel Macchiato", "price": 5.75},
@@ -445,7 +445,7 @@ class Command(BaseCommand):
                 "name": "Stör",
                 "description": "Campus convenience spot with packaged snacks, drinks, and grab-and-go items.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png",
                 "menu_items": [
                     {"name": "Turkey Sandwich", "price": 6.99},
                     {"name": "Veggie Wrap", "price": 6.49},
@@ -469,7 +469,7 @@ class Command(BaseCommand):
                 "name": "Subway",
                 "description": "Sandwich chain with customizable subs, wraps, and cookies.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://admin.itsnicethat.com/images/jVqk83W-W8qGG18o6e0frMP4aTU=/27734/width-1440/57a8ace67fa44c98d1002105.jpg",
                 "menu_items": [
                     {"name": "Turkey Sub", "price": 8.99},
                     {"name": "Veggie Delite", "price": 7.49},
@@ -493,7 +493,7 @@ class Command(BaseCommand):
                 "name": "Tim Hortons",
                 "description": "Canadian coffee chain with donuts, breakfast, and sandwiches.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://1000logos.net/wp-content/uploads/2023/04/Tim-Hortons-logo.jpg",
                 "menu_items": [
                     {"name": "Double Double Coffee", "price": 2.49},
                     {"name": "Breakfast Sandwich", "price": 4.99},
@@ -517,7 +517,7 @@ class Command(BaseCommand):
                 "name": "Tim Hortons Express",
                 "description": "Smaller Tim Hortons kiosk with quick coffee and baked goods.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://1000logos.net/wp-content/uploads/2023/04/Tim-Hortons-logo.jpg",
                 "menu_items": [
                     {"name": "Coffee", "price": 2.29},
                     {"name": "Tea", "price": 2.19},
@@ -541,7 +541,7 @@ class Command(BaseCommand):
                 "name": "True Eats",
                 "description": "Health-focused counter with bowls, wraps, and fresh lighter meals.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png",
                 "menu_items": [
                     {"name": "Chicken Power Bowl", "price": 11.99},
                     {"name": "Veggie Bowl", "price": 10.99},
@@ -565,7 +565,7 @@ class Command(BaseCommand):
                 "name": "Umi Sushi",
                 "description": "Japanese spot serving sushi rolls, nigiri, bento, and sides.",
                 "location": "MacEwan Student Centre",
-                "image_url": "",
+                "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png",
                 "menu_items": [
                     {"name": "California Roll", "price": 6.99},
                     {"name": "Salmon Nigiri", "price": 7.99},
