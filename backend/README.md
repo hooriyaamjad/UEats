@@ -149,3 +149,4 @@ After running `seed_db`, the following accounts are available for testing:
 | `user123` | `SecurePass123!` | Yes | University of Calgary |
 | `jane_smith` | `SecurePass456!` | Yes | University of Calgary |
 | `mike_ross` | `SecurePass789!` | No | University of Alberta |
+
