@@ -94,3 +94,4 @@ class Command(BaseCommand):
                 profile.favourites.set(restaurants)
 
         self.stdout.write(self.style.SUCCESS('Successfully seeded profiles'))
+        

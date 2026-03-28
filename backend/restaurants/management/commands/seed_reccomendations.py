@@ -60,3 +60,4 @@ class Command(BaseCommand):
 				f"Successfully seeded {created_count} recommendations"
 			)
 		)
+
