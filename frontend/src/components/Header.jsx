@@ -1,7 +1,7 @@
 import MapPin from "../assets/map_pin.png";
 
 const Header = ({
-  title = "University of Calgary", // change to be dynamic?
+  title = "University of Calgary", // TODO: change to be dynamic?
   showLocation = true,
   className = "",
 }) => {
@@ -9,7 +9,6 @@ const Header = ({
     <header className={`w-full bg-[#f5f4f2] px-4 md:px-6 py-3 ${className}`}>
       <div className="relative flex items-center justify-between">
 
-        {/* LOGO */}
         <div className="flex items-center">
           <img
             src="/UEATS.svg"
@@ -18,7 +17,6 @@ const Header = ({
           />
         </div>
 
-        {/* UNIVERSITY */}
         {showLocation && (
           <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2">
             <img
@@ -27,7 +25,7 @@ const Header = ({
               className="h-4 w-4 md:h-5 md:w-5 object-contain"
             />
 
-            <span className="text-sm md:text-base font-semibold text-black whitespace-nowrap">
+            <span className="text-md md:text-base font-semibold text-black whitespace-nowrap">
               {title}
             </span>
           </div>
