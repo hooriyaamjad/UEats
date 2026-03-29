@@ -86,7 +86,7 @@ export default function ExpandedRestaurantCard({
       <div className="w-full max-w-[400px] rounded-[24px] bg-[#f7f7f7] p-3 shadow-[0_6px_18px_rgba(0,0,0,0.12)] md:max-w-[430px]">
         <div className="overflow-hidden rounded-[14px] bg-white">
           <img
-            src={currentRestaurant.image}
+            src={currentRestaurant.image_url}
             alt={currentRestaurant.name}
             className="h-[170px] w-full object-cover md:h-[190px]"
           />

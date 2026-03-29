@@ -1,5 +1,6 @@
+import api from "../utils/api";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import "./preferences.css";
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
@@ -10,52 +11,26 @@ import TagFilter from "../components/TagFilter";
 export default function ViewRestaurants() {
   const navigate = useNavigate();
   const [selectedTag, setSelectedTag] = useState(null);
+  const [restaurants, setRestaurants] = useState([]);
 
-  // TODO: Hardcoded restaurant + filter data for now, will fetch from backend
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      try {
+        const response = await api.get("/restaurants/");
+        setRestaurants(response.data);
+      } catch (error) {
+        console.error("Failed to fetch restaurants:", error?.response?.data || error.message);
+        setError("Failed to load restaurants.");
+      }
+    };
+
+    fetchRestaurants();
+  }, []);
+
+
+  // TODO: Hardcoded filter data for now, have to decide how we want to implement this
 
   const filterTags = ["Halal", "Vegetarian", "Coffee", "Pizza", "Burgers"];
-
-  const restaurants = [
-    {
-      id: 1,
-      name: "Bake Chef",
-      image: "/bakechef.png",
-      priceRange: "$$$",
-      hours: "7am - 8pm",
-      location: "MacEwan Hall (Main Campus)",
-      rating: 4.5,
-      tags: [
-        "Halal",
-        "Filling",
-        "Baked Goods",
-        "Vegetarian",
-        "Desserts",
-      ],
-      isFavourite: false,
-    },
-    {
-      id: 2,
-      name: "Canadian Pizza",
-      image: "/canadianpizza.png",
-      priceRange: "$$",
-      hours: "10am - 9pm",
-      location: "MacEwan Hall (Main Campus)",
-      rating: 4.5,
-      tags: ["Pizza", "Halal", "Quick Meal", "Popular"],
-      isFavourite: false,
-    },
-    {
-      id: 3,
-      name: "Korean BBQ House",
-      image: "/koreanbbq.png",
-      priceRange: "$$",
-      hours: "11am - 8pm",
-      location: "MacEwan Hall (Main Campus)",
-      rating: 4,
-      tags: ["Korean", "Spicy", "Filling", "Top-Rated"],
-      isFavourite: true,
-    },
-  ];
 
   const handleSearch = (value) => {
     console.log("Search:", value);
