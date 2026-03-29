@@ -30,7 +30,6 @@ export default function ViewRestaurants() {
         "Baked Goods",
         "Vegetarian",
         "Desserts",
-        "Top-Rated",
       ],
       isFavourite: false,
     },
