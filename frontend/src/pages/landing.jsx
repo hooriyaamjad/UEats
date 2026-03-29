@@ -7,6 +7,7 @@ export default function Landing() {
       <Link to="/login" className="text-blue-600 underline">Login</Link>
       <Link to="/signup" className="text-blue-600 underline">Sign Up</Link>
       <Link to="/preferences" className="text-blue-600 underline">Preferences</Link>
+      <Link to="/view-restaurants" className="text-blue-600 underline">View Restaurants</Link>
     </div>
   );
 }
