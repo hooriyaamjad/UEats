@@ -3,6 +3,7 @@ import "./preferences.css";
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
 import ExpandedRestaurantCard from "../components/ExpandedRestaurantCard";
+import BottomNavBar from "../components/BottomNavBar";
 
 export default function ViewRestaurants() {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ export default function ViewRestaurants() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f5f5]">
+    <div className="min-h-screen">
       <Header
         showBack={true}
         onBack={() => navigate(-1)}
@@ -80,6 +81,8 @@ export default function ViewRestaurants() {
             onFavouriteToggle={handleFavouriteToggle}
         />
     </div>
+
+        <BottomNavBar />
     </div>
   );
 }
