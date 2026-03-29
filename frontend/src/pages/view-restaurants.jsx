@@ -1,14 +1,20 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import "./preferences.css";
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
 import ExpandedRestaurantCard from "../components/ExpandedRestaurantCard";
 import BottomNavBar from "../components/BottomNavBar";
+import TagFilter from "../components/TagFilter";
 
 export default function ViewRestaurants() {
   const navigate = useNavigate();
+  const [selectedTag, setSelectedTag] = useState(null);
 
-  // Hardcoded restaurant data for now, will fetch from backend
+  // TODO: Hardcoded restaurant + filter data for now, will fetch from backend
+
+  const filterTags = ["Halal", "Vegetarian", "Coffee", "Pizza", "Burgers"];
+
   const restaurants = [
     {
       id: 1,
@@ -72,6 +78,14 @@ export default function ViewRestaurants() {
         <SearchBar
           placeholder="Search restaurants..."
           onSearch={handleSearch}
+        />
+      </div>
+
+      <div className="px-5 pt-5">
+         <TagFilter
+          tags={filterTags}
+          selectedTag={selectedTag}
+          onSelect={setSelectedTag}
         />
       </div>
 
