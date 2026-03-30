@@ -12,12 +12,13 @@ export default function Home() {
   const [restaurants, setRestaurants] = useState([]);
   const [selectedTag, setSelectedTag] = useState(null);
   const [favouriteIds, setFavouriteIds] = useState(new Set());
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchRestaurants = async () => {
       try {
         const response = await api.get("/restaurants/");
-        // Normalize API data to match RestaurantCard's expected shape
         const normalized = response.data.map((r) => ({
           ...r,
           image: r.image_url || `https://placehold.co/300x200/e8d5b7/555?text=${encodeURIComponent(r.name)}`,
@@ -26,6 +27,9 @@ export default function Home() {
         setRestaurants(normalized);
       } catch (error) {
         console.error("Failed to fetch restaurants:", error?.response?.data || error.message);
+        setError("Couldn't connect to the backend. Is the server running?");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -61,8 +65,19 @@ export default function Home() {
           />
         </section>
 
+        {/* Error / loading state */}
+        {loading && (
+          <p className="text-sm text-gray-400">Loading restaurants...</p>
+        )}
+        {error && (
+          <div className="flex flex-col items-center gap-2 text-center">
+            <span className="text-3xl">⚠️</span>
+            <p className="text-sm font-medium text-gray-700">{error}</p>
+          </div>
+        )}
+
         {/* Your Favourites */}
-        {favourites.length > 0 && (
+        {!loading && !error && favourites.length > 0 && (
           <section>
             <h2 className="text-base font-semibold mb-3">Your Favourites</h2>
             <Carousel>
@@ -78,22 +93,24 @@ export default function Home() {
         )}
 
         {/* For You */}
-        <section>
-          <h2 className="text-base font-semibold mb-3">For You</h2>
-          {forYou.length === 0 ? (
-            <p className="text-sm text-gray-400">No restaurants match this tag.</p>
-          ) : (
-            <Carousel>
-              {forYou.map((r) => (
-                <RestaurantCard
-                  key={r.id}
-                  restaurant={{ ...r, isFavourite: favouriteIds.has(r.id) }}
-                  onFavouriteToggle={handleFavouriteToggle}
-                />
-              ))}
-            </Carousel>
-          )}
-        </section>
+        {!loading && !error && (
+          <section>
+            <h2 className="text-base font-semibold mb-3">For You</h2>
+            {forYou.length === 0 ? (
+              <p className="text-sm text-gray-400">No restaurants match this tag.</p>
+            ) : (
+              <Carousel>
+                {forYou.map((r) => (
+                  <RestaurantCard
+                    key={r.id}
+                    restaurant={{ ...r, isFavourite: favouriteIds.has(r.id) }}
+                    onFavouriteToggle={handleFavouriteToggle}
+                  />
+                ))}
+              </Carousel>
+            )}
+          </section>
+        )}
       </main>
 
       <BottomNavBar />

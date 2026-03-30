@@ -12,6 +12,8 @@ export default function ViewRestaurants() {
   const navigate = useNavigate();
   const [selectedTag, setSelectedTag] = useState(null);
   const [restaurants, setRestaurants] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchRestaurants = async () => {
@@ -20,7 +22,9 @@ export default function ViewRestaurants() {
         setRestaurants(response.data);
       } catch (error) {
         console.error("Failed to fetch restaurants:", error?.response?.data || error.message);
-        setError("Failed to load restaurants.");
+        setError("Couldn't connect to the backend. Is the server running?");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -64,11 +68,20 @@ export default function ViewRestaurants() {
       </div>
 
       <div className="px-5 pt-6 pb-16 flex justify-center">
-        <ExpandedRestaurantCard
+        {loading ? (
+          <p className="text-sm text-gray-400 mt-10">Loading restaurants...</p>
+        ) : error ? (
+          <div className="mt-10 flex flex-col items-center gap-2 text-center">
+            <span className="text-3xl">⚠️</span>
+            <p className="text-sm font-medium text-gray-700">{error}</p>
+          </div>
+        ) : (
+          <ExpandedRestaurantCard
             restaurants={restaurants}
             onFavouriteToggle={handleFavouriteToggle}
-        />
-    </div>
+          />
+        )}
+      </div>
 
         <BottomNavBar />
     </div>
