@@ -1,7 +1,30 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../utils/api";
 import BackButton from "../components/BackButton";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      const response = await api.post("/profiles/login/", { username: email, password });
+      if (response.data) {
+        localStorage.setItem("access_token", response.data.access);
+        localStorage.setItem("refresh_token", response.data.refresh);
+        navigate("/home");
+      }
+    } catch {
+      setError("Invalid email or password.");
+    }
+  };
+
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-white gap-[24px]">
       <div className="absolute top-4 left-4">
@@ -18,13 +41,12 @@ export default function Login() {
             Forgot Password?
           </Link>
         </div>
+        {error && <p className="text-red-500 text-[1rem]">{error}</p>}
+        <button type="submit" className="flex items-center justify-center self-center rounded-[5px] bg-[#E50000] w-[10rem] h-[3.5rem] text-white text-[2rem] font-bold">
+          Login
+        </button>
       </form>
 
-      {/* Currently just redirects to home page without authenticating */}
-      <Link to="/home" className="flex items-center justify-center self-center rounded-[5px] bg-[#E50000] w-[10rem] h-[3.5rem] text-white text-[2rem] font-bold">
-        Login
-      </Link>
-      
     </main>
   );
 }
