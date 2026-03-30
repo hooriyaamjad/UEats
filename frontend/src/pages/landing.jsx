@@ -15,6 +15,7 @@ export default function Landing() {
         </Link>
       </nav>
       <Link to="/preferences" className="text-blue-600 underline">Preferences</Link>
+      <Link to="/view-restaurants" className="text-blue-600 underline">View Restaurants</Link>
     </main>
   );
 }
