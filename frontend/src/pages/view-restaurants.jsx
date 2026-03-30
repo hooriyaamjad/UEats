@@ -45,29 +45,25 @@ export default function ViewRestaurants() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#f5f4f2]">
       <Header
         showBack={true}
         onBack={() => navigate(-1)}
         title="University of Calgary"
       />
 
-      <div className="px-5 pt-5">
+      <main className="w-full max-w-2xl mx-auto px-5 pt-5 pb-32 flex flex-col gap-6">
         <SearchBar
           placeholder="Search restaurants..."
           onSearch={handleSearch}
         />
-      </div>
 
-      <div className="px-5 pt-5">
-         <TagFilter
+        <TagFilter
           tags={filterTags}
           selectedTag={selectedTag}
           onSelect={setSelectedTag}
         />
-      </div>
 
-      <div className="px-5 pt-6 pb-16 flex justify-center">
         {loading ? (
           <p className="text-sm text-gray-400 mt-10">Loading restaurants...</p>
         ) : error ? (
@@ -76,14 +72,16 @@ export default function ViewRestaurants() {
             <p className="text-sm font-medium text-gray-700">{error}</p>
           </div>
         ) : (
-          <ExpandedRestaurantCard
-            restaurants={restaurants}
-            onFavouriteToggle={handleFavouriteToggle}
-          />
+          <div className="flex justify-center">
+            <ExpandedRestaurantCard
+              restaurants={restaurants}
+              onFavouriteToggle={handleFavouriteToggle}
+            />
+          </div>
         )}
-      </div>
+      </main>
 
-        <BottomNavBar />
+      <BottomNavBar />
     </div>
   );
 }
