@@ -51,3 +51,4 @@ class Recommendation(models.Model):
     class Meta:
         ordering = ['-created_at']                # Default ordering
     
+    

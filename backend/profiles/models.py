@@ -21,3 +21,4 @@ class Profile(models.Model):
 
     class Meta:
         unique_together = ('student_id', 'university')
+        
