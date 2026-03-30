@@ -32,7 +32,7 @@ export default function Login() {
       <div className="absolute top-4 left-4">
         <BackButton />
       </div>
-      <div className="w-[20rem] h-[14rem] bg-black text-white">logo</div>
+      <img src="/src/assets/ueats_logo.png" alt="UEats logo" className="w-[20rem] h-[14rem] object-contain" />
       <h1 className="w-[25rem] text-black text-[2rem] font-bold text-center">Login to Your Account</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-[12px]">
         <input id="email" type="text" onChange={(e) => setEmail(e.target.value)} className="w-[25rem] h-[4rem] bg-[#F3F3F3] text-[#726F6F] text-[1.5rem] p-4" placeholder="Email (ex. example@ucalgary.ca)"/>

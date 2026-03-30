@@ -64,7 +64,7 @@ export default function SignupRole() {
           <div className="absolute top-4 left-4">
             <BackButton />
           </div>
-          <div className="w-[24rem] h-[18rem] bg-black text-white">logo</div>
+          <img src="/src/assets/ueats_logo.png" alt="UEats logo" className="w-[24rem] h-[18rem] object-contain" />
           <h1 className="w-[25rem] text-center text-black text-[2rem] font-bold">Sign Up</h1>
           <h2 className="text-black text-[2rem] w-[50rem] text-center">Are you a business employee?</h2>
           <form className="flex items-center flex-col gap-[8px] text-[1.5rem] mb-12">

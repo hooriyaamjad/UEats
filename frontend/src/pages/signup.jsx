@@ -21,7 +21,7 @@ export default function Signup() {
           <div className="absolute top-4 left-4">
             <BackButton />
           </div>
-          <div className="w-[17rem] h-[11.5rem] bg-black text-white">logo</div>
+          <img src="/src/assets/ueats_logo.png" alt="UEats logo" className="w-[17rem] h-[11.5rem] object-contain" />
           <h1 className="w-[25rem] text-center text-black text-[2rem] font-bold">Sign Up</h1>
           <form className="flex flex-col gap-[8px] text-[1.5rem] mb-12">
             <label htmlFor="name">Name</label>

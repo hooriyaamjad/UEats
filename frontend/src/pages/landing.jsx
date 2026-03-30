@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export default function Landing() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-white">
-      <div className="w-[24rem] h-[18rem] bg-black text-white">logo</div>
+      <img src="/src/assets/ueats_logo.png" alt="UEats logo" className="w-[24rem] h-[18rem] object-contain" />
       <h1 className="text-black text-[4.5rem] font-bold text-center">UEats</h1>
       <p className="text-black text-[2rem] w-[50rem] text-center">Your campus food compass for smarter, tastier decisions!</p>
       <nav className="flex flex-row items-center gap-18 m-[1.5rem]">
