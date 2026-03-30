@@ -7,10 +7,35 @@ import BackButton from "../components/BackButton";
 export default function SignupRole() {
   const navigate = useNavigate();
   const { signupData, update } = useSignup();
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState("student");
+  const RESTAURANTS = [
+    "A&W",
+    "Bake Chef Co.",
+    "Canadian Pizza Unlimited",
+    "Carl's Jr.",
+    "Chaiiwala of London",
+    "Coffee Company",
+    "Dairy Queen/Orange Julius",
+    "The Den & Black Lounge",
+    "Freshco Poke",
+    "Jugo Juice",
+    "Kobe Beef",
+    "Korean BBQ",
+    "La Fe Dim Sum",
+    "Last Defence Lounge",
+    "Mr. Pretzels",
+    "Noodle and Grill Express",
+    "OPA! of Greece",
+    "Starbucks",
+    "Stör",
+    "Subway",
+    "Tim Hortons",
+    "Tim Hortons Express",
+    "True Eats",
+    "Umi Sushi",
+  ];
 
   const handleSubmit = async () => {
-    update({ role });
 
     try {
       const response = await api.post("/profiles/signup/", {
@@ -18,7 +43,7 @@ export default function SignupRole() {
         email: signupData.email,
         password: signupData.password,
         profile: {
-          is_student: role === "" || role === "student",
+          is_student: role === "student",
           university: "UCalgary",
           student_id: "",
         },
@@ -42,15 +67,15 @@ export default function SignupRole() {
           <div className="w-[24rem] h-[18rem] bg-black text-white">logo</div>
           <h1 className="w-[25rem] text-center text-black text-[2rem] font-bold">Sign Up</h1>
           <h2 className="text-black text-[2rem] w-[50rem] text-center">Are you a business employee?</h2>
-          <form className="flex flex-col gap-[8px] text-[1.5rem] mb-12">
-            <select id="role" className="bg-[#F3F3F3] px-[2rem] py-[0.5rem] text-[1.5rem]">
+          <form className="flex items-center flex-col gap-[8px] text-[1.5rem] mb-12">
+            <select id="role" value={role} onChange={(e) => setRole(e.target.value)} className="bg-[#F3F3F3] px-[2rem] py-[0.5rem] text-[1.5rem]">
               <option value="student">No Selection (I'm a Student)</option>
-              {/* placeholder values for now */}
-              <option value="restaurant1">Restaurant 1</option>
-              <option value="restaurant2">Restaurant 2</option>
+              {RESTAURANTS.map((name) => (
+                <option key={name} value={name}>{name}</option>
+              ))}
             </select>
             
-            <button onClick={handleSubmit} className="flex items-center justify-center rounded-[5px] bg-[#E50000] w-[10rem] h-[3.5rem] text-white text-[2rem] font-bold">
+            <button type="button" onClick={handleSubmit} className="rounded-[5px] bg-[#E50000] w-[10rem] h-[3.5rem] text-white text-[2rem] font-bold">
               Sign Up
             </button>
           </form>
