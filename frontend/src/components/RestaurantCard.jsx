@@ -1,8 +1,19 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function RestaurantCard({ restaurant }) {
-  const [isFavourite, setIsFavourite] = useState(restaurant.isFavourite ?? false);
+export default function RestaurantCard({ restaurant, onFavouriteToggle }) {
+  const [localFav, setLocalFav] = useState(restaurant.isFavourite ?? false);
+  const controlled = onFavouriteToggle != null;
+  const isFavourite = controlled ? (restaurant.isFavourite ?? false) : localFav;
+
+  const handleFavClick = (e) => {
+    e.preventDefault();
+    if (controlled) {
+      onFavouriteToggle(restaurant.id);
+    } else {
+      setLocalFav((v) => !v);
+    }
+  };
 
   return (
     <Link
@@ -16,10 +27,7 @@ export default function RestaurantCard({ restaurant }) {
           className="w-full h-36 object-cover"
         />
         <button
-          onClick={(e) => {
-            e.preventDefault();
-            setIsFavourite(!isFavourite);
-          }}
+          onClick={handleFavClick}
           className="absolute top-2 right-2 text-xl leading-none drop-shadow"
           aria-label={isFavourite ? "Remove from favourites" : "Add to favourites"}
         >
