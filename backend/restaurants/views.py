@@ -13,7 +13,7 @@ from util.enums import VoteType
 class RestaurantViewSet(viewsets.ModelViewSet):
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer
-    permission_classes = [AllowAny]  # TODO: Change to IsOwnerOrReadOnly when restaurant owner logic is implemented
+    permission_classes = [AllowAny]  # TODO: Change to custom permission for restaurant owners. Currently allowing all for testing purposes.
     
 
 class RecommendationViewset(viewsets.ModelViewSet):
