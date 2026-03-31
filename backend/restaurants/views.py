@@ -5,8 +5,8 @@ from rest_framework.response import Response
 
 from .models import Restaurant, Recommendation
 from .serializers import RestaurantSerializer, RecommendationSerializer
-from ..util.permissions import IsOwnerOrReadOnly
-from ..util.enums import VoteType
+from util.permissions import IsOwnerOrReadOnly
+from util.enums import VoteType
 
 LIKE, DISLIKE = "like", "dislike"
 
