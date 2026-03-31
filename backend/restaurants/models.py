@@ -44,6 +44,9 @@ class Recommendation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    liked_by = models.ManyToManyField('profiles.Profile', related_name='liked_recommendations', blank=True)
+    disliked_by = models.ManyToManyField('profiles.Profile', related_name='disliked_recommendations', blank=True)
+
 
     def __str__(self):
         return self.description
