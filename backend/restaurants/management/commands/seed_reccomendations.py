@@ -40,8 +40,6 @@ class Command(BaseCommand):
 			"16 inch chicken delight.",
 			"Chicken shawarma platter.",
 		]
-		likes = [3, 5, 7, 9, 12, 4, 8, 6, 10, 2]
-		dislikes = [0, 1, 2, 1, 0, 2, 1, 3, 1, 0]
 
 		created_count = 0
 		for i, restaurant in enumerate(restaurants):
@@ -50,8 +48,6 @@ class Command(BaseCommand):
 				profile=profile,
 				restaurant=restaurant,
 				description=descriptions[i % len(descriptions)],
-				like_count=likes[i % len(likes)],
-				dislike_count=dislikes[i % len(dislikes)],
 			)
 			created_count += 1
 

@@ -1,7 +1,15 @@
 from django.urls import path
-from .views import RestaurantListCreateView, RestaurantDetailView
+from rest_framework.routers import DefaultRouter
+from rest_framework_nested.routers import NestedDefaultRouter
+
+from .views import RestaurantViewSet, RecommendationViewset
+
+router = DefaultRouter()
+router.register(r'restaurants', RestaurantViewSet)
+restaurants_router = NestedDefaultRouter(router, r'restaurants', lookup='restaurant')
+restaurants_router.register(r'recommendations', RecommendationViewset, basename='restaurant-recommendations')
 
 urlpatterns = [
-    path('', RestaurantListCreateView.as_view(), name='restaurant-list-create'),
-    path('<int:pk>/', RestaurantDetailView.as_view(), name='restaurant-detail'),
-]
+    *router.urls,
+    *restaurants_router.urls,
+]  
