@@ -4,8 +4,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 
-from .models import Restaurant, Recommendation
-from .serializers import RestaurantSerializer, RecommendationSerializer
+from .models import Restaurant, Recommendation, Review
+from .serializers import RestaurantSerializer, RecommendationSerializer, ReviewSerializer
 from util.permissions import IsOwnerOrReadOnly
 from util.enums import VoteType
 
@@ -59,3 +59,19 @@ class RecommendationViewset(viewsets.ModelViewSet):
             'like_count': recommendation.liked_by.count(),
             'dislike_count': recommendation.disliked_by.count(),
         })
+
+
+class ReviewViewset(viewsets.ModelViewSet):
+    serializer_class = ReviewSerializer
+    permission_classes = [IsOwnerOrReadOnly]
+    
+    def get_queryset(self):
+        return (
+            Review.objects
+            .select_related('restaurant', 'profile')
+            .filter(restaurant_id=self.kwargs['restaurant_pk'])
+        )
+
+    
+    def perform_create(self, serializer: ReviewSerializer):
+        serializer.save(profile=self.request.user.profile, restaurant=Restaurant.objects.get(id=self.kwargs['restaurant_pk']))
