@@ -1,6 +1,6 @@
-import api from "../utils/api";
+// import api from "../utils/api";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./preferences.css";
 import Header from "../components/Header";
 import BottomNavBar from "../components/BottomNavBar";
@@ -11,7 +11,7 @@ const TABS = ["My Reviews", "My Recommendations", "My Preferences"];
 
 export default function ViewRestaurants() {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("My Reviews");
 
   // TODO: fetch user data
@@ -52,10 +52,15 @@ export default function ViewRestaurants() {
           John Appleseed
         </div>
         <div className="flex items-center gap-4 justify-center text-gray-600">
-          <button className="flex items-center gap-2 bg-white rounded-2xl px-5 py-2 text-sm font-semibold shadow-sm  transition-all duration-200">
-            <Pencil size={16} />
-            Edit Profile
-          </button>
+          <button 
+  className="flex items-center gap-2 bg-white rounded-2xl px-5 py-2 text-sm font-semibold shadow-sm 
+  cursor-pointer hover:shadow-md hover:bg-gray-50 hover:scale-105 
+  transition-all duration-200"
+  onClick={() => navigate("/edit-profile")}
+>
+  <Pencil size={16} />
+  Edit Profile
+</button>
         </div>
 
         {/* Tabs */}
