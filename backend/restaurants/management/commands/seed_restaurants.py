@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.db import connection
 from restaurants.models import Restaurant
 
 
@@ -7,6 +8,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         Restaurant.objects.all().delete()
+        # Reset the auto-increment sequence so IDs always start at 1
+        with connection.cursor() as cursor:
+            cursor.execute("DELETE FROM sqlite_sequence WHERE name='restaurants_restaurant';")
 
         restaurants = [
             {
