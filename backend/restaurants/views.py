@@ -34,7 +34,7 @@ class RecommendationViewset(viewsets.ModelViewSet):
 
     
     def perform_create(self, serializer: RecommendationSerializer):
-        serializer.save(profile=self.request.user.profile)
+        serializer.save(profile=self.request.user.profile, restaurant=Restaurant.objects.get(id=self.kwargs['restaurant_pk']))
 
     @action(detail=True, methods=['post'], url_path='vote')
     def vote(self, request, **kwargs):

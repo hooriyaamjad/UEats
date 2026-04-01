@@ -14,7 +14,7 @@ class RecommendationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recommendation
         fields = '__all__'
-        read_only_fields = ['profile', 'like_count', 'dislike_count', 'created_at', 'updated_at']
+        read_only_fields = ['profile', 'restaurant', 'like_count', 'dislike_count', 'created_at', 'updated_at']
 
 
 class ReviewSerializer(serializers.ModelSerializer):
