@@ -68,7 +68,7 @@ ROOT_URLCONF = 'ueats.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -113,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Edmonton'
 
 USE_I18N = True
 
@@ -139,4 +139,13 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
+}
+
+
+# Unfold
+
+UNFOLD = {
+    "DASHBOARD_CALLBACK": "ueats.admin_dashboard.dashboard_callback",
+    "SITE_TITLE": "UEats Admin",
+    "SITE_HEADER": "UEats Admin",
 }
