@@ -5,3 +5,4 @@ djangorestframework
 djangorestframework-simplejwt
 django-cors-headers
 drf-nested-routers
+django-unfold
