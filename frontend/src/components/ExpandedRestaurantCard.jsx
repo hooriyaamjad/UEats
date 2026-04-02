@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight, Clock3, MapPin, Heart } from "lucide-react";
 
 const StarRating = ({ rating = 0 }) => {
@@ -52,6 +53,7 @@ export default function ExpandedRestaurantCard({
   className = "",
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const navigate = useNavigate();
 
   if (!restaurants.length) return null;
 
@@ -106,18 +108,25 @@ export default function ExpandedRestaurantCard({
       </button>
 
       <div className="w-85 max-w-[400px] rounded-[24px] bg-[#f7f7f7] p-3 shadow-[0_6px_18px_rgba(0,0,0,0.12)] md:max-w-[430px]">
-        <div className="overflow-hidden rounded-[14px] bg-white">
+        <button
+          onClick={() => navigate(`/restaurant/${currentRestaurant.id}`)}
+          className="block w-full overflow-hidden rounded-[14px] bg-white"
+          aria-label={`View ${currentRestaurant.name}`}
+        >
           <img
             src={currentRestaurant.image_url}
             alt={currentRestaurant.name}
             className="h-[170px] w-full object-contain md:h-[190px]"
           />
-        </div>
+        </button>
 
         <div className="px-2 pb-1 pt-4 text-center">
-          <h2 className="text-2xl font-bold text-black">
+          <button
+            onClick={() => navigate(`/restaurant/${currentRestaurant.id}`)}
+            className="text-2xl font-bold text-black hover:underline"
+          >
             {currentRestaurant.name}
-          </h2>
+          </button>
 
           <div className="mt-4 flex items-center justify-center gap-8 text-black">
             <div className="text-2xl font-bold text-green-600">
