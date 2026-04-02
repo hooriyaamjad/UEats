@@ -68,14 +68,14 @@ export default function SignupRole() {
           <h1 className="w-full max-w-[25rem] text-center text-black text-[2.5rem] font-bold mb-8">Sign Up</h1>
           <h2 className="text-black text-[1.5rem] md:text-[2rem] w-full max-w-[50rem] text-center">Are you a business employee?</h2>
           <form className="flex items-center flex-col gap-[8px] mb-12 w-full max-w-[25rem]">
-            <select id="role" value={role} onChange={(e) => setRole(e.target.value)} className="bg-[#F3F3F3] w-full px-[1rem] pr-[2rem] py-[0.75rem] h-[3rem] md:h-[3.5rem] text-[1.2rem] md:text-[1.5rem]">
+            <select id="role" value={role} onChange={(e) => setRole(e.target.value)} className="bg-[#F3F3F3] w-full px-[1rem] pr-[2rem] py-[0.75rem] h-[3rem] md:h-[3.5rem] text-[1.2rem] md:text-[1.5rem] hover:brightness-95 cursor-pointer">
               <option value="student">No Selection (I'm a Student)</option>
               {RESTAURANTS.map((name) => (
                 <option key={name} value={name}>{name}</option>
               ))}
             </select>
             
-            <button type="button" onClick={handleSubmit} className="rounded-[5px] bg-[#E50000] w-full max-w-[12rem] h-[3rem] md:h-[3.5rem] text-white text-[1.75rem] md:text-[2rem] font-bold mt-[1.5rem]">
+            <button type="button" onClick={handleSubmit} className="rounded-[5px] bg-[#E50000] w-full max-w-[12rem] h-[3rem] md:h-[3.5rem] text-white text-[1.75rem] md:text-[2rem] font-bold mt-[1.5rem] hover:brightness-95 cursor-pointer">
               Sign-Up
             </button>
           </form>

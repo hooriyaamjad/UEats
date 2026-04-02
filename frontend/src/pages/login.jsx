@@ -39,7 +39,7 @@ export default function Login() {
         <div className="flex flex-col items-end gap-1">
           <input id="password" type="password" onChange={(e) => setPassword(e.target.value)} className="w-full h-[4rem] bg-[#F3F3F3] text-[#726F6F] p-4" placeholder="Password"/>
           {/* show "Forgot Password?" here on desktop */}
-          <Link to="/login" className="hidden md:block text-[#726F6F] text-[1.5rem] italic">
+          <Link to="/login" className="hidden md:block text-[#726F6F] text-[1.5rem] italic hover:underline cursor-pointer">
             Forgot Password?
           </Link>
         </div>
@@ -47,16 +47,16 @@ export default function Login() {
         <div className="flex justify-center w-full my-4">
           <div className="flex items-center gap-4">
             <div className="w-[1.5rem]" />
-            <button type="submit" className="flex items-center justify-center rounded-[5px] bg-[#E50000] w-[10rem] h-[3rem] md:h-[3.5rem] text-white text-[1.5rem] md:text-[2rem] font-bold">
+            <button type="submit" className="flex items-center justify-center rounded-[5px] bg-[#E50000] w-[10rem] h-[3rem] md:h-[3.5rem] text-white text-[1.5rem] md:text-[2rem] font-bold hover:brightness-95 cursor-pointer">
               Login
             </button>
             <Link to="/help">
-              <img src="/src/assets/help_icon.png" alt="Help button" className="w-[1.5rem] h-[1.5rem]" />
+              <img src="/src/assets/help_icon.png" alt="Help button" className="w-[1.5rem] h-[1.5rem] hover:brightness-95 cursor-pointer" />
             </Link>
           </div>
         </div>
         {/* show "Forgot Password?" here on mobile */}
-        <Link to="/login" className="md:hidden text-[#726F6F] text-[1.2rem] italic self-center">
+        <Link to="/login" className="md:hidden text-[#726F6F] text-[1.2rem] italic self-center hover:underline cursor-pointer">
           Forgot Password?
         </Link>
       </form>
