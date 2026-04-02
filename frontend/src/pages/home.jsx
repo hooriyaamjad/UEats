@@ -1,250 +1,119 @@
-import { useState } from "react";
-import Navbar from "../components/Navbar";
+import { useState, useEffect } from "react";
+import api from "../utils/api";
+import Header from "../components/Header";
 import TagFilter from "../components/TagFilter";
 import RestaurantCard from "../components/RestaurantCard";
 import Carousel from "../components/Carousel";
+import BottomNavBar from "../components/BottomNavBar";
 
-const TAGS = ["Halal", "Vegetarian", "Coffee"];
-
-// MOCK DATA mirroring the seeded DB ;; replace with API calls when backend is ready!
-// Tags and images are frontend-only for now.
-const ALL_RESTAURANTS = [
-  {
-    id: 1,
-    name: "A&W",
-    image: "https://placehold.co/300x200/f77f00/fff?text=A%26W",
-    rating: 4.0,
-    tags: ["Burgers", "Fries", "Comfort"],
-    isFavourite: false,
-  },
-  {
-    id: 2,
-    name: "Bake Chef Co.",
-    image: "https://placehold.co/300x200/e8d5b7/555?text=Bake+Chef",
-    rating: 4.5,
-    tags: ["Asian", "Subs", "Rice"],
-    isFavourite: false,
-  },
-  {
-    id: 3,
-    name: "Canadian Pizza Unlimited",
-    image: "https://placehold.co/300x200/c8102e/fff?text=CPU+Pizza",
-    rating: 3.8,
-    tags: ["Pizza", "Comfort"],
-    isFavourite: false,
-  },
-  {
-    id: 4,
-    name: "Carl's Jr.",
-    image: "https://placehold.co/300x200/ffd43b/333?text=Carl%27s+Jr.",
-    rating: 4.0,
-    tags: ["Burgers", "Fries", "Comfort"],
-    isFavourite: false,
-  },
-  {
-    id: 5,
-    name: "Chaiiwala of London",
-    image: "https://placehold.co/300x200/4caf50/fff?text=Chaiiwala",
-    rating: 4.2,
-    tags: ["Halal", "Chai", "Indian"],
-    isFavourite: false,
-  },
-  {
-    id: 6,
-    name: "Coffee Company",
-    image: "https://placehold.co/300x200/6d4c41/fff?text=Coffee+Co.",
-    rating: 3.7,
-    tags: ["Coffee", "Pastries"],
-    isFavourite: false,
-  },
-  {
-    id: 7,
-    name: "Dairy Queen / Orange Julius",
-    image: "https://placehold.co/300x200/e65100/fff?text=DQ+%2F+OJ",
-    rating: 4.0,
-    tags: ["Dessert", "Burgers", "Drinks"],
-    isFavourite: false,
-  },
-  {
-    id: 8,
-    name: "The Den & Black Lounge",
-    image: "https://placehold.co/300x200/1a1a2e/fff?text=The+Den",
-    rating: 4.0,
-    tags: ["Pub", "Burgers", "Comfort"],
-    isFavourite: false,
-  },
-  {
-    id: 9,
-    name: "Freshco Poke",
-    image: "https://placehold.co/300x200/00acc1/fff?text=Freshco+Poke",
-    rating: 4.5,
-    tags: ["Poke", "Healthy", "Vegetarian"],
-    isFavourite: false,
-  },
-  {
-    id: 10,
-    name: "Jugo Juice",
-    image: "https://placehold.co/300x200/7c3aed/fff?text=Jugo+Juice",
-    rating: 4.0,
-    tags: ["Smoothies", "Healthy", "Vegetarian"],
-    isFavourite: false,
-  },
-  {
-    id: 11,
-    name: "Kobe Beef",
-    image: "https://placehold.co/300x200/b71c1c/fff?text=Kobe+Beef",
-    rating: 4.1,
-    tags: ["Japanese", "Rice", "Asian"],
-    isFavourite: false,
-  },
-  {
-    id: 12,
-    name: "Korean BBQ",
-    image: "https://placehold.co/300x200/1a1a1a/fff?text=Korean+BBQ",
-    rating: 4.2,
-    tags: ["Korean", "Asian", "BBQ"],
-    isFavourite: false,
-  },
-  {
-    id: 13,
-    name: "La Fe Dim Sum",
-    image: "https://placehold.co/300x200/c62828/fff?text=La+Fe",
-    rating: 4.0,
-    tags: ["Dim Sum", "Asian", "Dumplings"],
-    isFavourite: false,
-  },
-  {
-    id: 14,
-    name: "Last Defence Lounge",
-    image: "https://placehold.co/300x200/37474f/fff?text=Last+Defence",
-    rating: 3.9,
-    tags: ["Pub", "Comfort", "Burgers"],
-    isFavourite: false,
-  },
-  {
-    id: 15,
-    name: "Mr. Pretzels",
-    image: "https://placehold.co/300x200/f9a825/333?text=Mr.+Pretzels",
-    rating: 4.1,
-    tags: ["Snacks", "Pretzels"],
-    isFavourite: false,
-  },
-  {
-    id: 16,
-    name: "Noodle and Grill Express",
-    image: "https://placehold.co/300x200/558b2f/fff?text=Noodle+%26+Grill",
-    rating: 4.0,
-    tags: ["Asian", "Noodles", "Rice"],
-    isFavourite: false,
-  },
-  {
-    id: 17,
-    name: "OPA! of Greece",
-    image: "https://placehold.co/300x200/1565c0/fff?text=OPA%21",
-    rating: 4.2,
-    tags: ["Halal", "Mediterranean", "Wraps"],
-    isFavourite: false,
-  },
-  {
-    id: 18,
-    name: "Starbucks",
-    image: "https://placehold.co/300x200/00704a/fff?text=Starbucks",
-    rating: 4.3,
-    tags: ["Coffee", "Pastries"],
-    isFavourite: false,
-  },
-  {
-    id: 19,
-    name: "Stör",
-    image: "https://placehold.co/300x200/546e7a/fff?text=St%C3%B6r",
-    rating: 3.8,
-    tags: ["Snacks", "Convenience"],
-    isFavourite: false,
-  },
-  {
-    id: 20,
-    name: "Subway",
-    image: "https://placehold.co/300x200/009f6b/fff?text=Subway",
-    rating: 3.9,
-    tags: ["Sandwiches", "Healthy"],
-    isFavourite: false,
-  },
-  {
-    id: 21,
-    name: "Tim Hortons",
-    image: "https://placehold.co/300x200/c8102e/fff?text=Tim+Hortons",
-    rating: 3.8,
-    tags: ["Coffee", "Comfort", "Canadian"],
-    isFavourite: false,
-  },
-  {
-    id: 22,
-    name: "Tim Hortons Express",
-    image: "https://placehold.co/300x200/c8102e/fff?text=Tims+Express",
-    rating: 3.7,
-    tags: ["Coffee", "Comfort", "Canadian"],
-    isFavourite: false,
-  },
-  {
-    id: 23,
-    name: "True Eats",
-    image: "https://placehold.co/300x200/a5d6a7/333?text=True+Eats",
-    rating: 4.3,
-    tags: ["Healthy", "Vegetarian", "Bowls"],
-    isFavourite: false,
-  },
-  {
-    id: 24,
-    name: "Umi Sushi",
-    image: "https://placehold.co/300x200/ef9a9a/333?text=Umi+Sushi",
-    rating: 4.4,
-    tags: ["Sushi", "Japanese", "Asian"],
-    isFavourite: false,
-  },
-];
+const FILTER_TAGS = ["Halal", "Vegetarian", "Coffee", "Breakfast", "Pizza", "Burgers"];
 
 export default function Home() {
+  const [restaurants, setRestaurants] = useState([]);
   const [selectedTag, setSelectedTag] = useState(null);
+  const [favouriteIds, setFavouriteIds] = useState(new Set());
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const favourites = ALL_RESTAURANTS.filter((r) => r.isFavourite);
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      try {
+        const response = await api.get("/restaurants/");
+        const normalized = response.data.map((r) => ({
+          ...r,
+          image: r.image_url || `https://placehold.co/300x200/e8d5b7/555?text=${encodeURIComponent(r.name)}`,
+          tags: r.tags ?? [],
+        }));
+        setRestaurants(normalized);
+      } catch (error) {
+        console.error("Failed to fetch restaurants:", error?.response?.data || error.message);
+        setError("Couldn't connect to the backend. Is the server running?");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRestaurants();
+  }, []);
+
+  const handleFavouriteToggle = (id) => {
+    setFavouriteIds((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  const favourites = restaurants.filter((r) => favouriteIds.has(r.id));
 
   const forYou = selectedTag
-    ? ALL_RESTAURANTS.filter((r) => r.tags.includes(selectedTag))
-    : ALL_RESTAURANTS;
+    ? restaurants.filter((r) => r.tags.includes(selectedTag))
+    : restaurants;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
+    <div className="min-h-screen bg-[#f5f4f2]">
+      <Header title="University of Calgary" />
 
-      <main className="max-w-5xl mx-auto px-6 py-8 flex flex-col gap-10">
+      <main className="w-full max-w-2xl mx-auto px-5 pt-5 pb-32 flex flex-col gap-8">
         {/* Explore by Tags */}
         <section>
-          <h2 className="text-xl font-bold mb-3">Explore by Tags</h2>
-          <TagFilter tags={TAGS} selectedTag={selectedTag} onSelect={setSelectedTag} />
+          <h2 className="text-base font-semibold mb-3">Explore by Tags</h2>
+          <TagFilter
+            tags={FILTER_TAGS}
+            selectedTag={selectedTag}
+            onSelect={setSelectedTag}
+          />
         </section>
 
+        {/* Error / loading state */}
+        {loading && (
+          <p className="text-sm text-gray-400">Loading restaurants...</p>
+        )}
+        {error && (
+          <div className="flex flex-col items-center gap-2 text-center">
+            <span className="text-3xl">⚠️</span>
+            <p className="text-sm font-medium text-gray-700">{error}</p>
+          </div>
+        )}
+
         {/* Your Favourites */}
-        {favourites.length > 0 && (
+        {!loading && !error && favourites.length > 0 && (
           <section>
-            <h2 className="text-xl font-bold mb-3">Your Favourites</h2>
+            <h2 className="text-base font-semibold mb-3">Your Favourites</h2>
             <Carousel>
               {favourites.map((r) => (
-                <RestaurantCard key={r.id} restaurant={r} />
+                <RestaurantCard
+                  key={r.id}
+                  restaurant={{ ...r, isFavourite: favouriteIds.has(r.id) }}
+                  onFavouriteToggle={handleFavouriteToggle}
+                />
               ))}
             </Carousel>
           </section>
         )}
 
         {/* For You */}
-        <section>
-          <h2 className="text-xl font-bold mb-3">For You</h2>
-          <Carousel>
-            {forYou.map((r) => (
-              <RestaurantCard key={r.id} restaurant={r} />
-            ))}
-          </Carousel>
-        </section>
+        {!loading && !error && (
+          <section>
+            <h2 className="text-base font-semibold mb-3">For You</h2>
+            {forYou.length === 0 ? (
+              <p className="text-sm text-gray-400">No restaurants match this tag.</p>
+            ) : (
+              <Carousel>
+                {forYou.map((r) => (
+                  <RestaurantCard
+                    key={r.id}
+                    restaurant={{ ...r, isFavourite: favouriteIds.has(r.id) }}
+                    onFavouriteToggle={handleFavouriteToggle}
+                  />
+                ))}
+              </Carousel>
+            )}
+          </section>
+        )}
       </main>
+
+      <BottomNavBar />
     </div>
   );
 }
