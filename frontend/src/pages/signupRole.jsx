@@ -60,25 +60,26 @@ export default function SignupRole() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center bg-white gap-[8px]">
+    <main className="min-h-screen flex flex-col items-center justify-center bg-white gap-[8px] px-8 md:px-0">
           <div className="absolute top-4 left-4">
             <BackButton />
           </div>
-          <img src="/src/assets/ueats_logo.png" alt="UEats logo" className="w-[24rem] h-[18rem] object-contain" />
-          <h1 className="w-[25rem] text-center text-black text-[2rem] font-bold">Sign Up</h1>
-          <h2 className="text-black text-[2rem] w-[50rem] text-center">Are you a business employee?</h2>
-          <form className="flex items-center flex-col gap-[8px] text-[1.5rem] mb-12">
-            <select id="role" value={role} onChange={(e) => setRole(e.target.value)} className="bg-[#F3F3F3] px-[2rem] py-[0.5rem] text-[1.5rem]">
+          <img src="/src/assets/ueats_logo.png" alt="UEats logo" className="w-[12rem] md:w-[24rem] md:h-[18rem] object-contain" />
+          <h1 className="w-full max-w-[25rem] text-center text-black text-[2.5rem] font-bold mb-8">Sign Up</h1>
+          <h2 className="text-black text-[1.5rem] md:text-[2rem] w-full max-w-[50rem] text-center">Are you a business employee?</h2>
+          <form className="flex items-center flex-col gap-[8px] mb-12">
+            <select id="role" value={role} onChange={(e) => setRole(e.target.value)} className="bg-[#F3F3F3] w-[90%] h-[3rem] md:w-full md:h-full px-[1rem] pr-[2rem] md:px-[1.5rem] py-[0.5rem] text-[1rem] md:text-[1.5rem] md:py-[0.5rem]">
               <option value="student">No Selection (I'm a Student)</option>
               {RESTAURANTS.map((name) => (
                 <option key={name} value={name}>{name}</option>
               ))}
             </select>
             
-            <button type="button" onClick={handleSubmit} className="rounded-[5px] bg-[#E50000] w-[10rem] h-[3.5rem] text-white text-[2rem] font-bold">
-              Sign Up
+            <button type="button" onClick={handleSubmit} className="rounded-[5px] bg-[#E50000] w-full max-w-[12rem] h-[3rem] md:h-[3.5rem] text-white text-[1.75rem] md:text-[2rem] font-bold mt-[1.5rem]">
+              Sign-Up
             </button>
           </form>
+          <p className="text-center text-[#726F6F] text-[1.1rem] md:text-[1.5rem] md:w-[30%]">If you're an employee of a business, we'll contact you with more details to upgrade your account.</p>
 
         </main>
   );
