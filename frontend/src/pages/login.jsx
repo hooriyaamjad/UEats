@@ -28,25 +28,37 @@ export default function Login() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center bg-white gap-[24px]">
+    <main className="min-h-screen flex flex-col items-center justify-center bg-white gap-[24px] px-4">
       <div className="absolute top-4 left-4">
         <BackButton />
       </div>
-      <img src="/src/assets/ueats_logo.png" alt="UEats logo" className="w-[20rem] h-[14rem] object-contain" />
-      <h1 className="w-[25rem] text-black text-[2rem] font-bold text-center">Login to Your Account</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-[12px]">
-        <input id="email" type="text" onChange={(e) => setEmail(e.target.value)} className="w-[25rem] h-[4rem] bg-[#F3F3F3] text-[#726F6F] text-[1.5rem] p-4" placeholder="Email (ex. example@ucalgary.ca)"/>
+      <img src="/src/assets/ueats_logo.png" alt="UEats logo" className="w-[12rem] h-[9rem] md:w-[24rem] md:h-[18rem] object-contain" />
+      <h1 className="w-full max-w-[25rem] text-black text-[1.5rem] md:text-[2rem] font-bold text-center">Login to Your Account</h1>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <input id="email" type="text" onChange={(e) => setEmail(e.target.value)} className="w-full max-w-[25rem] h-[4rem] bg-[#F3F3F3] text-[#726F6F] text-[1.5rem] p-4" placeholder="Email"/>
         <div className="flex flex-col items-end gap-1">
-          <input id="password" type="password" onChange={(e) => setPassword(e.target.value)} className="w-[25rem] h-[4rem] bg-[#F3F3F3] text-[#726F6F] text-[1.5rem] p-4" placeholder="Password"/>
-          {/* Currently just redirects to same page */}
-          <Link to="/login" className="text-[#726F6F] text-[1.5rem] italic">
+          <input id="password" type="password" onChange={(e) => setPassword(e.target.value)} className="w-full max-w-[25rem] h-[4rem] bg-[#F3F3F3] text-[#726F6F] text-[1.5rem] p-4" placeholder="Password"/>
+          {/* show "Forgot Password?" here on desktop */}
+          <Link to="/login" className="hidden md:block text-[#726F6F] text-[1.5rem] italic">
             Forgot Password?
           </Link>
         </div>
         {error && <p className="text-red-500 text-[1rem]">{error}</p>}
-        <button type="submit" className="flex items-center justify-center self-center rounded-[5px] bg-[#E50000] w-[10rem] h-[3.5rem] text-white text-[2rem] font-bold">
-          Login
-        </button>
+        <div className="flex justify-center w-full">
+          <div className="flex items-center gap-4">
+            <div className="w-[1.5rem]" />
+            <button type="submit" className="flex items-center justify-center rounded-[5px] bg-[#E50000] w-[10rem] h-[3.5rem] text-white text-[2rem] font-bold my-6 md:my-2">
+              Login
+            </button>
+            <Link to="/help">
+              <img src="/src/assets/help_icon.png" alt="Help button" className="w-[1.5rem] h-[1.5rem]" />
+            </Link>
+          </div>
+        </div>
+        {/* show "Forgot Password?" here on mobile */}
+        <Link to="/login" className="md:hidden text-[#726F6F] text-[1.2rem] italic self-center">
+          Forgot Password?
+        </Link>
       </form>
 
     </main>
