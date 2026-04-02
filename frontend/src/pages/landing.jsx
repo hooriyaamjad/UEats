@@ -18,6 +18,6 @@ export default function Landing() {
       <Link to="/view-restaurants" className="text-blue-600 underline">View Restaurants</Link>
       <Link to="/profile" className="text-blue-600 underline">Profile</Link>
       <Link to="/edit-profile" className="text-blue-600 underline">Edit Profile</Link>
-    </div>
+    </main>
   );
 }
