@@ -19,9 +19,9 @@ export default function Signup() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-white gap-[8px] px-8">
           <div className="absolute top-4 left-4">
-            <BackButton />
+            <BackButton to="/"/>
           </div>
-          <img src="/src/assets/ueats_logo.png" alt="UEats logo" className="w-[12rem] h-[9rem] md:max-w-[17rem] md:h-[11.5rem] object-contain" />
+          <img src="/src/assets/ueats_logo.png" alt="UEats logo" className="w-[12rem] h-[9rem] md:w-[17rem] md:h-[11.5rem] object-contain" />
           <h1 className="w-full max-w-[25rem] text-center text-black text-[2.5rem] font-bold">Sign Up</h1>
           <form className="flex flex-col text-[1.2rem] md:text-[1.5rem] mb-4 w-full max-w-[25rem]">
             <label htmlFor="name">Name</label>

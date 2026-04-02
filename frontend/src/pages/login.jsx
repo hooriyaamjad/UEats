@@ -30,7 +30,7 @@ export default function Login() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-white gap-[24px] px-8">
       <div className="absolute top-4 left-4">
-        <BackButton />
+        <BackButton to="/"/>
       </div>
       <img src="/src/assets/ueats_logo.png" alt="UEats logo" className="w-[12rem] h-[9rem] md:w-[24rem] md:h-[18rem] object-contain" />
       <h1 className="w-full max-w-[25rem] text-black text-[1.5rem] md:text-[2rem] font-bold text-center">Login to Your Account</h1>
