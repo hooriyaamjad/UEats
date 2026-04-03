@@ -15,6 +15,8 @@ class MeEndpointTest(APITestCase):
             "username": "user",
             "email": "user@ucalgary.ca",
             "password": self.password,
+            "first_name": "Test",
+            "last_name": "User",
             "profile": {
                 "is_student": True,
                 "university": "UCalgary",
@@ -40,6 +42,8 @@ class MeEndpointTest(APITestCase):
         response = self.client.get(self.me_url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["first_name"], "Test")
+        self.assertEqual(response.data["last_name"], "User")
         self.assertEqual(response.data["university"], "UCalgary")
         self.assertEqual(response.data["student_id"], "12345")
         self.assertEqual(response.data["preferences"], {"halal": True})
