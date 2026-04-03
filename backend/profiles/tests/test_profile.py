@@ -46,6 +46,7 @@ class MeEndpointTest(APITestCase):
         self.assertEqual(response.data["last_name"], "User")
         self.assertEqual(response.data["university"], "UCalgary")
         self.assertEqual(response.data["student_id"], "12345")
+        self.assertEqual(response.data["image_url"], "")
         self.assertEqual(response.data["preferences"], {"halal": True})
 
     def test_me_update_users_profile(self):
@@ -54,6 +55,7 @@ class MeEndpointTest(APITestCase):
         payload = {
             "preferences": {"halal": True, "vegan": True},
             "student_id": "2003",
+            "image_url": "",
         }
         response = self.client.patch(self.me_url, payload, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -61,3 +63,4 @@ class MeEndpointTest(APITestCase):
         self.profile.refresh_from_db()
         self.assertEqual(self.profile.student_id, "2003")
         self.assertEqual(self.profile.preferences, {"halal": True, "vegan": True})
+        self.assertEqual(self.profile.image_url, "")
