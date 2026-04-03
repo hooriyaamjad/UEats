@@ -1,10 +1,4 @@
-
-
 .slider {
-  width: 100%;
-  appearance: none;
-  height: 6px;
-  outline: none;
   background: linear-gradient(
     to right,
     rgb(150, 150, 207) 0%,

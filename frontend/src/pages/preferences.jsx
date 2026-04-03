@@ -1,5 +1,5 @@
-import "../preferences.css";
 import { useState } from "react";
+import "./preferences.css";
 
 const dietaryOptions = [
   "Halal",
@@ -41,8 +41,10 @@ export default function Preferences() {
                 max="100"
                 value={priceRange}
                 onChange={(e) => setPriceRange(e.target.value)}
-                className="slider"
-                style={{ "--value": `${priceRange}%` }}
+                className="slider w-full h-[6px] appearance-none outline-none"
+                style={{
+                  "--value": `${priceRange}%`,
+                }}
             />
 
             <p className="text-[12px] text-[#5d5d5d]"> Set Price Range: $0 - ${priceRange} </p>
