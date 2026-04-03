@@ -33,7 +33,7 @@ export default function Preferences() {
         <div className="mx-auto p-[30px] font-sans max-[393px]:max-w-full">
             <h2 className="mb-[10px] text-[18px] font-bold">Dietary Restrictions</h2>
             <h2 className="mb-[10px] text-[18px] font-bold">Allergens</h2>
-            <h2 className="price-range-title">Price Range</h2>
+            <h2 className="mb-[5px] text-[18px] font-bold">Price Range</h2>
             <div className="price-range">$100</div>
             <input
                 type="range"
