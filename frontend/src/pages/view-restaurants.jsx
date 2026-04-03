@@ -1,7 +1,6 @@
 import api from "../utils/api";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect} from "react";
-import "./preferences.css";
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
 import ExpandedRestaurantCard from "../components/ExpandedRestaurantCard";

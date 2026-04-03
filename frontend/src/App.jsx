@@ -23,9 +23,9 @@ export default function App() {
         <Route path="/profile" element={<Profile />} /> {/* TODO: Move this to protected. Putting this here for dev purposes */}
         <Route path="/edit-profile" element={<EditProfile />} /> {/* TODO: Move this to protected. Putting this here for dev purposes */}
         <Route path="/restaurant/:id" element={<RestaurantDetail />} />
+        <Route path="/preferences" element={<Preferences />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/home" element={<Home />} />
-          <Route path="/preferences" element={<Preferences />} />
         </Route>
       </Routes>
     </BrowserRouter>
