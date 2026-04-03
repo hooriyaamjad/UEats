@@ -24,6 +24,8 @@ const allergenOptions = [
   "Shellfish",
   "Treenuts",
   "Fish",
+  "Sesame",
+  "Mustard",
 ];
 
 export default function Preferences() {
@@ -85,12 +87,19 @@ export default function Preferences() {
                     ? () => toggleSelection(item, selectedItems, setSelectedItems)
                     : undefined
                 }
-                deleteIcon={selected ? <span className="text-[22px]">×</span> : undefined}
-                className={`px-3 py-1 rounded-full text-sm ${
-                  selected
-                    ? "bg-green-200 text-green-800"
-                    : "bg-gray-200 text-gray-800"
-                }`}
+                sx={{
+                  height: 40,
+                  borderRadius: "700px",
+                  backgroundColor: selected
+                    ? type === "dietary"
+                      ? "#d9e8c8"
+                      : "#f7c4c4"
+                    : "transparent",
+                  color: "#111",
+                  border: "none",
+                  fontWeight: 700,
+                  fontSize: "14px",
+                }}
               />
             );
           })}
@@ -107,17 +116,23 @@ export default function Preferences() {
               title="University of Calgary"
             />
 
-            <div className="mx-auto p-[20px] text-[14px] text-[#5d5d5d]">
+            <div className="mx-auto pt-[5px] px-[20px] pb-[20px] text-[14px]">
 
-              <h2 className="mb-[10px] text-[18px] font-bold">Dietary Restrictions</h2>
+              <h2 className="pt-5 mb-[10px] text-[18px] font-bold">
+                Dietary Restrictions
+              </h2>
 
               {preferencesChips(dietaryOptions, selectedDietary, setSelectedDietaryRestrictions, "dietary")}
 
-              <h2 className="mb-[10px] text-[18px] font-bold">Allergens</h2>
+              <h2 className="pt-5 mb-[10px] text-[18px] font-bold">
+                Allergens
+              </h2>
 
               {preferencesChips(allergenOptions, selectedAllergens, setSelectedAllergens, "allergens")}
 
-              <h2 className="mb-[5px] text-[18px] font-bold">Price Range</h2>
+              <h2 className="pt-5 mb-[10px] text-[18px] font-bold">
+                Price Range
+              </h2>
               <div className="mb-[5px] text-right text-[14px]">$100</div>
               <input
                   type="range"
@@ -133,7 +148,7 @@ export default function Preferences() {
 
               <p className="text-[12px] text-[#5d5d5d]"> Set Price Range: $0 - ${priceRange} </p>
               
-              <div className="flex justify-end pb-6">
+              <div className="flex justify-end pb-6 pt-4">
                 <button
                   type="button"
                   onClick={handleSave}
