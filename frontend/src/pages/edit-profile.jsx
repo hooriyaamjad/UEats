@@ -5,8 +5,9 @@ import "./preferences.css";
 import Header from "../components/Header";
 import BottomNavBar from "../components/BottomNavBar";
 import PlaceholderProfilePic from "../assets/placeholder_pfp.png";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Pencil } from "lucide-react";
 import ResponseBanner from "../components/ResponseBanner";
+import ProfilePicSelector from "../components/ProfilePicSelector";
 
 const TABS = ["My Reviews", "My Recommendations", "My Preferences"];
 
@@ -17,11 +18,13 @@ export default function ViewRestaurants() {
   const [saving, setSaving] = useState(false);
   const [profile, setProfile] = useState(location.state?.profileData || {});
   const [success, setSuccess] = useState("");
+  const [showProfilePicSelector, setShowProfilePicSelector] = useState(false);
 
   const [form, setForm] = useState({
     firstName: profile?.first_name || "",
     lastName: profile?.last_name || "",
     email: profile?.email || "",
+    profilePic: profile?.image_url || "",
   });
 
   const handleChange = (e) => {
@@ -29,6 +32,14 @@ export default function ViewRestaurants() {
       ...form,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleSelectProfilePic = (url) => {
+    setForm((prev) => ({
+      ...prev,
+      profilePic: url,
+    }));
+    setShowProfilePicSelector(false);
   };
 
   const handleSave = async () => {
@@ -44,6 +55,10 @@ export default function ViewRestaurants() {
 
       if (form.lastName !== (profile.last_name || "")) {
         updatedFields.last_name = form.lastName;
+      }
+
+      if (form.profilePic !== (profile.image_url || "")) {
+        updatedFields.image_url = form.profilePic;
       }
 
       // TODO: add more editable fields here
@@ -99,13 +114,33 @@ export default function ViewRestaurants() {
         >
           <ArrowLeft size={18} />
         </button>
-        <div className="flex items-center gap-4 justify-center">
-          <img
-            src={PlaceholderProfilePic}
-            alt="Profile picture"
-            className="h-35  w-35 rounded-full object-cover"
-          />
+        <div className="flex justify-center">
+          <div className="relative w-fit">
+            <img
+              src={form.profilePic || PlaceholderProfilePic}
+              alt="Profile picture"
+              className="h-35 w-35 rounded-full object-cover"
+            />
+
+            <button
+              onClick={() => setShowProfilePicSelector(true)}
+              className="absolute bottom-1 right-1 
+                 bg-white rounded-full p-2 
+                 shadow-md border border-gray-200
+                 hover:bg-gray-50 hover:scale-105
+                 transition"
+            >
+              <Pencil size={16} className="text-red-500" />
+            </button>
+          </div>
         </div>
+
+        <ProfilePicSelector
+          isOpen={showProfilePicSelector}
+          onClose={() => setShowProfilePicSelector(false)}
+          onSelect={handleSelectProfilePic}
+          selectedAvatar={form.profilePic}
+        />
 
         {/* Name */}
         <div className="text-center font-bold text-lg">
