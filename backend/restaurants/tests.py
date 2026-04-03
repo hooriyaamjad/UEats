@@ -139,3 +139,26 @@ class ReviewReplyTest(APITestCase):
 		)
 
 		self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+	def test_reply_delete_clears_reply_for_employee(self):
+		self.review.restaurant_reply = 'Temporary reply'
+		self.review.save(update_fields=['restaurant_reply'])
+		self.client.force_authenticate(user=self.employee.user)
+
+		response = self.client.delete(self.reply_url, format='json')
+
+		self.assertEqual(response.status_code, status.HTTP_200_OK)
+		self.assertIsNone(response.data['reply'])
+		self.review.refresh_from_db()
+		self.assertIsNone(self.review.restaurant_reply)
+
+	def test_reply_delete_denied_for_non_employee(self):
+		self.review.restaurant_reply = 'Existing reply'
+		self.review.save(update_fields=['restaurant_reply'])
+		self.client.force_authenticate(user=self.reviewer.user)
+
+		response = self.client.delete(self.reply_url, format='json')
+
+		self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+		self.review.refresh_from_db()
+		self.assertEqual(self.review.restaurant_reply, 'Existing reply')

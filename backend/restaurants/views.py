@@ -83,11 +83,16 @@ class ReviewViewset(viewsets.ModelViewSet):
     def perform_create(self, serializer: ReviewSerializer):
         serializer.save(profile=self.request.user.profile, restaurant=Restaurant.objects.get(id=self.kwargs['restaurant_pk']))
     
-    @action(detail=True, methods=['get', 'post', 'put'], url_path='reply')
+    @action(detail=True, methods=['get', 'post', 'put', 'delete'], url_path='reply')
     def restaurant_reply(self, request, **kwargs):
         review = self.get_object()
 
         if request.method == 'GET':
+            return Response({'reply': review.restaurant_reply})
+
+        if request.method == 'DELETE':
+            review.restaurant_reply = None
+            review.save(update_fields=['restaurant_reply'])
             return Response({'reply': review.restaurant_reply})
 
         reply = request.data.get('reply')
