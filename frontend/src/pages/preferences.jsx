@@ -51,8 +51,18 @@ export default function Preferences() {
       console.log("Saved JSON:", updatedJson);
     };
 
-    const isSelected = (item, selectedItems) => {
+    const isItemSelected = (item, selectedItems) => {
       return selectedItems.includes(item.toLowerCase());
+    };
+
+    const toggleSelection = (item, selectedItems, setSelectedItems) => {
+      const itemLowerCase = item.toLowerCase();
+
+      setSelectedItems((prev) =>
+        prev.includes(itemLowerCase)
+          ? prev.filter((value) => value !== itemLowerCase)
+          : [...prev, itemLowerCase]
+      );
     };
     
     return (
