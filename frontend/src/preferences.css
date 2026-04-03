@@ -14,12 +14,6 @@
   );
 }
 
-.price-range {
-  font-size: 14px;
-  margin-bottom: 5px;
-  text-align: end;
-}
-
 .set-price-range {
   font-size: 12px;
   color: #5d5d5d;

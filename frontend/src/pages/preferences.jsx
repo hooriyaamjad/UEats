@@ -34,7 +34,7 @@ export default function Preferences() {
             <h2 className="mb-[10px] text-[18px] font-bold">Dietary Restrictions</h2>
             <h2 className="mb-[10px] text-[18px] font-bold">Allergens</h2>
             <h2 className="mb-[5px] text-[18px] font-bold">Price Range</h2>
-            <div className="price-range">$100</div>
+            <div className="mb-[5px] text-right text-[14px]">$100</div>
             <input
                 type="range"
                 min="0"
