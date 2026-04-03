@@ -30,6 +30,26 @@ export default function Preferences() {
     const [priceRange, setPriceRange] = useState(100);
     const [selectedDietary, setSelectedDietaryRestrictions] = useState([]);
     const [selectedAllergens, setSelectedAllergens] = useState([]);
+
+    const [savedJson, setSavedJson] = useState({
+      preferences: {
+        dietary: [],
+        allergens: [],
+        price_range: "100",
+      },
+    });
+
+    const handleSave = () => {
+      const updatedJson = {
+        preferences: {
+          dietary: selectedDietary,
+          allergens: selectedAllergens,
+          price_range: String(priceRange),
+        },
+      };
+      setSavedJson(updatedJson);
+      console.log("Saved JSON:", updatedJson);
+    };
     
     return (
         
