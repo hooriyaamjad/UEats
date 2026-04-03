@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./preferences.css";
 import Header from "../components/Header";
-import { useNavigate } from "react-router-dom"; 
+import BottomNavBar from "../components/BottomNavBar";
 
 const dietaryOptions = [
   "Halal",
@@ -33,30 +33,34 @@ export default function Preferences() {
     
     return (
         
-          <div className="mx-auto pt-0 px-[20px] pb-[20px] font-sans max-[393px]:max-w-full">
+          <div className="font-sans max-[393px]:max-w-full">
             <Header
               showBack={true}
               onBack={() => navigate(-1)}
               title="University of Calgary"
             />
 
-            <h2 className="mb-[10px] text-[18px] font-bold">Dietary Restrictions</h2>
-            <h2 className="mb-[10px] text-[18px] font-bold">Allergens</h2>
-            <h2 className="mb-[5px] text-[18px] font-bold">Price Range</h2>
-            <div className="mb-[5px] text-right text-[14px]">$100</div>
-            <input
-                type="range"
-                min="0"
-                max="100"
-                value={priceRange}
-                onChange={(e) => setPriceRange(e.target.value)}
-                className="slider w-full h-[6px] appearance-none outline-none"
-                style={{
-                  "--value": `${priceRange}%`,
-                }}
-            />
+            <div className="mx-auto p-[20px] text-[14px] text-[#5d5d5d]">
+              <h2 className="mb-[10px] text-[18px] font-bold">Dietary Restrictions</h2>
+              <h2 className="mb-[10px] text-[18px] font-bold">Allergens</h2>
+              <h2 className="mb-[5px] text-[18px] font-bold">Price Range</h2>
+              <div className="mb-[5px] text-right text-[14px]">$100</div>
+              <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={priceRange}
+                  onChange={(e) => setPriceRange(e.target.value)}
+                  className="slider w-full h-[6px] appearance-none outline-none"
+                  style={{
+                    "--value": `${priceRange}%`,
+                  }}
+              />
 
-            <p className="text-[12px] text-[#5d5d5d]"> Set Price Range: $0 - ${priceRange} </p>
+              <p className="text-[12px] text-[#5d5d5d]"> Set Price Range: $0 - ${priceRange} </p>
+
+            </div>
+            <BottomNavBar />
         </div>
     );
 }
