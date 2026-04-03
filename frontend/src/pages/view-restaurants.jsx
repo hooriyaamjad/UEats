@@ -47,8 +47,7 @@ export default function ViewRestaurants() {
   return (
     <div className="min-h-screen bg-[#f5f4f2]">
       <Header
-        showBack={true}
-        onBack={() => navigate(-1)}
+        showBack={false}
         title="University of Calgary"
       />
 
