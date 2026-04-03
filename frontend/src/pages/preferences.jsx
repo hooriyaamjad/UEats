@@ -50,6 +50,10 @@ export default function Preferences() {
       setSavedJson(updatedJson);
       console.log("Saved JSON:", updatedJson);
     };
+
+    const isSelected = (item, selectedItems) => {
+      return selectedItems.includes(item.toLowerCase());
+    };
     
     return (
         
