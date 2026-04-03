@@ -12,7 +12,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ["first_name", "last_name", "is_student", "university", "student_id", "preferences"]
+        fields = ["id", "first_name", "last_name", "is_student", "university", "student_id", "preferences"]
 
 
 class SignupSerializer(serializers.ModelSerializer):
