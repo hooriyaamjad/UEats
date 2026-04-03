@@ -7,12 +7,34 @@ from .models import Profile
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    first_name = serializers.CharField(source="user.first_name", read_only=True)
-    last_name = serializers.CharField(source="user.last_name", read_only=True)
+    first_name = serializers.CharField(source="user.first_name")
+    last_name = serializers.CharField(source="user.last_name")
+    email = serializers.EmailField(source="user.email", read_only=True)
 
     class Meta:
         model = Profile
-        fields = ["first_name", "last_name", "is_student", "university", "student_id", "preferences"]
+        fields = ["first_name", "last_name", "email", "is_student", "university", "student_id", "preferences"]
+
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop("user", {})
+
+        user = instance.user
+
+        if "first_name" in user_data:
+            user.first_name = user_data["first_name"]
+
+        if "last_name" in user_data:
+            user.last_name = user_data["last_name"]
+
+        #TODO: add more editable fields here
+
+        user.save()
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        instance.save()
+        return instance
 
 
 class SignupSerializer(serializers.ModelSerializer):
