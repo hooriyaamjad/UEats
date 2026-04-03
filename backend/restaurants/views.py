@@ -1,4 +1,4 @@
-from rest_framework import generics, viewsets
+from rest_framework import generics, status, viewsets
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -6,7 +6,7 @@ from rest_framework.exceptions import ValidationError
 
 from .models import Restaurant, Recommendation, Review
 from .serializers import RestaurantSerializer, RecommendationSerializer, ReviewSerializer
-from util.permissions import IsOwnerOrReadOnly
+from util.permissions import IsOwnerOrReadOnly, IsRestaurantEmployee
 from util.enums import VoteType
 
 
@@ -64,6 +64,13 @@ class RecommendationViewset(viewsets.ModelViewSet):
 class ReviewViewset(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
     permission_classes = [IsOwnerOrReadOnly]
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        if self.action == 'restaurant_reply':
+            return [IsRestaurantEmployee()]
+        return [IsAuthenticated(), IsOwnerOrReadOnly()]
     
     def get_queryset(self):
         return (
@@ -75,3 +82,19 @@ class ReviewViewset(viewsets.ModelViewSet):
     
     def perform_create(self, serializer: ReviewSerializer):
         serializer.save(profile=self.request.user.profile, restaurant=Restaurant.objects.get(id=self.kwargs['restaurant_pk']))
+    
+    @action(detail=True, methods=['get', 'post', 'put'], url_path='reply')
+    def restaurant_reply(self, request, **kwargs):
+        review = self.get_object()
+
+        if request.method == 'GET':
+            return Response({'reply': review.restaurant_reply})
+
+        reply = request.data.get('reply')
+
+        review.restaurant_reply = reply
+        review.save(update_fields=['restaurant_reply'])
+
+        return Response({'reply': review.restaurant_reply})
+
+
