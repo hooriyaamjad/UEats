@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./preferences.css";
+import Header from "../components/Header";
+import { useNavigate } from "react-router-dom"; 
 
 const dietaryOptions = [
   "Halal",
@@ -30,7 +32,14 @@ export default function Preferences() {
     const [selectedAllergens, setSelectedAllergens] = useState([]);
     
     return (
-        <div className="mx-auto p-[30px] font-sans max-[393px]:max-w-full">
+        
+          <div className="mx-auto pt-0 px-[20px] pb-[20px] font-sans max-[393px]:max-w-full">
+            <Header
+              showBack={true}
+              onBack={() => navigate(-1)}
+              title="University of Calgary"
+            />
+
             <h2 className="mb-[10px] text-[18px] font-bold">Dietary Restrictions</h2>
             <h2 className="mb-[10px] text-[18px] font-bold">Allergens</h2>
             <h2 className="mb-[5px] text-[18px] font-bold">Price Range</h2>
