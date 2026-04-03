@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./preferences.css";
 import Header from "../components/Header";
 import BottomNavBar from "../components/BottomNavBar";
+import { Chip } from "@mui/material";
 
 const dietaryOptions = [
   "Halal",
@@ -64,6 +65,38 @@ export default function Preferences() {
           : [...prev, itemLowerCase]
       );
     };
+
+    const preferencesChips = (options, selectedItems, setSelectedItems, type) => {
+      return (
+        <div className="flex flex-wrap gap-4">
+          {options.map((item) => {
+            const selected = isItemSelected(item, selectedItems);
+
+            return (
+              <Chip
+                key={item}
+                label={item}
+                clickable
+                onClick={() =>
+                  toggleSelection(item, selectedItems, setSelectedItems)
+                }
+                onDelete={
+                  selected
+                    ? () => toggleSelection(item, selectedItems, setSelectedItems)
+                    : undefined
+                }
+                deleteIcon={selected ? <span className="text-[22px]">×</span> : undefined}
+                className={`px-3 py-1 rounded-full text-sm ${
+                  selected
+                    ? "bg-green-200 text-green-800"
+                    : "bg-gray-200 text-gray-800"
+                }`}
+              />
+            );
+          })}
+        </div>
+      );
+    };
     
     return (
         
@@ -77,6 +110,9 @@ export default function Preferences() {
             <div className="mx-auto p-[20px] text-[14px] text-[#5d5d5d]">
 
               <h2 className="mb-[10px] text-[18px] font-bold">Dietary Restrictions</h2>
+
+              {preferencesChips(dietaryOptions, selectedDietary, setSelectedDietaryRestrictions, "dietary")}
+
               <h2 className="mb-[10px] text-[18px] font-bold">Allergens</h2>
               <h2 className="mb-[5px] text-[18px] font-bold">Price Range</h2>
               <div className="mb-[5px] text-right text-[14px]">$100</div>
