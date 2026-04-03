@@ -35,10 +35,15 @@ class ProfileSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+    
+class SignupProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ["is_student", "university", "student_id", "image_url", "preferences"]
 
 
 class SignupSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer()
+    profile = SignupProfileSerializer()
 
     class Meta:
         model = User
@@ -48,7 +53,6 @@ class SignupSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def create(self, validated_data):
         profile_data = validated_data.pop("profile")
-        profile_data.pop("user", None)
         user = User.objects.create_user(**validated_data)
         Profile.objects.create(user=user, **profile_data)
 
