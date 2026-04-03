@@ -20,5 +20,10 @@ class Profile(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ('student_id', 'university')
-        
+        constraints = [
+            models.UniqueConstraint(
+                fields=['university', 'student_id'],
+                condition=models.Q(is_student=True),
+                name='unique_university_student_id_when_student'
+            )
+        ]

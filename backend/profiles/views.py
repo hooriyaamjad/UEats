@@ -50,3 +50,12 @@ class ProfileViewSet(viewsets.ModelViewSet):
         if self.kwargs.get("pk") == "me":
             return self.request.user.profile # type: ignore
         return super().get_object()
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        data = request.data.copy()
+        data.setdefault('is_student', instance.is_student)
+        serializer = self.get_serializer(instance, data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
