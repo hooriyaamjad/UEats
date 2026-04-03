@@ -29,10 +29,11 @@ class Command(BaseCommand):
                 "is_student": True,
                 "university": "University of Calgary",
                 "student_id": "30012345",
+                "image_url": "https://i.redd.it/l38dzm0mctj61.jpg",
                 "preferences": {
                     "dietary": ["vegetarian"],
-                    "allergens": ["peanuts", "milk"],
-                    "price_range": "30"
+                    "cuisines": ["asian", "italian"],
+                    "price_range": "medium"
                 },
                 "favourites": ["Subway", "Canadian Pizza Unlimited"]
             },
@@ -45,10 +46,11 @@ class Command(BaseCommand):
                 "is_student": True,
                 "university": "University of Calgary",
                 "student_id": "30054321",
+                "image_url": "https://media.tenor.com/wjD4X3OIDbsAAAAe/cute-food-cute.png",
                 "preferences": {
                     "dietary": ["gluten-free"],
-                    "allergens": ["wheat", "soy"],
-                    "price_range": "20"
+                    "cuisines": ["mexican", "american"],
+                    "price_range": "budget"
                 },
                 "favourites": ["Canadian Pizza Unlimited"]
             },
@@ -61,10 +63,11 @@ class Command(BaseCommand):
                 "is_student": False,
                 "university": "University of Alberta",
                 "student_id": None,
+                "image_url": "https://img.freepik.com/premium-vector/kawaii-cute-donut-illustration_136610-672.jpg",
                 "preferences": {
                     "dietary": [],
-                    "allergens": ["eggs"],
-                    "price_range": "40"
+                    "cuisines": ["all"],
+                    "price_range": "premium"
                 },
                 "favourites": ["Canadian Pizza Unlimited"]
             }
@@ -86,6 +89,7 @@ class Command(BaseCommand):
                 is_student=data['is_student'],
                 university=data['university'],
                 student_id=data.get('student_id'),
+                image_url=data.get('image_url'),
                 preferences=data.get('preferences')
             )
             
