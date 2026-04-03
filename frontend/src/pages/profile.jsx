@@ -62,7 +62,7 @@ export default function ViewRestaurants() {
       <main className="w-full max-w-2xl mx-auto px-5 pt-5 pb-32 flex flex-col gap-6">
         <div className="flex items-center gap-4 justify-center">
           <img
-            src={PlaceholderProfilePic}
+            src={profile?.image_url || PlaceholderProfilePic}
             alt="Profile picture"
             className="h-35  w-35 rounded-full object-cover"
           />
