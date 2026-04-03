@@ -114,6 +114,9 @@ export default function Preferences() {
               {preferencesChips(dietaryOptions, selectedDietary, setSelectedDietaryRestrictions, "dietary")}
 
               <h2 className="mb-[10px] text-[18px] font-bold">Allergens</h2>
+
+              {preferencesChips(allergenOptions, selectedAllergens, setSelectedAllergens, "allergens")}
+
               <h2 className="mb-[5px] text-[18px] font-bold">Price Range</h2>
               <div className="mb-[5px] text-right text-[14px]">$100</div>
               <input
