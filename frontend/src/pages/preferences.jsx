@@ -113,7 +113,7 @@ export default function Preferences() {
             <Header
               showBack={true}
               onBack={() => navigate(-1)}
-              title="University of Calgary"
+              title="Your Preferences"
             />
 
             <div className="mx-auto pt-[5px] px-[20px] pb-[20px] text-[14px]">
