@@ -13,7 +13,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ["first_name", "last_name", "email", "is_student", "university", "student_id", "preferences"]
+        fields = ["first_name", "last_name", "email", "is_student", "university", "student_id", "image_url", "preferences"]
 
     def update(self, instance, validated_data):
         user_data = validated_data.pop("user", {})
@@ -25,6 +25,9 @@ class ProfileSerializer(serializers.ModelSerializer):
 
         if "last_name" in user_data:
             user.last_name = user_data["last_name"]
+
+        if "image_url" in user_data:
+            user.image_url = user_data["image_url"]
 
         #TODO: add more editable fields here
 
