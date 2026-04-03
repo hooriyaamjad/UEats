@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-dom";
 import Landing from "./pages/landing";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
@@ -8,9 +8,13 @@ import ViewRestaurants from "./pages/view-restaurants";
 import Profile from "./pages/profile";
 import EditProfile from "./pages/edit-profile";
 import RestaurantDetail from "./pages/restaurant-detail";
+import WriteReview from "./pages/write-review";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-// TODO: add more routes here as pages are built (/signup, /login, /home, /profile, etc.)
+function RestaurantRedirect() {
+  const { id } = useParams();
+  return <Navigate to={`/restaurant/${id}/menu`} replace />;
+}
 
 export default function App() {
   return (
@@ -22,7 +26,9 @@ export default function App() {
         <Route path="/view-restaurants" element={<ViewRestaurants />} /> {/* Move this to protected unless we're doing guest view */}
         <Route path="/profile" element={<Profile />} /> {/* TODO: Move this to protected. Putting this here for dev purposes */}
         <Route path="/edit-profile" element={<EditProfile />} /> {/* TODO: Move this to protected. Putting this here for dev purposes */}
-        <Route path="/restaurant/:id" element={<RestaurantDetail />} />
+        <Route path="/restaurant/:id" element={<RestaurantRedirect />} />
+        <Route path="/restaurant/:id/:tab" element={<RestaurantDetail />} />
+        <Route path="/restaurant/:id/reviews/new" element={<WriteReview />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/home" element={<Home />} />
           <Route path="/preferences" element={<Preferences />} />
