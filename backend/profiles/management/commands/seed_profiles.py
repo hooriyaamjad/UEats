@@ -31,8 +31,8 @@ class Command(BaseCommand):
                 "student_id": "30012345",
                 "preferences": {
                     "dietary": ["vegetarian"],
-                    "cuisines": ["asian", "italian"],
-                    "price_range": "medium"
+                    "allergens": ["peanuts", "milk"],
+                    "price_range": "30"
                 },
                 "favourites": ["Subway", "Canadian Pizza Unlimited"]
             },
@@ -47,8 +47,8 @@ class Command(BaseCommand):
                 "student_id": "30054321",
                 "preferences": {
                     "dietary": ["gluten-free"],
-                    "cuisines": ["mexican", "american"],
-                    "price_range": "budget"
+                    "allergens": ["wheat", "soy"],
+                    "price_range": "20"
                 },
                 "favourites": ["Canadian Pizza Unlimited"]
             },
@@ -63,8 +63,8 @@ class Command(BaseCommand):
                 "student_id": None,
                 "preferences": {
                     "dietary": [],
-                    "cuisines": ["all"],
-                    "price_range": "premium"
+                    "allergens": ["eggs"],
+                    "price_range": "40"
                 },
                 "favourites": ["Canadian Pizza Unlimited"]
             }
