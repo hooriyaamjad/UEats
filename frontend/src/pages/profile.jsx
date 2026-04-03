@@ -1,6 +1,6 @@
-// import api from "../utils/api";
+import api from "../utils/api";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./preferences.css";
 import Header from "../components/Header";
 import BottomNavBar from "../components/BottomNavBar";
@@ -11,26 +11,37 @@ const TABS = ["My Reviews", "My Recommendations", "My Preferences"];
 
 export default function ViewRestaurants() {
   const navigate = useNavigate();
-  // const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("My Reviews");
+  const [, setError] = useState(null);
 
-  // TODO: fetch user data
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await api.get("/profiles/me/");
+        setProfile(response.data);
+      } catch (error) {
+        console.error(
+          "Failed to fetch profile:",
+          error?.response?.data || error.message
+        );
+        setError("Couldn't connect to the backend. Is the server running?");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  //   useEffect(() => {
-  //     const fetchRestaurants = async () => {
-  //       try {
-  //         const response = await api.get("/restaurants/");
-  //         setRestaurants(response.data);
-  //       } catch (error) {
-  //         console.error("Failed to fetch restaurants:", error?.response?.data || error.message);
-  //         setError("Couldn't connect to the backend. Is the server running?");
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     };
+    fetchProfile();
+  }, []);
 
-  //     fetchRestaurants();
-  //   }, []);
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center text-gray-500">
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#f5f4f2]">
@@ -49,18 +60,25 @@ export default function ViewRestaurants() {
           />
         </div>
         <div className="flex items-center gap-4 justify-center font-bold text-lg">
-          John Appleseed
+          {profile.first_name} {profile.last_name}
+        </div>
+        <div className="flex items-center gap-4 justify-center font text-md mt-[-15px] text-gray-600">
+          {profile.email}
         </div>
         <div className="flex items-center gap-4 justify-center text-gray-600">
-          <button 
-  className="flex items-center gap-2 bg-white rounded-2xl px-5 py-2 text-sm font-semibold shadow-sm 
+          <button
+            className="flex items-center gap-2 bg-white rounded-2xl px-5 py-2 text-sm font-semibold shadow-sm 
   cursor-pointer hover:shadow-md hover:bg-gray-50 hover:scale-105 
   transition-all duration-200"
-  onClick={() => navigate("/edit-profile")}
->
-  <Pencil size={16} />
-  Edit Profile
-</button>
+            onClick={() =>
+              navigate("/edit-profile", {
+                state: { profileData: profile },
+              })
+            }
+          >
+            <Pencil size={16} />
+            Edit Profile
+          </button>
         </div>
 
         {/* Tabs */}
