@@ -45,7 +45,7 @@ export default function Preferences() {
                 style={{ "--value": `${priceRange}%` }}
             />
 
-            <p className="set-price-range"> Set Price Range: $0 - ${priceRange} </p>
+            <p className="text-[12px] text-[#5d5d5d]"> Set Price Range: $0 - ${priceRange} </p>
         </div>
     );
 }
