@@ -26,9 +26,6 @@ class ProfileSerializer(serializers.ModelSerializer):
         if "last_name" in user_data:
             user.last_name = user_data["last_name"]
 
-        if "image_url" in user_data:
-            user.image_url = user_data["image_url"]
-
         #TODO: add more editable fields here
 
         user.save()
@@ -51,6 +48,7 @@ class SignupSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def create(self, validated_data):
         profile_data = validated_data.pop("profile")
+        profile_data.pop("user", None)
         user = User.objects.create_user(**validated_data)
         Profile.objects.create(user=user, **profile_data)
 
