@@ -61,6 +61,7 @@ export default function Preferences() {
             />
 
             <div className="mx-auto p-[20px] text-[14px] text-[#5d5d5d]">
+
               <h2 className="mb-[10px] text-[18px] font-bold">Dietary Restrictions</h2>
               <h2 className="mb-[10px] text-[18px] font-bold">Allergens</h2>
               <h2 className="mb-[5px] text-[18px] font-bold">Price Range</h2>
@@ -78,6 +79,16 @@ export default function Preferences() {
               />
 
               <p className="text-[12px] text-[#5d5d5d]"> Set Price Range: $0 - ${priceRange} </p>
+              
+              <div className="flex justify-end pb-6">
+                <button
+                  type="button"
+                  onClick={handleSave}
+                  className="rounded-[12px] bg-gray-200 px-3 py-2 text-sm font-bold text-black hover:bg-gray-300 transition"
+                >
+                  Save Preferences
+                </button>
+              </div>
 
             </div>
             <BottomNavBar />
