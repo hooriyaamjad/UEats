@@ -30,7 +30,7 @@ export default function Preferences() {
     const [selectedAllergens, setSelectedAllergens] = useState([]);
     
     return (
-        <div className="main-container">
+        <div className="mx-auto p-[30px] font-sans max-[393px]:max-w-full">
             <h2 className="dietary-title">Dietary Restrictions</h2>
             <h2 className="allergen-title">Allergens</h2>
             <h2 className="price-range-title">Price Range</h2>
