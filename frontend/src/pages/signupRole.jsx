@@ -8,6 +8,7 @@ export default function SignupRole() {
   const navigate = useNavigate();
   const { signupData, update } = useSignup();
   const [role, setRole] = useState("student");
+  const [studentId, setStudentId] = useState("");
   const RESTAURANTS = [
     "A&W",
     "Bake Chef Co.",
@@ -42,10 +43,12 @@ export default function SignupRole() {
         username: signupData.username,
         email: signupData.email,
         password: signupData.password,
+        first_name: signupData.firstName,
+        last_name: signupData.lastName,
         profile: {
           is_student: role === "student",
           university: "UCalgary",
-          student_id: "",
+          student_id: role === "student" ? studentId : null,
         },
       });
 
@@ -64,18 +67,33 @@ export default function SignupRole() {
           <div className="absolute top-4 left-4">
             <BackButton to="/signup"/>
           </div>
-          <img src="/src/assets/ueats_logo.png" alt="UEats logo" className="w-[12rem] md:w-[24rem] md:h-[18rem] object-contain" />
+          <img src="/src/assets/ueats_logo.png" alt="UEats logo" className="w-[12rem] h-[9rem] object-contain" />
           <h1 className="w-full max-w-[25rem] text-center text-black text-[2.5rem] font-bold mb-8">Sign Up</h1>
-          <h2 className="text-black text-[1.5rem] md:text-[2rem] w-full max-w-[50rem] text-center">Are you a business employee?</h2>
+          <h2 className="text-black text-[1.5rem] md:text-[1.75rem] w-full max-w-[50rem] text-center">Are you a business employee?</h2>
           <form className="flex items-center flex-col gap-[8px] mb-12 w-full max-w-[25rem]">
-            <select id="role" value={role} onChange={(e) => setRole(e.target.value)} className="bg-[#F3F3F3] w-full px-[1rem] pr-[2rem] py-[0.75rem] h-[3rem] md:h-[3.5rem] text-[1.2rem] md:text-[1.5rem] hover:brightness-95 cursor-pointer">
+            <select id="role" value={role} onChange={(e) => setRole(e.target.value)} className="bg-[#F3F3F3] w-full px-[1rem] pr-[2rem] py-[0.75rem] h-[3rem] md:h-[3.5rem] text-[1.2rem] md:text-[1.5rem] hover:brightness-95 cursor-pointer mb-[1.5rem]">
               <option value="student">No Selection (I'm a Student)</option>
               {RESTAURANTS.map((name) => (
                 <option key={name} value={name}>{name}</option>
               ))}
             </select>
+
+            {/* field to enter studentID, might not be needed later*/}
+            {role === "student" && (
+              <>
+                <label htmlFor="studentId" className="self-start text-[1.2rem] md:text-[1.5rem]">Student ID</label>
+                <input
+                  id="studentId"
+                  type="text"
+                  value={studentId}
+                  onChange={(e) => setStudentId(e.target.value)}
+                  className="bg-[#F3F3F3] w-full px-[1rem] py-[0.75rem] h-[3rem] md:h-[3.5rem] text-[1.2rem] md:text-[1.5rem] mb-[1.5rem]"
+                  placeholder="12345678"
+                />
+              </>
+            )}
             
-            <button type="button" onClick={handleSubmit} className="rounded-[5px] bg-[#E50000] w-full max-w-[12rem] h-[3rem] md:h-[3.5rem] text-white text-[1.75rem] md:text-[2rem] font-bold mt-[1.5rem] hover:brightness-95 cursor-pointer">
+            <button type="button" onClick={handleSubmit} className="rounded-[5px] bg-[#E50000] w-full max-w-[12rem] h-[3rem] md:h-[3.5rem] text-white text-[1.75rem] md:text-[2rem] font-bold hover:brightness-95 cursor-pointer">
               Sign-Up
             </button>
           </form>

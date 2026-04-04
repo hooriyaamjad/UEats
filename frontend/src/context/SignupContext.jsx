@@ -7,6 +7,8 @@ export function SignupProvider({ children }) {
     username: "",
     email: "",
     password: "",
+    firstName: "",
+    lastName: "",
     role: "",
   });
 
