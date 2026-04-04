@@ -135,11 +135,11 @@ export default function Preferences() {
               label={item}
               clickable
               onClick={() =>
-                toggleSelection(item, selectedItems, setSelectedItems)
+                toggleSelection(item, setSelectedItems)
               }
               onDelete={
                 selected
-                  ? () => toggleSelection(item, selectedItems, setSelectedItems)
+                  ? () => toggleSelection(item, setSelectedItems)
                   : undefined
               }
               sx={{
