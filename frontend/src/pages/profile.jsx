@@ -6,6 +6,8 @@ import BottomNavBar from "../components/BottomNavBar";
 import PlaceholderProfilePic from "../assets/placeholder_pfp.png";
 import { Pencil, LogOut } from "lucide-react";
 import ConfirmationPopup from "../components/ConfirmationPopup";
+import preferencesIcon from "../assets/preferences.png";
+import ProfileRouteCard from "../components/ProfileRouteCard";
 
 const TABS = ["My Reviews", "My Recommendations", "My Preferences"];
 
@@ -107,65 +109,18 @@ export default function ViewRestaurants() {
           />
         </div>
 
-        {/* Tabs */}
-        <div className=" w-full rounded-2xl bg-white shadow-sm">
-          <div className="flex border-b border-gray-200">
-            {TABS.map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`flex-1 text-center py-3 text-xs sm:text-sm md:text-base font-semibold transition-all ${
-                  activeTab === tab
-                    ? "border-b-2 border-red-500 text-red-500"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
+        <div className="grid grid-cols-2 gap-4">
+          <ProfileRouteCard
+            icon={preferencesIcon}
+            text="Preferences"
+            to="/preferences"
+          />
+         
         </div>
-        {/* Tab content */}
-        <div className="px-5 pt-4">
-          {activeTab === "My Reviews" && <MyReviewsTab />}
-          {activeTab === "My Recommendations" && <MyRecommendationsTab />}
-          {activeTab === "My Preferences" && <MyPreferencesTab />}
-        </div>
+ 
       </main>
 
       <BottomNavBar />
-    </div>
-  );
-}
-
-// placeholder text, for development of features
-function MyReviewsTab() {
-  return (
-    <div className="text-center py-12 text-gray-400 text-sm">
-      My Reviews coming soon.
-    </div>
-  );
-}
-
-// placeholder text, for development of features
-function MyRecommendationsTab() {
-  return (
-    <div className="text-center py-12 text-gray-400 text-sm">
-      My Recommendations coming soon.
-    </div>
-  );
-}
-
-// placeholder text, for development of features
-function MyPreferencesTab() {
-  const navigate = useNavigate();
-
-  return (
-    <div
-      onClick={() => navigate("/preferences")}
-      className="text-center py-12 text-gray-400 text-sm cursor-pointer hover:text-black transition"
-    >
-      My Preferences
     </div>
   );
 }
