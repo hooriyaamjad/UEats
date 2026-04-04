@@ -12,10 +12,13 @@ class SignupTest(APITestCase):
             "username": "user",
             "email": "user@ucalgary.ca",
             "password": "pass",
+            "first_name": "person",
+            "last_name": "james",
             "profile": {
                 "is_student": True,
                 "university": "UCalgary",
                 "student_id": "12345",
+                "image_url": "",
                 "preferences": {"halal": True}
             }
         }
@@ -28,6 +31,8 @@ class SignupTest(APITestCase):
         
         user = User.objects.get(username="user")
         self.assertEqual(user.profile.university, "UCalgary")
+        self.assertEqual(user.first_name, "person")
+        self.assertEqual(user.last_name, "james")
 
         self.assertIn('access', response.data['tokens'])
         self.assertIn('refresh', response.data['tokens'])
@@ -51,12 +56,23 @@ class SignupTest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
+    def test_signup_passed_duplicate_id_not_student(self):
+        self.client.post(self.signup_url, self.valid_payload, format='json')
+
+        payload = self.valid_payload.copy()
+        payload['username'] = "new_user"
+        payload['profile']['is_student'] = False
+        response = self.client.post(self.signup_url, payload, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
     def test_signup_no_optional_fields(self):
         self.client.post(self.signup_url, self.valid_payload, format='json')
 
         payload = self.valid_payload.copy()
         payload['username'] = "new_user"
         del payload['profile']['student_id']
+        del payload['profile']['image_url']
         del payload['profile']['preferences']
         response = self.client.post(self.signup_url, payload, format='json')
 
