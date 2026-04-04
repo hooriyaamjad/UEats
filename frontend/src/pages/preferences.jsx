@@ -79,7 +79,7 @@ export default function Preferences() {
     return selectedItems.includes(item.toLowerCase());
   };
 
-  const toggleSelection = (item, selectedItems, setSelectedItems) => {
+  const toggleSelection = (item, setSelectedItems) => {
     const itemLowerCase = item.toLowerCase();
 
     setSelectedItems((prev) =>
