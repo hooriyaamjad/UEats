@@ -158,9 +158,14 @@ function MyRecommendationsTab() {
 
 // placeholder text, for development of features
 function MyPreferencesTab() {
+  const navigate = useNavigate();
+
   return (
-    <div className="text-center py-12 text-gray-400 text-sm">
-      My Preferences coming soon.
+    <div
+      onClick={() => navigate("/preferences")}
+      className="text-center py-12 text-gray-400 text-sm cursor-pointer hover:text-black transition"
+    >
+      My Preferences
     </div>
   );
 }
