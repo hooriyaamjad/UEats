@@ -1,7 +1,6 @@
 import api from "../utils/api";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import "./preferences.css";
 import Header from "../components/Header";
 import BottomNavBar from "../components/BottomNavBar";
 import PlaceholderProfilePic from "../assets/placeholder_pfp.png";

@@ -35,10 +35,10 @@ export default function App() {
         <Route path="/edit-profile" element={<EditProfile />} /> {/* TODO: Move this to protected. Putting this here for dev purposes */}
         <Route path="/restaurant/:id" element={<RestaurantRedirect />} />
         <Route path="/restaurant/:id/:tab" element={<RestaurantDetail />} />
+        <Route path="/preferences" element={<Preferences />} />
         <Route path="/restaurant/:id/reviews/new" element={<WriteReview />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/home" element={<Home />} />
-          <Route path="/preferences" element={<Preferences />} />
         </Route>
       </Routes>
     </BrowserRouter>
