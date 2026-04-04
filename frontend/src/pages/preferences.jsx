@@ -115,6 +115,14 @@ export default function Preferences() {
     fetchPreferences();
   }, []);
 
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center text-gray-500">
+        Loading...
+      </div>
+    );
+  }
+
   const preferencesChips = (options, selectedItems, setSelectedItems, type) => {
     return (
       <div className="flex flex-wrap gap-4">
