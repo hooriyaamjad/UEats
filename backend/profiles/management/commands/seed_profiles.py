@@ -32,8 +32,9 @@ class Command(BaseCommand):
                 "image_url": "https://i.redd.it/l38dzm0mctj61.jpg",
                 "preferences": {
                     "dietary": ["vegetarian"],
-                    "cuisines": ["asian", "italian"],
-                    "price_range": "medium"
+                    "allergens": ["peanuts", "milk"],
+                    "price_range": "30"
+
                 },
                 "favourites": ["Subway", "Canadian Pizza Unlimited"]
             },
@@ -49,8 +50,9 @@ class Command(BaseCommand):
                 "image_url": "https://media.tenor.com/wjD4X3OIDbsAAAAe/cute-food-cute.png",
                 "preferences": {
                     "dietary": ["gluten-free"],
-                    "cuisines": ["mexican", "american"],
-                    "price_range": "budget"
+                    "allergens": ["wheat", "soy"],
+                    "price_range": "20"
+
                 },
                 "favourites": ["Canadian Pizza Unlimited"]
             },
@@ -66,8 +68,9 @@ class Command(BaseCommand):
                 "image_url": "https://img.freepik.com/premium-vector/kawaii-cute-donut-illustration_136610-672.jpg",
                 "preferences": {
                     "dietary": [],
-                    "cuisines": ["all"],
-                    "price_range": "premium"
+                    "allergens": ["eggs"],
+                    "price_range": "40"
+
                 },
                 "favourites": ["Canadian Pizza Unlimited"]
             }
