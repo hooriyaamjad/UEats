@@ -15,17 +15,17 @@ export default function ProfileRouteCard({
           state,
         })
       }
-      className={`
-        flex flex-col justify-center items-center text-center
+      className="
+        flex flex-col items-center justify-center text-center
         cursor-pointer
-        bg-gray-100
+        bg-white
         rounded-xl
-        shadow-sm
-        hover:shadow-md
-        transition
+        shadow-[0_6px_12px_rgba(0,0,0,0.15)]
+        hover:shadow-[0_10px_18px_rgba(0,0,0,0.2)]
+        transition-all duration-200
         px-4 py-5
-        w-full max-w-[160px]
-      `}
+        w-full
+      "
     >
       <div className="mb-3 text-3xl"> 
         {typeof icon === "string" ? (
