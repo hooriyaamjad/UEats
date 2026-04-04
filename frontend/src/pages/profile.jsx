@@ -7,6 +7,7 @@ import PlaceholderProfilePic from "../assets/placeholder_pfp.png";
 import { Pencil, LogOut } from "lucide-react";
 import ConfirmationPopup from "../components/ConfirmationPopup";
 import preferencesIcon from "../assets/preferences.png";
+import reviewsIcon from "../assets/reviews.png";
 import ProfileRouteCard from "../components/ProfileRouteCard";
 
 const TABS = ["My Reviews", "My Recommendations", "My Preferences"];
@@ -113,6 +114,12 @@ export default function ViewRestaurants() {
           <ProfileRouteCard
             icon={preferencesIcon}
             text="Your Preferences"
+            to="/preferences"
+          />
+
+          <ProfileRouteCard
+            icon={reviewsIcon}
+            text="Your Reviews"
             to="/preferences"
           />
          
