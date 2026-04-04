@@ -107,7 +107,9 @@ export default function Preferences() {
           error?.response?.data || error.message
         );
         setError("Could not load saved preferences."); 
-      } 
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchPreferences();
