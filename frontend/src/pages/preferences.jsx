@@ -71,6 +71,25 @@ export default function Preferences() {
         price_range: String(priceRange),
       },
     };
+
+    try {
+      const response = await api.put(
+        "/profiles/preferences/",
+        updatedJson,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Preferences saved:", response.data);
+    } catch (error) {
+      console.error(
+        "Failed to save preferences:",
+        error?.response?.data || error.message
+      );
+    }
   };
 
   const isItemSelected = (item, selectedItems) => {
