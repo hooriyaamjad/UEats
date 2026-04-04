@@ -112,7 +112,6 @@ export default function Preferences() {
           <div className="font-sans max-[393px]:max-w-full">
             <Header
               showBack={true}
-              onBack={() => navigate(-1)}
               title="Your Preferences"
             />
 

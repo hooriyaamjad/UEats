@@ -1,12 +1,11 @@
 import MapPin from "../assets/map_pin.png";
-import { ArrowLeft } from "lucide-react";
+import BackButton from "../components/BackButton";
 
 const Header = ({
   title = "University of Calgary", // TODO: change to be dynamic?
   showLocation = true,
   className = "",
   showBack = false,
-  onBack,
 }) => {
   return (
     <header className={`w-full bg-[#f5f4f2] px-4 md:px-6 py-3 ${className}`}>
@@ -24,13 +23,7 @@ const Header = ({
           <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2">
 
             {showBack ? (
-              <button
-                onClick={() => onBack && onBack()}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-black shadow-sm hover:bg-gray-100"
-                aria-label="Go back"
-              >
-                <ArrowLeft size={18} />
-              </button>
+              <BackButton />
             ) : (
               <img
                 src={MapPin}
