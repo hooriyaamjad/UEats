@@ -9,6 +9,7 @@ import ConfirmationPopup from "../components/ConfirmationPopup";
 import preferencesIcon from "../assets/preferences.png";
 import reviewsIcon from "../assets/reviews.png";
 import recommendationsIcon from "../assets/recommendations.png";
+import settingsIcon from "../assets/settings.png";
 import ProfileRouteCard from "../components/ProfileRouteCard";
 
 const TABS = ["My Reviews", "My Recommendations", "My Preferences"];
@@ -77,19 +78,7 @@ export default function ViewRestaurants() {
           {profile.email}
         </div>
         <div className="flex items-center gap-4 justify-center text-gray-600">
-          <button
-            className="flex items-center gap-2 bg-white rounded-2xl px-5 py-2 text-sm font-semibold shadow-sm 
-  cursor-pointer hover:shadow-md hover:bg-gray-50 hover:scale-105 
-  transition-all duration-200"
-            onClick={() =>
-              navigate("/edit-profile", {
-                state: { profileData: profile },
-              })
-            }
-          >
-            <Pencil size={16} />
-            Edit Profile
-          </button>
+          
           <button
             className="flex items-center gap-2 bg-red-500 rounded-2xl px-5 py-2 text-sm text-white font-semibold shadow-sm 
   cursor-pointer hover:shadow-md hover:bg-red-600 hover:scale-105 
@@ -113,6 +102,13 @@ export default function ViewRestaurants() {
 
         <div className="grid grid-cols-2 gap-4">
           <ProfileRouteCard
+            icon={settingsIcon}
+            text="Edit Profile"
+            to="/edit-profile"
+            state={{ profileData: profile }}
+          />
+
+          <ProfileRouteCard
             icon={preferencesIcon}
             text="My Preferences"
             to="/preferences"
@@ -130,7 +126,6 @@ export default function ViewRestaurants() {
             text="My Recommendations"
             to="/preferences"
           />
-         
         </div>
  
       </main>
