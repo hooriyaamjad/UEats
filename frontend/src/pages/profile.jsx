@@ -8,6 +8,7 @@ import { Pencil, LogOut } from "lucide-react";
 import ConfirmationPopup from "../components/ConfirmationPopup";
 import preferencesIcon from "../assets/preferences.png";
 import reviewsIcon from "../assets/reviews.png";
+import recommendationsIcon from "../assets/recommendations.png";
 import ProfileRouteCard from "../components/ProfileRouteCard";
 
 const TABS = ["My Reviews", "My Recommendations", "My Preferences"];
@@ -113,13 +114,20 @@ export default function ViewRestaurants() {
         <div className="grid grid-cols-2 gap-4">
           <ProfileRouteCard
             icon={preferencesIcon}
-            text="Your Preferences"
+            text="My Preferences"
+            to="/preferences"
+          />
+
+          {/* fix routing for these two cards once those pages are implemented */}  
+          <ProfileRouteCard
+            icon={reviewsIcon}
+            text="My Reviews"
             to="/preferences"
           />
 
           <ProfileRouteCard
-            icon={reviewsIcon}
-            text="Your Reviews"
+            icon={recommendationsIcon}
+            text="My Recommendations"
             to="/preferences"
           />
          
