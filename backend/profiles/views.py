@@ -59,3 +59,16 @@ class ProfileViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+
+    @action(detail=False, methods=["put"], url_path="preferences")
+    def update_preferences(self, request):
+        profile = request.user.profile
+        preferences = request.data.get("preferences")
+
+        profile.preferences = preferences
+        profile.save()
+
+        return Response(
+            {"preferences": profile.preferences},
+            status=status.HTTP_200_OK
+        )
