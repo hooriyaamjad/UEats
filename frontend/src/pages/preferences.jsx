@@ -31,23 +31,6 @@ const allergenOptions = [
 ];
 
 export default function Preferences() {
-  const [currentUser, setCurrentUser] = useState(null);
-  
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-      try {
-        const response = await api.get("/profiles/me/");
-        setCurrentUser(response.data);
-      } catch (error) {
-        console.error(
-          "Failed to fetch current user:",
-          error?.response?.data || error.message
-        );
-      } 
-    };
-
-    fetchCurrentUser();
-  }, []);
 
   const [priceRange, setPriceRange] = useState(100);
   const [selectedDietary, setSelectedDietaryRestrictions] = useState([]);
@@ -147,7 +130,6 @@ export default function Preferences() {
   
   return (
     <div className="font-sans max-[393px]:max-w-full">
-      <p>Logged in as: {currentUser?.email || "Loading..."}</p>
       <Header
         showBack={true}
         title="Your Preferences"
