@@ -170,6 +170,7 @@ export default function Preferences() {
       />
 
       <div className="mx-auto pt-[5px] px-[20px] pb-[20px] text-[14px]">
+        {error && <p className="mb-3 text-sm text-red-500">{error}</p>}
 
         <h2 className="pt-5 mb-[10px] text-[18px] font-bold">
           Dietary Restrictions
