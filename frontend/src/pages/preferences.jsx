@@ -92,6 +92,27 @@ export default function Preferences() {
     );
   };
 
+  useEffect(() => {
+    const fetchPreferences = async () => {
+      try {
+        const response = await api.get("/profiles/me/");
+        const savedPreferences = response.data?.preferences || {};
+
+        setSelectedDietaryRestrictions(savedPreferences.dietary || []);
+        setSelectedAllergens(savedPreferences.allergens || []);
+        setPriceRange(Number(savedPreferences.price_range || 100));
+      } catch (error) {
+        console.error(
+          "Failed to fetch preferences:",
+          error?.response?.data || error.message
+        );
+        setError("Could not load saved preferences."); 
+      } 
+    };
+
+    fetchPreferences();
+  }, []);
+
   const preferencesChips = (options, selectedItems, setSelectedItems, type) => {
     return (
       <div className="flex flex-wrap gap-4">
