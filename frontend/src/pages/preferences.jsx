@@ -39,14 +39,6 @@ export default function Preferences() {
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(""); 
 
-  const [savedJson, setSavedJson] = useState({
-    preferences: {
-      dietary: [],
-      allergens: [],
-      price_range: "100",
-    },
-  });
-
   const handleSave = async () => {
     const token = localStorage.getItem("access_token");
 
