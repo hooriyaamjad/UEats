@@ -65,6 +65,12 @@ class ProfileViewSet(viewsets.ModelViewSet):
         profile = request.user.profile
         preferences = request.data.get("preferences")
 
+        if preferences is None:
+            return Response(
+                {"error": "Preferences field is required."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
         profile.preferences = preferences
         profile.save()
 
