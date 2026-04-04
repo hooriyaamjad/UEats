@@ -4,12 +4,17 @@ export default function ProfileRouteCard({
   icon,
   text,
   to,
+  state,
 }) {
   const navigate = useNavigate();
 
   return (
     <div
-      onClick={() => navigate(to)}
+      onClick={() =>
+        navigate(to, {
+          state,
+        })
+      }
       className={`
         flex flex-col justify-center items-center text-center
         cursor-pointer
