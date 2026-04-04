@@ -11,7 +11,7 @@ export default function ProfileRouteCard({
     <div
       onClick={() => navigate(to)}
       className={`
-        flex flex-col justify-center
+        flex flex-col justify-center items-center text-center
         cursor-pointer
         bg-gray-100
         rounded-xl
@@ -19,7 +19,7 @@ export default function ProfileRouteCard({
         hover:shadow-md
         transition
         px-4 py-5
-        w-full max-w-[160px]  
+        w-full max-w-[160px]
       `}
     >
       <div className="mb-3 text-3xl"> 

@@ -112,7 +112,7 @@ export default function ViewRestaurants() {
         <div className="grid grid-cols-2 gap-4">
           <ProfileRouteCard
             icon={preferencesIcon}
-            text="Preferences"
+            text="Your Preferences"
             to="/preferences"
           />
          
