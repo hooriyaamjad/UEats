@@ -61,7 +61,9 @@ export default function Preferences() {
     },
   });
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    const token = localStorage.getItem("access_token");
+
     const updatedJson = {
       preferences: {
         dietary: selectedDietary,
@@ -69,8 +71,6 @@ export default function Preferences() {
         price_range: String(priceRange),
       },
     };
-    setSavedJson(updatedJson);
-    console.log("Saved JSON:", updatedJson);
   };
 
   const isItemSelected = (item, selectedItems) => {
