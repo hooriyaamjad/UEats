@@ -36,6 +36,9 @@ export default function Preferences() {
   const [selectedDietary, setSelectedDietaryRestrictions] = useState([]);
   const [selectedAllergens, setSelectedAllergens] = useState([]);
 
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(""); 
+
   const [savedJson, setSavedJson] = useState({
     preferences: {
       dietary: [],
