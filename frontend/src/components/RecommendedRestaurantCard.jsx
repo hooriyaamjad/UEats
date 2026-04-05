@@ -35,6 +35,19 @@ export default function RecommendedRestaurantCard({
             {opening} - {closing}
             </p>
 
+            {dietary.length > 0 && (
+                <div className="flex flex-wrap gap-1 mt-1">
+                    {dietary.map((item) => (
+                    <span
+                        key={item}
+                        className="text-[10px] bg-green-100 text-green-700 px-2 py-[2px] rounded-full font-medium"
+                    >
+                        {item}
+                    </span>
+                    ))}
+                </div>
+            )}
+
         </div>
     </div>
   );
