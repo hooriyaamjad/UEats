@@ -34,6 +34,12 @@ export default function Recommendations() {
       />
 
       <div className="mx-auto pt-[5px] px-[20px] pb-[20px] text-[14px]">
+
+        <RecommendedRestaurantCard  
+          image="https://images.unsplash.com/photo-1555992336-03a23c0e9b9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cmVzdGF1cmFudHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
+          maxPrice={20}
+          rating={4.5}
+        />
       </div>
       <BottomNavBar />
     </div>
