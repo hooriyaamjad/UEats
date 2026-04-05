@@ -6,6 +6,8 @@ import RecommendedRestaurantCard from "../components/RecommendedRestaurantCard";
 
 export default function Recommendations() {
   const [preferences, setPreferences] = useState(null);
+  const [restaurants, setRestaurants] = useState([]);
+  const [matchedRestaurants, setMatchedRestaurants] = useState([]);
 
   useEffect(() => {
     const fetchPreferences = async () => {
@@ -38,6 +40,8 @@ export default function Recommendations() {
           console.log("Allergens:", restaurant.allergens);
           console.log("Max price:", restaurant.max_price);
         });
+
+        setRestaurants(restaurants);
       } catch (error) {
         console.error("Failed to fetch restaurants:", error?.response?.data || error.message);
       } 
