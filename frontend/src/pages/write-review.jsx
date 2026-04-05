@@ -161,6 +161,14 @@ export default function WriteReview() {
       setError("Please select a star rating.");
       return;
     }
+    if (!description.trim()) {
+      setError("Please write something about your experience.");
+      return;
+    }
+    if (tags.length === 0) {
+      setError("Please add at least one tag.");
+      return;
+    }
     setSubmitting(true);
     setError(null);
     try {
