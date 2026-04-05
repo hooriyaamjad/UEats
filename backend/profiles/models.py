@@ -11,6 +11,7 @@ class Profile(models.Model):
     works_for = models.ForeignKey('restaurants.Restaurant', models.DO_NOTHING, related_name='employees', null=True, blank=True)
     university = models.CharField()
     student_id = models.CharField(blank=True, null=True)
+    image_url = models.URLField(max_length=1000,blank=True, null=True, default="")
     favourites = models.ManyToManyField(
         'restaurants.Restaurant',
         blank=True,

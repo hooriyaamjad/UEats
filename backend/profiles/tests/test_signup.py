@@ -22,6 +22,7 @@ class SignupTest(APITestCase):
                 "is_student": True,
                 "university": "UCalgary",
                 "student_id": "12345",
+                "image_url": "",
                 "preferences": {"halal": True}
             }
         }
@@ -75,6 +76,7 @@ class SignupTest(APITestCase):
         payload = self.valid_payload.copy()
         payload['username'] = "new_user"
         del payload['profile']['student_id']
+        del payload['profile']['image_url']
         del payload['profile']['preferences']
         response = self.client.post(self.signup_url, payload, format='json')
 

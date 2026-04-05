@@ -1,7 +1,6 @@
 import api from "../utils/api";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect} from "react";
-import "./preferences.css";
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
 import ExpandedRestaurantCard from "../components/ExpandedRestaurantCard";
@@ -47,8 +46,7 @@ export default function ViewRestaurants() {
   return (
     <div className="min-h-screen bg-[#f5f4f2]">
       <Header
-        showBack={true}
-        onBack={() => navigate(-1)}
+        showBack={false}
         title="University of Calgary"
       />
 

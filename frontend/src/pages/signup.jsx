@@ -1,104 +1,58 @@
-import api from "../utils/api";
-
-import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
-const signup = async ({ username, email, password, isStudent, university, studentId }) => {
-  const payload = {
-    username,
-    email,
-    password,
-    profile: {
-      is_student: isStudent,
-      university,
-      student_id: studentId,
-    },
-  };
-
-  try {
-    const response = await api.post("/profiles/signup/", payload);
-    if (response.data?.tokens) {
-      localStorage.setItem("access_token", response.data.tokens.access);
-      localStorage.setItem("refresh_token", response.data.tokens.refresh);
-      return true;
-    }
-  } catch (error) {
-    console.error("Signup failed:", error?.response?.data);
-  }
-
-  return false;
-};
+import { useSignup } from "../context/SignupContext";
+import { useState } from "react";
+import BackButton from "../components/BackButton";
 
 export default function Signup() {
   const navigate = useNavigate();
+  const { update } = useSignup();
 
-  const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isStudent, setIsStudent] = useState(false);
-  const [university, setUniversity] = useState("");
-  const [studentId, setStudentId] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const success = await signup({
-      username,
-      email,
-      password,
-      isStudent,
-      university,
-      studentId,
-    });
-
-    if (success) {
-      navigate("/home");
-    }
+  const handleNext = () => {
+    update({ username: email, email, password, firstName, lastName });
+    navigate("/signup/role");
   };
-
   return (
-    <div>
-      Signup
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Username"
-        />
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-        />
-        <label>
-          <input
-            type="checkbox"
-            checked={isStudent}
-            onChange={(e) => setIsStudent(e.target.checked)}
-          />
-          Is student
-        </label>
-        <input
-          type="text"
-          value={university}
-          onChange={(e) => setUniversity(e.target.value)}
-          placeholder="University"
-        />
-        <input
-          type="text"
-          value={studentId}
-          onChange={(e) => setStudentId(e.target.value)}
-          placeholder="University ID"
-        />
-        <button type="submit">Sign Up</button>
-      </form>
-    </div>
+    <main className="min-h-screen flex flex-col items-center justify-center bg-white gap-[8px] px-8">
+          <div className="absolute top-4 left-4">
+            <BackButton to="/"/>
+          </div>
+          <img src="/src/assets/ueats_logo.png" alt="UEats logo" className="w-[12rem] h-[9rem] object-contain" />
+          <h1 className="w-full max-w-[25rem] text-center text-black text-[2.5rem] font-bold">Sign Up</h1>
+          <form className="flex flex-col text-[1.2rem] md:text-[1.5rem] mb-4 w-full max-w-[25rem] gap-1">
+            <label htmlFor="firstName">First Name</label>
+            <input id="firstName" type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="w-full h-[3rem] md:h-[3.5rem] bg-[#F3F3F3] text-[#726F6F] p-4 mb-2" placeholder="John"/>
+
+            <label htmlFor="lastName">Last Name</label>
+            <input id="lastName" type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} className="w-full h-[3rem] md:h-[3.5rem] bg-[#F3F3F3] text-[#726F6F] p-4 mb-2" placeholder="Doe"/>
+
+            <label htmlFor="email">Email</label>
+            <input id="email" type="email" onChange={(e) => setEmail(e.target.value)} className="w-full h-[3rem] md:h-[3.5rem] bg-[#F3F3F3] text-[#726F6F] p-4 mb-2" placeholder="example@ucalgary.ca"/>
+
+            <label>Password</label>
+            <input id="password" type="password" onChange={(e) => setPassword(e.target.value)} className="w-full h-[3rem] md:h-[3.5rem] bg-[#F3F3F3] text-[#726F6F] p-4 mb-2" placeholder="Password"/>
+
+            <label>Confirm Password</label>
+            <input id="confirmPassword" type="password" className="w-full h-[3rem] md:h-[3.5rem] bg-[#F3F3F3] text-[#726F6F] p-4 mb-2" placeholder="Repeat Password"/>
+            
+            <div className="flex flex-row items-center justify-center mb-8 gap-[2rem]">
+              <div className="w-[1.5rem]" />
+              <button type="button" onClick={handleNext} className="flex items-center justify-center rounded-[5px] bg-[#E50000] w-full max-w-[10rem] h-[3rem] md:h-[3.5rem] text-white text-[1.5rem] md:text-[2rem] font-bold hover:brightness-95 cursor-pointer">
+                Next
+              </button>
+              <Link to="/help" className="w-[1.5rem] flex justify-center">
+                <img src="/src/assets/help_icon.png" className="w-[1.5rem] h-[1.5rem] hover:brightness-95 cursor-pointer" />
+              </Link>
+            </div>
+          </form>
+
+            
+          
+        </main>
   );
 }
