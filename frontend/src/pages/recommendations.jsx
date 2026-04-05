@@ -6,7 +6,6 @@ import RecommendedRestaurantCard from "../components/RecommendedRestaurantCard";
 
 export default function Recommendations() {
 
-  
   useEffect(() => {
     const fetchPreferences = async () => {
       try {
@@ -24,6 +23,26 @@ export default function Recommendations() {
     };
 
     fetchPreferences();
+  }, []);
+
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      try {
+        const response = await api.get("/restaurants/");
+        const restaurants = response.data;
+        console.log("All restaurants:", restaurants);
+
+        restaurants.forEach((restaurant) => {
+          console.log("Dietary:", restaurant.dietary_restrictions);
+          console.log("Allergens:", restaurant.allergens);
+          console.log("Max price:", restaurant.max_price);
+        });
+      } catch (error) {
+        console.error("Failed to fetch restaurants:", error?.response?.data || error.message);
+      } 
+    };
+
+    fetchRestaurants();
   }, []);
   
   return (
