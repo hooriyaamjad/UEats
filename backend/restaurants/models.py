@@ -10,6 +10,8 @@ class Restaurant(models.Model):
     menu_items = models.JSONField(default=list, blank=True)
     min_price = models.DecimalField(max_digits=6, decimal_places=2)
     max_price = models.DecimalField(max_digits=6, decimal_places=2)
+    dietary_restrictions = models.JSONField(blank=True, default=list)
+    allergens = models.JSONField(blank=True, default=list)
     days_of_operation = models.CharField(max_length=255)
     opening_hours = models.CharField(max_length=255)
     closing_hours = models.CharField(max_length=255)

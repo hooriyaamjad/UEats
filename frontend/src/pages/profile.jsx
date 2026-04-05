@@ -124,7 +124,7 @@ export default function ViewRestaurants() {
           <ProfileRouteCard
             icon={recommendationsIcon}
             text="My Recommendations"
-            to="/preferences"
+            to="/recommendations"
           />
         </div>
  
