@@ -106,7 +106,11 @@ export default function Recommendations() {
             ))}
           </div>
         ) : (
-          <p>No restaurants matched your preferences.</p>
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <p className="bg-gray-100 text-gray-600 text-sm font-medium px-6 py-4 rounded-xl shadow-sm text-center">
+              No restaurants matched your preferences.
+            </p>
+          </div>
         )}
 
       </div>
