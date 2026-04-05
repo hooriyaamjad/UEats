@@ -60,6 +60,10 @@ export default function Recommendations() {
         restaurantDietary.includes(dietaryRestriction)
       );
 
+      const matchesAllergens = userAllergens.every((allergen) =>
+        !restaurantAllergens.includes(allergen)
+      );
+
       return 
     });
 
