@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useSignup } from "../context/SignupContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../utils/api";
 import BackButton from "../components/BackButton";
 
@@ -9,32 +9,23 @@ export default function SignupRole() {
   const { signupData, update } = useSignup();
   const [role, setRole] = useState("student");
   const [studentId, setStudentId] = useState("");
-  const RESTAURANTS = [
-    "A&W",
-    "Bake Chef Co.",
-    "Canadian Pizza Unlimited",
-    "Carl's Jr.",
-    "Chaiiwala of London",
-    "Coffee Company",
-    "Dairy Queen/Orange Julius",
-    "The Den & Black Lounge",
-    "Freshco Poke",
-    "Jugo Juice",
-    "Kobe Beef",
-    "Korean BBQ",
-    "La Fe Dim Sum",
-    "Last Defence Lounge",
-    "Mr. Pretzels",
-    "Noodle and Grill Express",
-    "OPA! of Greece",
-    "Starbucks",
-    "Stör",
-    "Subway",
-    "Tim Hortons",
-    "Tim Hortons Express",
-    "True Eats",
-    "Umi Sushi",
-  ];
+  const [restaurants, setRestaurants] = useState([]);
+
+  useEffect(() => {
+    api
+      .get("/restaurants/")
+      .then((res) => {
+        setRestaurants(
+          res.data.map((restaurant) => ({
+            id: restaurant.id,
+            name: restaurant.name,
+          }))
+        );
+      })
+      .catch((error) => {
+        console.error("Failed to load restaurants:", error);
+      });
+  }, []);
 
   const handleSubmit = async () => {
 
@@ -49,6 +40,7 @@ export default function SignupRole() {
           is_student: role === "student",
           university: "UCalgary",
           student_id: role === "student" ? studentId : null,
+          works_for: role === "student" ? null : role
         },
       });
 
@@ -73,8 +65,10 @@ export default function SignupRole() {
           <form className="flex items-center flex-col gap-[8px] mb-12 w-full max-w-[25rem]">
             <select id="role" value={role} onChange={(e) => setRole(e.target.value)} className="bg-[#F3F3F3] w-full px-[1rem] pr-[2rem] py-[0.75rem] h-[3rem] md:h-[3.5rem] text-[1.2rem] md:text-[1.5rem] hover:brightness-95 cursor-pointer mb-[1.5rem]">
               <option value="student">No Selection (I'm a Student)</option>
-              {RESTAURANTS.map((name) => (
-                <option key={name} value={name}>{name}</option>
+              {restaurants.map((restaurant) => (
+                <option key={restaurant.id} value={restaurant.id}>
+                  {restaurant.name}
+                </option>
               ))}
             </select>
 
