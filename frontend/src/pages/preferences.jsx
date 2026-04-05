@@ -141,9 +141,9 @@ export default function Preferences() {
                   ? type === "dietary"
                     ? "#d9e8c8"
                     : "#f7c4c4"
-                  : "transparent",
+                  : "white",
                 color: "#111",
-                border: "none",
+                border: "1px solid #e5e7eb",
                 fontWeight: 700,
                 fontSize: "14px",
               }}
