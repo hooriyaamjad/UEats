@@ -321,7 +321,7 @@ function RecommendationsTab({ restaurantId }) {
                   <div className="flex items-center gap-2 shrink-0">
                     {isOwner ? (
                       <>
-                        <button aria-label="Edit recommendation">
+                        <button aria-label="Edit recommendation" onClick={() => navigate(`/restaurant/${restaurantId}/recommendations/${recc.id}`)}>
                           <Pencil className="h-4 w-4 text-gray-400 hover:text-gray-600 transition-colors" />
                         </button>
                         <button

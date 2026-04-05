@@ -4,8 +4,8 @@ import { ChevronLeft } from "lucide-react";
 import api from "../utils/api";
 import BottomNavBar from "../components/BottomNavBar";
 
-export default function WriteRecommendation() {
-  const { id } = useParams();
+export default function WriteRecommendation({ edit_mode = false }) {
+  const { id, recc_id } = useParams();
   const navigate = useNavigate();
   const [restaurantName, setRestaurantName] = useState("");
   const [description, setDescription] = useState("");
@@ -17,13 +17,24 @@ export default function WriteRecommendation() {
       .get(`/restaurants/${id}/`)
       .then((res) => setRestaurantName(res.data.name))
       .catch(() => {});
-  }, [id]);
+
+      if (edit_mode) {
+        api.get(`/restaurants/${id}/recommendations/${recc_id}`)
+        .then((res) => setDescription(res.data.description))
+      }
+  }, [id, edit_mode, recc_id]);
 
   const handleSubmit = async () => {
     setSubmitting(true);
     setError(null);
     try {
-      await api.post(`/restaurants/${id}/recommendations/`, { description });
+      if (edit_mode && recc_id) {
+        await api.patch(`/restaurants/${id}/recommendations/${recc_id}/`, {
+          description,
+        });
+      } else {
+        await api.post(`/restaurants/${id}/recommendations/`, { description });
+      }
       navigate(`/restaurant/${id}/recommendations`);
     } catch (err) {
       console.error("Failed to submit recommendation:", err);
@@ -84,7 +95,11 @@ export default function WriteRecommendation() {
           className="w-full rounded-2xl bg-red-500 py-3 text-sm font-semibold text-white shadow-sm
             hover:bg-red-600 transition-colors disabled:opacity-60"
         >
-          {submitting ? "Submitting..." : "Submit Recommendation"}
+          {submitting
+            ? "Submitting..."
+            : edit_mode
+            ? "Save Recommendation"
+            : "Submit Recommendation"}
         </button>
       </div>
 

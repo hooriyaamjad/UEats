@@ -39,6 +39,7 @@ export default function App() {
         <Route path="/preferences" element={<Preferences />} />
         <Route path="/restaurant/:id/reviews/new" element={<WriteReview />} />
         <Route path="/restaurant/:id/recommendations/new" element={<WriteRecommendation/>}/>
+        <Route path="/restaurant/:id/recommendations/:recc_id" element={<WriteRecommendation edit_mode={true}/>}/>
         <Route element={<ProtectedRoute />}>
           <Route path="/home" element={<Home />} />
         </Route>
