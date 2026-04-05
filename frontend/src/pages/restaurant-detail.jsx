@@ -343,6 +343,18 @@ function ReviewsTab({ restaurantId, restaurantRating }) {
                     {review.description}
                   </p>
                 )}
+                {review.tags && review.tags.length > 0 && (
+                  <div className="mt-2 pl-12 flex flex-wrap gap-1.5">
+                    {review.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-600"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
             );
           })}
