@@ -14,8 +14,6 @@ export default function Recommendations() {
       try {
         const response = await api.get("/profiles/me/");
         const savedPreferences = response.data?.preferences || {};
-
-        console.log("Fetched preferences:", savedPreferences);
         setPreferences(savedPreferences);
       } catch (error) {
         console.error(
@@ -49,6 +47,16 @@ export default function Recommendations() {
 
     fetchRestaurants();
   }, []);
+
+  useEffect(() => {
+    const userDietary = (preferences.dietary || []).map((i) => i.toLowerCase());
+    const userAllergens = (preferences.allergens || []).map((i) => i.toLowerCase());
+    const userMaxPrice = Number(preferences.price_range || 100);
+
+    console.log("User dietary:", userDietary);
+    console.log("User allergens:", userAllergens);
+    console.log("User max price:", userMaxPrice);
+  }, [preferences, restaurants]);
   
   return (
     <div className="font-sans max-[393px]:max-w-full">
