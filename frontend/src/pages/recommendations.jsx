@@ -2,6 +2,7 @@ import Header from "../components/Header";
 import BottomNavBar from "../components/BottomNavBar";
 import api from "../utils/api";
 import { useEffect } from "react";
+import RecommendedRestaurantCard from "../components/RecommendedRestaurantCard";
 
 export default function Recommendations() {
 
@@ -33,9 +34,6 @@ export default function Recommendations() {
       />
 
       <div className="mx-auto pt-[5px] px-[20px] pb-[20px] text-[14px]">
-
-
-
       </div>
       <BottomNavBar />
     </div>
