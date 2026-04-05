@@ -6,6 +6,7 @@ import SignupRole from "./pages/signupRole";
 import SignupConfirmation from "./pages/signupConfirmation";
 import Home from "./pages/home";
 import Preferences from "./pages/preferences";
+import Recommendations from "./pages/recommendations";
 import { SignupProvider } from "./context/SignupContext";
 import ViewRestaurants from "./pages/view-restaurants";
 import Profile from "./pages/profile";
@@ -37,6 +38,7 @@ export default function App() {
         <Route path="/restaurant/:id" element={<RestaurantRedirect />} />
         <Route path="/restaurant/:id/:tab" element={<RestaurantDetail />} />
         <Route path="/preferences" element={<Preferences />} />
+        <Route path="/recommendations" element={<Recommendations />} />
         <Route path="/restaurant/:id/reviews/new" element={<WriteReview />} />
         <Route path="/restaurant/:id/recommendations/new" element={<WriteRecommendation/>}/>
         <Route path="/restaurant/:id/recommendations/:recc_id" element={<WriteRecommendation edit_mode={true}/>}/>
