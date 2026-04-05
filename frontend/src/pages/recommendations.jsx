@@ -95,6 +95,7 @@ export default function Recommendations() {
               <RecommendedRestaurantCard
                 key={restaurant.id}
                 image={restaurant.image_url}
+                name={restaurant.name}
                 maxPrice={restaurant.max_price}
                 rating={restaurant.rating}
                 opening={restaurant.opening_hours}
@@ -106,7 +107,7 @@ export default function Recommendations() {
         ) : (
           <p>No restaurants matched your preferences.</p>
         )}
-        
+
       </div>
       <BottomNavBar />
     </div>

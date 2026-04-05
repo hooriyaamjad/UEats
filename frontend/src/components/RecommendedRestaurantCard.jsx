@@ -2,6 +2,7 @@ import { Star } from "lucide-react";
 
 export default function RecommendedRestaurantCard({
   image,
+  name,
   maxPrice,
   dietary = [],
   opening,
@@ -17,6 +18,7 @@ export default function RecommendedRestaurantCard({
         />
 
         <div className="p-4 flex flex-col gap-2">
+            <h2 className="text-lg font-bold text-black">{name}</h2>
 
             <div className="flex justify-between items-center">
             <p className="text-sm font-semibold text-gray-700">
