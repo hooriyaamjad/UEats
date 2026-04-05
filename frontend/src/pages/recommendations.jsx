@@ -43,9 +43,11 @@ export default function Recommendations() {
   }, []);
 
   useEffect(() => {
-    const userDietary = (preferences?.dietary || []).map((i) => i.toLowerCase());
-    const userAllergens = (preferences?.allergens || []).map((i) => i.toLowerCase());
-    const userMaxPrice = Number(preferences?.price_range || 100);
+    if (!preferences || restaurants.length === 0) return;
+
+    const userDietary = (preferences.dietary || []).map((i) => i.toLowerCase());
+    const userAllergens = (preferences.allergens || []).map((i) => i.toLowerCase());
+    const userMaxPrice = Number(preferences.price_range || 100);
 
     console.log("User dietary:", userDietary);
     console.log("User allergens:", userAllergens);
@@ -54,7 +56,7 @@ export default function Recommendations() {
     const restaurantsMatched = restaurants.filter((restaurant) => {
       const restaurantDietary = (restaurant.dietary_restrictions || []).map((i) => i.toLowerCase());
       const restaurantAllergens = (restaurant.allergens || []).map((i) => i.toLowerCase());
-      const restaurantMaxPrice = Number(restaurant.max_price);
+      const restaurantMinPrice = Number(restaurant.min_price);
 
       const matchesDietary = userDietary.every((dietaryRestriction) =>
         restaurantDietary.includes(dietaryRestriction)
@@ -64,9 +66,14 @@ export default function Recommendations() {
         !restaurantAllergens.includes(allergen)
       );
 
-      const matchesPrice = restaurantMaxPrice <= userMaxPrice;
+      const matchesPrice = restaurantMinPrice <= userMaxPrice;
+      
+      if (matchesDietary && matchesAllergens && matchesPrice) {
+        console.log("Matched restaurant:", restaurant.name);
+        return true;
+      }
 
-      return 
+      return false
     });
 
     setMatchedRestaurants(restaurantsMatched);
