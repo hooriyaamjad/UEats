@@ -46,10 +46,21 @@ export default function Recommendations() {
     const userDietary = (preferences?.dietary || []).map((i) => i.toLowerCase());
     const userAllergens = (preferences?.allergens || []).map((i) => i.toLowerCase());
     const userMaxPrice = Number(preferences?.price_range || 100);
-    
+
     console.log("User dietary:", userDietary);
     console.log("User allergens:", userAllergens);
     console.log("User max price:", userMaxPrice);
+
+    const restaurantsMatched = restaurants.filter((restaurant) => {
+      const restaurantDietary = (restaurant.dietary_restrictions || []).map((i) => i.toLowerCase());
+      const restaurantAllergens = (restaurant.allergens || []).map((i) => i.toLowerCase());
+      const restaurantMaxPrice = Number(restaurant.max_price);
+
+      return 
+    });
+
+    setMatchedRestaurants(restaurantsMatched);
+
   }, [preferences, restaurants]);
   
   return (
