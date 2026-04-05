@@ -3,6 +3,7 @@ import BottomNavBar from "../components/BottomNavBar";
 import api from "../utils/api";
 import { useEffect } from "react";
 import RecommendedRestaurantCard from "../components/RecommendedRestaurantCard";
+import { useState } from "react";
 
 export default function Recommendations() {
   const [preferences, setPreferences] = useState(null);
@@ -32,13 +33,6 @@ export default function Recommendations() {
         const response = await api.get("/restaurants/");
         const restaurants = response.data;
         console.log("All restaurants:", restaurants);
-
-        restaurants.forEach((restaurant) => {
-          console.log("Dietary:", restaurant.dietary_restrictions);
-          console.log("Allergens:", restaurant.allergens);
-          console.log("Max price:", restaurant.max_price);
-        });
-
         setRestaurants(restaurants);
       } catch (error) {
         console.error("Failed to fetch restaurants:", error?.response?.data || error.message);
@@ -49,10 +43,10 @@ export default function Recommendations() {
   }, []);
 
   useEffect(() => {
-    const userDietary = (preferences.dietary || []).map((i) => i.toLowerCase());
-    const userAllergens = (preferences.allergens || []).map((i) => i.toLowerCase());
-    const userMaxPrice = Number(preferences.price_range || 100);
-
+    const userDietary = (preferences?.dietary || []).map((i) => i.toLowerCase());
+    const userAllergens = (preferences?.allergens || []).map((i) => i.toLowerCase());
+    const userMaxPrice = Number(preferences?.price_range || 100);
+    
     console.log("User dietary:", userDietary);
     console.log("User allergens:", userAllergens);
     console.log("User max price:", userMaxPrice);
