@@ -13,7 +13,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ["id", "first_name", "last_name", "email", "is_student", "university", "student_id", "image_url", "preferences"]
+        fields = ["id", "first_name", "last_name", "email", "is_student", "university", "student_id", "image_url", "preferences", "works_for"]
 
     def update(self, instance, validated_data):
         user_data = validated_data.pop("user", {})
@@ -39,7 +39,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 class SignupProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ["is_student", "university", "student_id", "image_url", "preferences"]
+        fields = ["is_student", "university", "student_id", "image_url", "preferences", "works_for"]
 
 class SignupSerializer(serializers.ModelSerializer):
     profile = SignupProfileSerializer()
