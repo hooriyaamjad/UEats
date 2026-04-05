@@ -56,6 +56,10 @@ export default function Recommendations() {
       const restaurantAllergens = (restaurant.allergens || []).map((i) => i.toLowerCase());
       const restaurantMaxPrice = Number(restaurant.max_price);
 
+      const matchesDietary = userDietary.every((dietaryRestriction) =>
+        restaurantDietary.includes(dietaryRestriction)
+      );
+
       return 
     });
 
