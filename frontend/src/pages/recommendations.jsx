@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import RecommendedRestaurantCard from "../components/RecommendedRestaurantCard";
 
 export default function Recommendations() {
+  const [preferences, setPreferences] = useState(null);
 
   useEffect(() => {
     const fetchPreferences = async () => {
@@ -13,7 +14,7 @@ export default function Recommendations() {
         const savedPreferences = response.data?.preferences || {};
 
         console.log("Fetched preferences:", savedPreferences);
-
+        setPreferences(savedPreferences);
       } catch (error) {
         console.error(
           "Failed to fetch preferences:",
