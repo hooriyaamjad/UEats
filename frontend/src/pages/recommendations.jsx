@@ -93,7 +93,7 @@ export default function Recommendations() {
           <div className="flex flex-col gap-4">
             {matchedRestaurants.map((restaurant) => (
               <RecommendedRestaurantCard
-                key={restaurant.id}
+                id={restaurant.id}
                 image={restaurant.image_url}
                 name={restaurant.name}
                 maxPrice={restaurant.max_price}
