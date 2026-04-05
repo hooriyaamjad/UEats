@@ -27,6 +27,7 @@ class Review(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='reviews')
     rating = models.DecimalField(max_digits=2, decimal_places=1, default=Decimal(0.0))
     description = models.TextField(blank=True)
+    tags = models.JSONField(default=list, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     restaurant_reply = models.TextField(blank=True, null=True)
