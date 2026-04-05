@@ -42,6 +42,7 @@ export default function Recommendations() {
           opening="10:00 AM"
           closing="10:00 PM"
           dietary={["Vegan", "Gluten-Free"]}
+          allergens={["Peanuts", "Dairy"]}
         />
       </div>
       <BottomNavBar />
