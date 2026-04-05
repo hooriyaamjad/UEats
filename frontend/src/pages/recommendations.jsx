@@ -101,6 +101,7 @@ export default function Recommendations() {
                 opening={restaurant.opening_hours}
                 closing={restaurant.closing_hours}
                 dietary={restaurant.dietary_restrictions || []}
+                allergens={preferences.allergens || []}
               />
             ))}
           </div>

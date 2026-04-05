@@ -5,6 +5,7 @@ export default function RecommendedRestaurantCard({
   name,
   maxPrice,
   dietary = [],
+  allergens = [],
   opening,
   closing,
   rating,
@@ -47,6 +48,20 @@ export default function RecommendedRestaurantCard({
                     ))}
                 </div>
             )}
+
+            {allergens.length > 0 && (
+                <div className="flex flex-wrap gap-1 mt-1">
+                    {allergens.map((item) => (
+                    <span
+                        key={item}
+                        className="text-[10px] bg-red-100 text-red-600 px-2 py-[2px] rounded-full font-medium"
+                    >
+                        <p>no {item}</p>
+                    </span>
+                    ))}
+                </div>
+            )}
+
         </div>
     </div>
   );
