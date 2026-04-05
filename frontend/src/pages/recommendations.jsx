@@ -56,7 +56,7 @@ export default function Recommendations() {
     const restaurantsMatched = restaurants.filter((restaurant) => {
       const restaurantDietary = (restaurant.dietary_restrictions || []).map((i) => i.toLowerCase());
       const restaurantAllergens = (restaurant.allergens || []).map((i) => i.toLowerCase());
-      const restaurantMinPrice = Number(restaurant.min_price);
+      const restaurantMaxPrice = Number(restaurant.max_price);
 
       const matchesDietary = userDietary.every((dietaryRestriction) =>
         restaurantDietary.includes(dietaryRestriction)
@@ -66,7 +66,7 @@ export default function Recommendations() {
         !restaurantAllergens.includes(allergen)
       );
 
-      const matchesPrice = restaurantMinPrice <= userMaxPrice;
+      const matchesPrice = restaurantMaxPrice <= userMaxPrice;
       
       if (matchesDietary && matchesAllergens && matchesPrice) {
         console.log("Matched restaurant:", restaurant.name);
@@ -100,7 +100,7 @@ export default function Recommendations() {
                 rating={restaurant.rating}
                 opening={restaurant.opening_hours}
                 closing={restaurant.closing_hours}
-                dietary={restaurant.dietary_restrictions || []}
+                dietary={preferences.dietary || []}
                 allergens={preferences.allergens || []}
               />
             ))}
