@@ -31,6 +31,10 @@ export default function RecommendedRestaurantCard({
             </div>
             </div>
 
+            <p className="text-xs text-gray-500">
+            {opening} - {closing}
+            </p>
+
         </div>
     </div>
   );
