@@ -51,14 +51,6 @@ export default function Recommendations() {
     fetchRestaurants();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center text-gray-500">
-        Loading...
-      </div>
-    );
-  }
-
   useEffect(() => {
     if (!preferences || restaurants.length === 0) return;
 
@@ -96,6 +88,14 @@ export default function Recommendations() {
     setMatchedRestaurants(restaurantsMatched);
 
   }, [preferences, restaurants]);
+
+   if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center text-gray-500">
+        Loading...
+      </div>
+    );
+  }
   
   return (
     <div className="font-sans max-[393px]:max-w-full">
