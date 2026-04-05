@@ -64,6 +64,8 @@ export default function Recommendations() {
         !restaurantAllergens.includes(allergen)
       );
 
+      const matchesPrice = restaurantMaxPrice <= userMaxPrice;
+
       return 
     });
 
