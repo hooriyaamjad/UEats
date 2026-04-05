@@ -10,6 +10,9 @@ export default function Recommendations() {
   const [restaurants, setRestaurants] = useState([]);
   const [matchedRestaurants, setMatchedRestaurants] = useState([]);
 
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(""); 
+
   useEffect(() => {
     const fetchPreferences = async () => {
       try {
@@ -21,7 +24,10 @@ export default function Recommendations() {
           "Failed to fetch preferences:",
           error?.response?.data || error.message
         );
-      } 
+        setError("Could not load saved preferences.");
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchPreferences();
@@ -36,11 +42,22 @@ export default function Recommendations() {
         setRestaurants(restaurants);
       } catch (error) {
         console.error("Failed to fetch restaurants:", error?.response?.data || error.message);
-      } 
+        setError("Could not load restaurants.");
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchRestaurants();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center text-gray-500">
+        Loading...
+      </div>
+    );
+  }
 
   useEffect(() => {
     if (!preferences || restaurants.length === 0) return;
@@ -88,6 +105,7 @@ export default function Recommendations() {
       />
 
       <div className="mx-auto pt-[5px] px-[20px] pb-[20px] text-[14px]">
+        {error && <p className="mb-3 text-sm text-red-500">{error}</p>}
 
         {matchedRestaurants.length > 0 ? (
           <div className="flex flex-col gap-4">
