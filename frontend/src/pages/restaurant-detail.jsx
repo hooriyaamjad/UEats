@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ChevronLeft, MapPin, Heart, BadgeCheck, Pencil, Trash2, TriangleAlert } from "lucide-react";
+import { ChevronLeft, MapPin, Heart, BadgeCheck, Pencil, Trash2, TriangleAlert, ChevronUp, ChevronDown } from "lucide-react";
 import api from "../utils/api";
 import BottomNavBar from "../components/BottomNavBar";
 
@@ -183,7 +183,7 @@ export default function RestaurantDetail() {
         </div>
         <div className="px-5 pt-2 pb-4">
           {activeTab === "Menu" && <MenuTab />}
-          {activeTab === "Recommendations" && <RecommendationsTab />}
+          {activeTab === "Recommendations" && <RecommendationsTab restaurantId={id} />}
           {activeTab === "Reviews" && (
             <ReviewsTab restaurantId={id} restaurantRating={restaurant.rating} />
           )}
@@ -205,10 +205,166 @@ function MenuTab() {
 }
 
 // placeholder text, for development of features
-function RecommendationsTab() {
+function RecommendationsTab({ restaurantId }) {
+  const navigate = useNavigate();
+  const [recommendations, setRecommendations] = useState([]);
+  const [myProfileId, setMyProfileId] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const handleVote = async (recommendationId, vote) => {
+    try {
+      const voteRes = await api.post(
+        `/restaurants/${restaurantId}/recommendations/${recommendationId}/vote/`,
+        { vote }
+      );
+      const rank = (voteRes.data?.like_count ?? 0) - (voteRes.data?.dislike_count ?? 0);
+
+      setRecommendations((prev) =>
+        prev
+          .map((recc) => (recc.id === recommendationId ? { ...recc, rank, current_user_vote : voteRes.data.side } : recc))
+          .sort((r1, r2) => r2.rank - r1.rank)
+      );
+    } catch (err) {
+      console.error("Failed to vote on recommendation:", err?.response?.data || err.message);
+    }
+  };
+
+  const handleDelete = async (recc_id) => {
+    try {
+      await api.delete(`/restaurants/${restaurantId}/recommendations/${recc_id}/`);
+      setRecommendations((prev) => prev.filter((r) => r.id !== recc_id));
+    } catch (err) {
+      console.error("Failed to delete review:", err);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [reccRes, profileRes] = await Promise.all([
+          api.get(`/restaurants/${restaurantId}/recommendations/`),
+          api.get("/profiles/me/"),
+        ]);
+        const rankedRecommendations = reccRes.data
+          .map(({ liked_by, disliked_by, ...rest }) => ({
+            ...rest,
+            rank: (liked_by?.length ?? 0) - (disliked_by?.length ?? 0),
+          }))
+          .sort((r1, r2) => r2.rank - r1.rank);
+        setRecommendations(rankedRecommendations);
+        setMyProfileId(profileRes.data.id);
+      } catch (err) {
+        console.error("Failed to fetch recommendations:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [restaurantId]);
+
+  if (loading) {
+    return (
+      <div className="py-12 text-center text-gray-400 text-sm">
+        Loading reviews...
+      </div>
+    );
+  }
+
   return (
-    <div className="text-center py-12 text-gray-400 text-sm">
-      Recommendations coming soon. 
+    <div>
+      <div className="flex items-center justify-between py-4 border-b border-gray-100">
+        <button
+          onClick={() => navigate(`/restaurant/${restaurantId}/recommendations/new`)}
+          className="m-auto rounded-full bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 transition-colors"
+        >
+          Recommend Something
+        </button>
+      </div>
+      {/* Reccomendations list */}
+      {recommendations.length == 0 ? (
+        <p className="text-center text-gray-400 text-sm py-10">
+          No recommendations yet. Be the first!
+        </p>
+      ) : (
+        <div className="divide-y divide-gray-100">
+          {recommendations.map((recc) => {
+            const isOwner = recc.profile === myProfileId;
+            const pd = recc.profile_data;
+            const displayName = pd
+              ? `${pd.first_name} ${pd.last_name?.[0] ?? ""}.`
+              : "Anonymous";
+            const initial = pd?.first_name?.[0]?.toUpperCase() ?? "?";
+            return (
+              <div key={recc.id} className="py-4">
+                <div className="flex items-center justify-between gap-2">
+                  {/* Avatar + name + stars */}
+                  <div className="flex items-center gap-3">
+                    <div className="h-9 w-9 rounded-full bg-orange-400 flex items-center justify-center text-white text-sm font-bold shrink-0">
+                      {initial}
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="text-sm font-semibold text-gray-900">
+                          {displayName}
+                        </span>
+                        {pd?.is_student && (
+                          <span className="flex items-center gap-0.5 text-xs text-blue-600 font-medium">
+                            <BadgeCheck className="h-3.5 w-3.5" />
+                            Verified Student
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Action buttons */}
+                  <div className="flex items-center gap-2 shrink-0">
+                    {isOwner ? (
+                      <>
+                        <button aria-label="Edit recommendation" onClick={() => navigate(`/restaurant/${restaurantId}/recommendations/${recc.id}`)}>
+                          <Pencil className="h-4 w-4 text-gray-400 hover:text-gray-600 transition-colors" />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(recc.id)}
+                          aria-label="Delete recommendation"
+                        >
+                          <Trash2 className="h-4 w-4 text-gray-400 hover:text-red-500 transition-colors" />
+                        </button>
+                      </>
+                    ) : (
+                      <button aria-label="Report recommendation">
+                        <TriangleAlert className="h-4 w-4 text-yellow-500 hover:text-yellow-600 transition-colors" />
+                      </button>
+                    )}
+                    <div className="flex flex-col">
+                      <button
+                        onClick={() => handleVote(recc.id, "like")}
+                        aria-label="Upvote recommendation"
+                      >
+                        <ChevronUp className={`h-4 w-4 hover:text-green-600 transition-colors ${recc.current_user_vote === 'like' ? 'text-green-600' : ''}`} />
+                        {recc.rank}
+                      </button>
+                      <button
+                        onClick={() => handleVote(recc.id, "dislike")}
+                        aria-label="Downvote recommendation"
+                      >
+                        <ChevronDown className={`h-4 w-4 hover:text-red-600 transition-colors  ${recc.current_user_vote === 'dislike' ? 'text-red-600' : ''}`} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {recc.description && (
+                  <p className="mt-2 text-sm text-gray-600 leading-relaxed pl-12">
+                    {recc.description}
+                  </p>
+                )}
+              </div>
+            );
+
+          })}
+        </div>
+      )}
     </div>
   );
 }
