@@ -34,7 +34,7 @@ class RecommendationViewset(viewsets.ModelViewSet):
 
     
     def perform_create(self, serializer: RecommendationSerializer):
-        serializer.save(profile=self.request.user.profile)
+        serializer.save(profile=self.request.user.profile, restaurant=Restaurant.objects.get(id=self.kwargs['restaurant_pk']))
 
     @action(detail=True, methods=['post'], url_path='vote')
     def vote(self, request, **kwargs):
@@ -49,8 +49,11 @@ class RecommendationViewset(viewsets.ModelViewSet):
         primary = recommendation.liked_by if is_like else recommendation.disliked_by
         opposite = recommendation.disliked_by if is_like else recommendation.liked_by
 
+        side = vote_type
+
         if profile in primary.all():
             primary.remove(profile) # unlike/undislike
+            side = None
         else:
             # Do the like/dislike and remove the opposite
             primary.add(profile)
@@ -58,6 +61,7 @@ class RecommendationViewset(viewsets.ModelViewSet):
         return Response({
             'like_count': recommendation.liked_by.count(),
             'dislike_count': recommendation.disliked_by.count(),
+            'side': side
         })
 
 
