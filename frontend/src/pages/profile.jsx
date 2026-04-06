@@ -114,11 +114,10 @@ export default function ViewRestaurants() {
             to="/preferences"
           />
 
-          {/* fix routing for these two cards once those pages are implemented */}  
           <ProfileRouteCard
             icon={reviewsIcon}
             text="My Reviews"
-            to="/preferences"
+            to="/my-reviews"
           />
 
           <ProfileRouteCard
