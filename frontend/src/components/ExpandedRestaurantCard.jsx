@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronLeft, ChevronRight, Clock3, MapPin, Heart } from "lucide-react";
+import { ChevronLeft, ChevronRight, Clock3, MapPin, HeartIcon } from "lucide-react";
 
 const StarRating = ({ rating = 0 }) => {
   const fullStars = Math.floor(rating);
@@ -49,10 +49,10 @@ const TagPill = ({ label }) => {
 
 export default function ExpandedRestaurantCard({
   restaurants = [],
-  onFavouriteToggle,
   className = "",
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isFavourite, setIsFavourite] = useState(restaurants[0]?.isFavourite ?? false);
   const navigate = useNavigate();
 
   if (!restaurants.length) return null;
@@ -107,7 +107,9 @@ export default function ExpandedRestaurantCard({
         <ChevronLeft className="h-6 w-6 text-white" />
       </button>
 
-      <div className="w-85 max-w-[400px] rounded-[24px] bg-[#f7f7f7] p-3 shadow-[0_6px_18px_rgba(0,0,0,0.12)] md:max-w-[430px]">
+      <div className="w-85 max-w-[400px] rounded-[24px] bg-[#f7f7f7] p-3 shadow-[0_6px_18px_rgba(0,0,0,0.12)] md:max-w-[430px]   hover:shadow-[0_12px_22px_rgba(0,0,0,0.18)]
+  hover:bg-gray-50
+  hover:-translate-y-1">
         <button
           onClick={() => navigate(`/restaurant/${currentRestaurant.id}`)}
           className="block w-full overflow-hidden rounded-[14px] bg-white"
@@ -156,18 +158,17 @@ export default function ExpandedRestaurantCard({
 
           <div className="mt-6 flex justify-center">
             <button
-              onClick={() => onFavouriteToggle?.(currentRestaurant)}
+               onClick={() => setIsFavourite((prev) => !prev)}
               className="flex items-center gap-3 rounded-2xl bg-white px-5 py-2 text-base text-black shadow-md transition hover:scale-[1.02]"
             >
-              <Heart
-                className={`h-6 w-6 ${
-                  currentRestaurant.isFavourite
-                    ? "fill-red-500 text-red-500"
-                    : "text-red-500"
-                }`}
+              <HeartIcon
+              className={`h-6 w-6 transition ${
+              isFavourite ? "fill-red-500 text-red-500"
+                : "text-gray-400 hover:text-red-400"
+            }`}
               />
               <span>
-                {currentRestaurant.isFavourite
+                {isFavourite
                   ? "Added To Favourites"
                   : "Add To Favourites"}
               </span>

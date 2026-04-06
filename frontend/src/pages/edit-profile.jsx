@@ -196,13 +196,15 @@ export default function ViewRestaurants() {
         {/* Save button */}
         <div className="flex justify-center mt-6">
           <button
-            className="flex items-center gap-2 bg-white rounded-2xl px-5 py-2 text-sm font-semibold shadow-sm 
-  cursor-pointer hover:shadow-md hover:bg-gray-50 hover:scale-105 
+            className="flex items-center gap-2 bg-white rounded-2xl px-5 py-4 text-sm font-semibold shadow-sm 
+  cursor-pointer  hover:shadow-[0_12px_22px_rgba(0,0,0,0.18)]
+  hover:bg-gray-50
+  hover:-translate-y-1
   transition-all duration-200"
             onClick={handleSave}
             disabled={saving}
           >
-            Save
+            Save Changes
           </button>
         </div>
       </main>

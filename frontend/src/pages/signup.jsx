@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useSignup } from "../context/SignupContext";
 import { useState } from "react";
 import BackButton from "../components/BackButton";
+import ShowPassword from "../assets/show_password.png";
+import HidePassword from "../assets/hide_password.png";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -12,6 +14,8 @@ export default function Signup() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleNext = () => {
     update({ username: email, email, password, firstName, lastName });
@@ -34,11 +38,51 @@ export default function Signup() {
             <label htmlFor="email">Email</label>
             <input id="email" type="email" onChange={(e) => setEmail(e.target.value)} className="w-full h-[3rem] md:h-[3.5rem] bg-[#F3F3F3] text-[#726F6F] p-4 mb-2" placeholder="example@ucalgary.ca"/>
 
-            <label>Password</label>
-            <input id="password" type="password" onChange={(e) => setPassword(e.target.value)} className="w-full h-[3rem] md:h-[3.5rem] bg-[#F3F3F3] text-[#726F6F] p-4 mb-2" placeholder="Password"/>
+           <label>Password</label>
+            <div className="relative">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full h-[3rem] md:h-[3.5rem] bg-[#F3F3F3] text-[#726F6F] p-4 mb-2 pr-12"
+                placeholder="Password"
+              />
 
-            <label>Confirm Password</label>
-            <input id="confirmPassword" type="password" className="w-full h-[3rem] md:h-[3.5rem] bg-[#F3F3F3] text-[#726F6F] p-4 mb-2" placeholder="Repeat Password"/>
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm"
+              >
+                <img
+              src={showPassword ? HidePassword : ShowPassword}
+              alt="toggle password"
+              className="w-5 h-5"
+            />
+              </button>
+            </div>
+
+    <label>Confirm Password</label>
+
+      <div className="relative">
+        <input
+          id="confirmPassword"
+          type={showConfirmPassword ? "text" : "password"}
+          className="w-full h-[3rem] md:h-[3.5rem] bg-[#F3F3F3] text-[#726F6F] p-4 mb-2 pr-12"
+          placeholder="Repeat Password"
+        />
+
+        <button
+          type="button"
+          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm"
+        >
+        <img
+        src={showConfirmPassword ? HidePassword : ShowPassword}
+        alt="toggle password"
+        className="w-5 h-5"
+      />
+        </button>
+      </div>
             
             <div className="flex flex-row items-center justify-center mb-8 gap-[2rem]">
               <div className="w-[1.5rem]" />
