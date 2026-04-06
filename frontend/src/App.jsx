@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate, useParams, Outlet } from "react-router-dom";
 import Landing from "./pages/landing";
+import Help from "./pages/help";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
 import SignupRole from "./pages/signupRole";
@@ -26,6 +27,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/help" element={<Help />} />
         <Route element={<SignupProvider><Outlet /></SignupProvider>}>
           <Route path="/signup" element={<Signup />} />
           <Route path="/signup/role" element={<SignupRole />} />
