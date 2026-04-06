@@ -369,11 +369,91 @@ function RecommendationsTab({ restaurantId }) {
   );
 }
 
+const REPORT_REASONS = [
+  "Off topic",
+  "Spam",
+  "Bullying & Harassment",
+  "Profanity and/or Harmful Language",
+];
+
+function ReportModal({ restaurantId, reviewId, onClose }) {
+  const [reason, setReason] = useState("");
+  const [comments, setComments] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async () => {
+    if (!reason) return;
+    setSubmitting(true);
+    try {
+      await api.post(`/restaurants/${restaurantId}/reviews/${reviewId}/report/`, {
+        reason,
+        comments,
+      });
+      onClose();
+    } catch (err) {
+      console.error("Failed to report review:", err);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm mx-4 p-6">
+        <h2 className="text-xl font-bold text-center text-gray-900 mb-4">
+          Report this Review
+        </h2>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Please Select your Reasoning:
+        </label>
+        <select
+          value={reason}
+          onChange={(e) => setReason(e.target.value)}
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 mb-4 focus:outline-none focus:ring-2 focus:ring-gray-400"
+        >
+          <option value="" disabled />
+          {REPORT_REASONS.map((r) => (
+            <option key={r} value={r}>
+              {r}
+            </option>
+          ))}
+        </select>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Any Additional Comments?
+        </label>
+        <textarea
+          value={comments}
+          onChange={(e) => setComments(e.target.value)}
+          placeholder="Type here."
+          rows={5}
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-600 resize-none mb-5 focus:outline-none focus:ring-2 focus:ring-gray-400"
+        />
+        <div className="flex gap-3">
+          <button
+            onClick={onClose}
+            className="flex-1 border border-gray-300 rounded-lg py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleSubmit}
+            disabled={!reason || submitting}
+            className="flex-1 bg-gray-900 text-white rounded-lg py-2 text-sm font-semibold hover:bg-gray-700 transition-colors disabled:opacity-40"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ReviewsTab({ restaurantId, restaurantRating }) {
   const navigate = useNavigate();
   const [reviews, setReviews] = useState([]);
   const [myProfileId, setMyProfileId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [reportingReviewId, setReportingReviewId] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -412,6 +492,13 @@ function ReviewsTab({ restaurantId, restaurantRating }) {
 
   return (
     <div>
+      {reportingReviewId && (
+        <ReportModal
+          restaurantId={restaurantId}
+          reviewId={reportingReviewId}
+          onClose={() => setReportingReviewId(null)}
+        />
+      )}
       {/* Summary row */}
       <div className="flex items-center justify-between py-4 border-b border-gray-100">
         <div className="flex items-center gap-3">
@@ -487,7 +574,10 @@ function ReviewsTab({ restaurantId, restaurantRating }) {
                         </button>
                       </>
                     ) : (
-                      <button aria-label="Report review">
+                      <button
+                        onClick={() => setReportingReviewId(review.id)}
+                        aria-label="Report review"
+                      >
                         <TriangleAlert className="h-4 w-4 text-yellow-500 hover:text-yellow-600 transition-colors" />
                       </button>
                     )}
