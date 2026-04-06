@@ -1,3 +1,4 @@
+import { HeartIcon } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -24,14 +25,21 @@ export default function RestaurantCard({ restaurant, onFavouriteToggle }) {
         <img
           src={restaurant.image}
           alt={restaurant.name}
-          className="w-full h-36 object-cover"
+          className="w-full h-36 object-contain"
         />
         <button
           onClick={handleFavClick}
           className="absolute top-2 right-2 text-xl leading-none drop-shadow"
           aria-label={isFavourite ? "Remove from favourites" : "Add to favourites"}
         >
-          {isFavourite ? "❤️" : "🤍"}
+          <HeartIcon
+            className={`h-6 w-6 transition ${
+            isFavourite
+              ? "fill-red-500 text-red-500"
+              : "text-gray-400 hover:text-red-400"
+          }`}
+  />
+          
         </button>
       </div>
 
