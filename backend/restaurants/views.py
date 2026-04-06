@@ -74,6 +74,8 @@ class ReviewViewset(viewsets.ModelViewSet):
             return [AllowAny()]
         if self.action == 'restaurant_reply':
             return [IsRestaurantEmployee()]
+        if self.action == 'report':
+            return [IsAuthenticated()]
         return [IsAuthenticated(), IsOwnerOrReadOnly()]
     
     def get_queryset(self):
@@ -87,6 +89,15 @@ class ReviewViewset(viewsets.ModelViewSet):
     def perform_create(self, serializer: ReviewSerializer):
         serializer.save(profile=self.request.user.profile, restaurant=Restaurant.objects.get(id=self.kwargs['restaurant_pk']))
     
+    @action(detail=True, methods=['post'], url_path='report')
+    def report(self, request, **kwargs):
+        review = self.get_object()
+        reason = request.data.get('reason', '')
+        review.is_reported = True
+        review.report_reason = reason
+        review.save(update_fields=['is_reported', 'report_reason'])
+        return Response({'status': 'reported'}, status=status.HTTP_200_OK)
+
     @action(detail=True, methods=['get', 'post', 'put', 'delete'], url_path='reply')
     def restaurant_reply(self, request, **kwargs):
         review = self.get_object()
