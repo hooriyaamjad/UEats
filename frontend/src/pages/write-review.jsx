@@ -6,7 +6,7 @@ import BottomNavBar from "../components/BottomNavBar";
 
 const RATING_LABELS = ["", "Poor", "Fair", "Good", "Great", "Excellent"];
 
-const PRESET_TAGS = ["Halal", "Filling", "Vegetarian", "Baked Goods", "Clean", "Expensive"];
+const PRESET_TAGS = ["Halal", "Filling", "Vegetarian", "Baked Goods", "Clean", "Cheap"];
 
 function TagPopup({ currentTags, onSubmit, onCancel }) {
   const [pendingTags, setPendingTags] = useState([...currentTags]);
