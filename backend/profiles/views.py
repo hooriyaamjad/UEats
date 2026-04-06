@@ -4,8 +4,9 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import action
 
-from .serializers import SignupSerializer, ProfileSerializer
+from .serializers import SignupSerializer, ProfileSerializer, MyReviewSerializer
 from .models import Profile
+from restaurants.models import Review
 
 class SignupView(generics.CreateAPIView):
     serializer_class = SignupSerializer
@@ -58,6 +59,17 @@ class ProfileViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance, data=data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        return Response(serializer.data)
+
+    @action(detail=True, methods=["get"], url_path="reviews")
+    def my_reviews(self, request, *args, **kwargs):
+        profile = self.get_object()
+        reviews = (
+            Review.objects
+            .select_related('restaurant')
+            .filter(profile=profile)
+        )
+        serializer = MyReviewSerializer(reviews, many=True)
         return Response(serializer.data)
 
     @action(detail=False, methods=["put"], url_path="preferences")
