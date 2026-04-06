@@ -19,7 +19,9 @@ export default function RestaurantCard({ restaurant, onFavouriteToggle }) {
   return (
     <Link
       to={`/restaurant/${restaurant.id}`}
-      className="relative rounded-2xl overflow-hidden bg-white shadow-sm border border-gray-100 hover:shadow-md transition-shadow w-52 shrink-0 block"
+      className="relative rounded-2xl overflow-hidden bg-white shadow-sm border border-gray-100 hover:shadow-md
+  hover:bg-gray-50
+  hover:-translate-y-1 transition-shadow w-52 shrink-0 block"
     >
       <div className="relative">
         <img

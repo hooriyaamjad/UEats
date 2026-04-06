@@ -275,8 +275,11 @@ function RecommendationsTab({ restaurantId }) {
       <div className="flex items-center justify-between py-4 border-b border-gray-100">
         <button
           onClick={() => navigate(`/restaurant/${restaurantId}/recommendations/new`)}
-          className="m-auto rounded-full bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 transition-colors"
-        >
+          className="m-auto rounded-full bg-red-500 rounded-2xl px-6 py-2 text-sm text-white font-semibold shadow-sm 
+  cursor-pointer hover:shadow-md hover:bg-red-600 hover:shadow-[0_12px_22px_rgba(0,0,0,0.18)]
+  hover:-translate-y-1
+  transition-all duration-200"
+ >
           Recommend Something
         </button>
       </div>
@@ -431,8 +434,10 @@ function ReviewsTab({ restaurantId, restaurantRating }) {
         </div>
         <button
           onClick={() => navigate(`/restaurant/${restaurantId}/reviews/new`)}
-          className="rounded-full bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 transition-colors"
-        >
+ className="rounded-full bg-red-500 rounded-2xl px-6 py-2 text-sm text-white font-semibold shadow-sm 
+  cursor-pointer hover:shadow-md hover:bg-red-600 hover:shadow-[0_12px_22px_rgba(0,0,0,0.18)]
+  hover:-translate-y-1
+  transition-all duration-200"        >
           Add a Review
         </button>
       </div>

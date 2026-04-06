@@ -6,10 +6,10 @@ import BottomNavBar from "../components/BottomNavBar";
 import PlaceholderProfilePic from "../assets/placeholder_pfp.png";
 import { Pencil, LogOut } from "lucide-react";
 import ConfirmationPopup from "../components/ConfirmationPopup";
-import preferencesIcon from "../assets/preferences.png";
-import reviewsIcon from "../assets/reviews.png";
-import recommendationsIcon from "../assets/recommendations.png";
-import settingsIcon from "../assets/settings.png";
+import PreferencesIcon from "../assets/preferences.png";
+import EmptyStar from "../assets/empty_star.png";
+import ThumbsUp from "../assets/thumbs_up.png";
+import EditIcon from "../assets/editing.png";
 import ProfileRouteCard from "../components/ProfileRouteCard";
 
 const TABS = ["My Reviews", "My Recommendations", "My Preferences"];
@@ -18,7 +18,6 @@ export default function ViewRestaurants() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState("My Reviews");
   const [, setError] = useState(null);
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
 
@@ -77,11 +76,42 @@ export default function ViewRestaurants() {
         <div className="flex items-center gap-4 justify-center font text-md mt-[-15px] text-gray-600">
           {profile.email}
         </div>
-        <div className="flex items-center gap-4 justify-center text-gray-600">
+      
+
+        <div className="grid gap-4">
+          <ProfileRouteCard
+            icon={EditIcon}
+            text="Edit Profile"
+            to="/edit-profile"
+            state={{ profileData: profile }}
+          />
+
+          <ProfileRouteCard
+            icon={PreferencesIcon}
+            text="My Preferences"
+            to="/preferences"
+          />
+
+          {/* fix routing for these two cards once those pages are implemented */}  
+          <ProfileRouteCard
+            icon={EmptyStar}
+            text="My Reviews"
+            to="/preferences"
+          />
+
+          <ProfileRouteCard
+            icon={ThumbsUp}
+            text="My Recommendations"
+            to="/recommendations"
+          />
+        </div>
+
+          <div className="flex items-center gap-4 mt-10 justify-center text-gray-600">
           
           <button
-            className="flex items-center gap-2 bg-red-500 rounded-2xl px-5 py-2 text-sm text-white font-semibold shadow-sm 
-  cursor-pointer hover:shadow-md hover:bg-red-600 hover:scale-105 
+            className="flex items-center gap-2 bg-red-500 rounded-xl px-10 py-3 text-sm text-white font-semibold shadow-sm 
+  cursor-pointer hover:shadow-md hover:bg-red-600 hover:shadow-[0_12px_22px_rgba(0,0,0,0.18)]
+  hover:-translate-y-1
   transition-all duration-200"
             onClick={() => setShowLogoutPopup(true)}
           >
@@ -97,34 +127,6 @@ export default function ViewRestaurants() {
             cancelText="Cancel"
             onConfirm={handleLogout}
             onCancel={() => setShowLogoutPopup(false)}
-          />
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <ProfileRouteCard
-            icon={settingsIcon}
-            text="Edit Profile"
-            to="/edit-profile"
-            state={{ profileData: profile }}
-          />
-
-          <ProfileRouteCard
-            icon={preferencesIcon}
-            text="My Preferences"
-            to="/preferences"
-          />
-
-          {/* fix routing for these two cards once those pages are implemented */}  
-          <ProfileRouteCard
-            icon={reviewsIcon}
-            text="My Reviews"
-            to="/preferences"
-          />
-
-          <ProfileRouteCard
-            icon={recommendationsIcon}
-            text="My Recommendations"
-            to="/recommendations"
           />
         </div>
  

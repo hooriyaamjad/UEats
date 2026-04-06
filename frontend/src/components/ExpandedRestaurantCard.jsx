@@ -107,7 +107,9 @@ export default function ExpandedRestaurantCard({
         <ChevronLeft className="h-6 w-6 text-white" />
       </button>
 
-      <div className="w-85 max-w-[400px] rounded-[24px] bg-[#f7f7f7] p-3 shadow-[0_6px_18px_rgba(0,0,0,0.12)] md:max-w-[430px]">
+      <div className="w-85 max-w-[400px] rounded-[24px] bg-[#f7f7f7] p-3 shadow-[0_6px_18px_rgba(0,0,0,0.12)] md:max-w-[430px]   hover:shadow-[0_12px_22px_rgba(0,0,0,0.18)]
+  hover:bg-gray-50
+  hover:-translate-y-1">
         <button
           onClick={() => navigate(`/restaurant/${currentRestaurant.id}`)}
           className="block w-full overflow-hidden rounded-[14px] bg-white"

@@ -28,7 +28,10 @@ export default function TagFilter({
           <button
             key={tag}
             onClick={() => onSelect(selectedTag === tag ? null : tag)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm border transition whitespace-nowrap ${
+            className={`flex items-center gap-2 px-4 py-2 mt-2 rounded-full text-sm border transition whitespace-nowrap  
+  hover:bg-gray-50
+  hover:-translate-y-1
+  ${ 
               selectedTag === tag
                 ? "bg-yellow-300 border-yellow-300 font-medium"
                 : "bg-white border-gray-300 hover:border-gray-400"
