@@ -104,7 +104,7 @@ export default function RestaurantDetail() {
           <ChevronLeft className="h-6 w-6 text-gray-700" />
         </button>
         <span className="text-base font-semibold text-gray-800">
-          Restaurant's Menu
+          Restaurant Profile
         </span>
       </div>
 
@@ -166,7 +166,7 @@ export default function RestaurantDetail() {
 
       {/* Tabs + Content */}
       <div className="mt-4 mx-4 rounded-2xl bg-white shadow-sm">
-        <div className="flex px-5 border-b border-gray-200">
+        <div className="flex px-5 border-b border-gray-200 pt-4">
           {TABS.map((t) => (
             <button
               key={t}
@@ -299,8 +299,12 @@ function RecommendationsTab({ restaurantId }) {
                 <div className="flex items-center justify-between gap-2">
                   {/* Avatar + name + stars */}
                   <div className="flex items-center gap-3">
-                    <div className="h-9 w-9 rounded-full bg-orange-400 flex items-center justify-center text-white text-sm font-bold shrink-0">
-                      {initial}
+                     <div className="h-9 w-9 rounded-full bg-orange-400 flex items-center justify-center text-white text-sm font-bold shrink-0">
+                     <img
+                        src={pd.image_url ?? initial}
+                        alt={displayName}
+                        className="h-full w-full object-cover rounded-full"
+                      />
                     </div>
                     <div>
                       <div className="flex items-center gap-1.5 flex-wrap">
@@ -454,7 +458,11 @@ function ReviewsTab({ restaurantId, restaurantRating }) {
                   {/* Avatar + name + stars */}
                   <div className="flex items-start gap-3">
                     <div className="h-9 w-9 rounded-full bg-orange-400 flex items-center justify-center text-white text-sm font-bold shrink-0">
-                      {initial}
+                     <img
+                        src={pd.image_url ?? initial}
+                        alt={displayName}
+                        className="h-full w-full object-cover rounded-full"
+                      />
                     </div>
                     <div>
                       <div className="flex items-center gap-1.5 flex-wrap">
