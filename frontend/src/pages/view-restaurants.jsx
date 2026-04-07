@@ -104,7 +104,6 @@ export default function ViewRestaurants() {
         ) : (
           <div className="flex justify-center">
             <ExpandedRestaurantCard
-              restaurants={restaurants}
               favouriteIds={favouriteIds}
               restaurants={filteredRestaurants}
               onFavouriteToggle={handleFavouriteToggle}
