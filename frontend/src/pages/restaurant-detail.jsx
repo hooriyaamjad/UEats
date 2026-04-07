@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ChevronLeft, MapPin, Heart, BadgeCheck, Pencil, Trash2, TriangleAlert, ChevronUp, ChevronDown, HeartIcon } from "lucide-react";
+import { ChevronLeft, MapPin, Heart, BadgeCheck, Pencil, Trash2, TriangleAlert, ChevronUp, ChevronDown, HeartIcon, Reply } from "lucide-react";
 import api from "../utils/api";
 import BottomNavBar from "../components/BottomNavBar";
 
@@ -204,7 +204,7 @@ export default function RestaurantDetail() {
           {activeTab === "Menu" && <MenuTab restaurantId={id}/>}
           {activeTab === "Recommendations" && <RecommendationsTab restaurantId={id} />}
           {activeTab === "Reviews" && (
-            <ReviewsTab restaurantId={id} restaurantRating={restaurant.rating} />
+            <ReviewsTab restaurantId={id} restaurantRating={restaurant.rating} restaurantName={restaurant.name} />
           )}
         </div>
       </div>
@@ -552,12 +552,13 @@ function ReportModal({ restaurantId, reviewId, onClose }) {
   );
 }
 
-function ReviewsTab({ restaurantId, restaurantRating }) {
+function ReviewsTab({ restaurantId, restaurantRating, restaurantName }) {
   const navigate = useNavigate();
   const [reviews, setReviews] = useState([]);
   const [myProfileId, setMyProfileId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [reportingReviewId, setReportingReviewId] = useState(null);
+  const [isStoreEmployee, setisStoreEmployee] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -568,6 +569,7 @@ function ReviewsTab({ restaurantId, restaurantRating }) {
         ]);
         setReviews(reviewsRes.data);
         setMyProfileId(profileRes.data.id);
+        setisStoreEmployee(profileRes.data.works_for === parseInt(restaurantId));
       } catch (err) {
         console.error("Failed to fetch reviews:", err);
       } finally {
@@ -585,6 +587,15 @@ function ReviewsTab({ restaurantId, restaurantRating }) {
       console.error("Failed to delete review:", err);
     }
   };
+
+  const handleDeleteReply = async (reviewId) => {
+  try {
+    await api.delete(`/restaurants/${restaurantId}/reviews/${reviewId}/reply/`);
+    setReviews((prev) => prev.map((r) => (r.id === reviewId ? { ...r, restaurant_reply: "" } : r)));
+  } catch (err) {
+    console.error("Failed to delete reply:", err);
+  }
+};
 
   if (loading) {
     return (
@@ -671,6 +682,14 @@ function ReviewsTab({ restaurantId, restaurantRating }) {
 
                   {/* Action buttons */}
                   <div className="flex items-center gap-2 shrink-0">
+                    {isStoreEmployee && (
+                      <button
+                        onClick={() => navigate(`/restaurant/${restaurantId}/reviews/${review.id}/reply`)}
+                        aria-label="reply review"
+                      >
+                        <Reply className="h-4 w-4 text-gray-400 hover:text-gray-600 transition-colors" />
+                      </button>
+                    )}
                     {isOwner ? (
                       <>
                         <button aria-label="Edit review">
@@ -711,6 +730,26 @@ function ReviewsTab({ restaurantId, restaurantRating }) {
                     ))}
                   </div>
                 )}
+                <div>
+                  {review.restaurant_reply && (
+                    <div className="ml-12 border-gray-400 mt-4">
+                      <div className="flex flex-row gap-3">
+                        <text className="text-sm mb-1">{restaurantName}'s reply</text>
+                        {isStoreEmployee &&
+                          <button
+                            onClick={() => handleDeleteReply(review.id)}
+                            aria-label="Delete reply"
+                          >
+                            <Trash2 className="h-4 w-4 text-gray-400 hover:text-red-500 transition-colors" />
+                          </button>
+                        }
+                      </div>
+                      <p className="text-sm leading-relaxed pl-2 border-l border-gray-400 text-gray-600">
+                        {review.restaurant_reply}
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
             );
           })}
