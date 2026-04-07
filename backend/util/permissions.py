@@ -12,4 +12,4 @@ class IsRestaurantEmployee(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if not request.user.is_authenticated:
             return False
-        return obj.restaurant.employees.filter(user=request.user).exists()
+        return obj.employees.filter(user=request.user).exists()
