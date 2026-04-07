@@ -6,7 +6,7 @@ import RestaurantCard from "../components/RestaurantCard";
 import Carousel from "../components/Carousel";
 import BottomNavBar from "../components/BottomNavBar";
 
-const FILTER_TAGS = ["Halal", "Vegetarian", "Coffee", "Breakfast", "Pizza", "Burgers"];
+const FILTER_TAGS = ["Halal", "Vegetarian", "Filling", "Baked Goods", "Clean", "Cheap"];
 
 export default function Home() {
   const [restaurants, setRestaurants] = useState([]);
