@@ -55,9 +55,15 @@ export default function RestaurantDetail() {
   useEffect(() => {
     const fetchRestaurant = async () => {
       try {
-        const response = await api.get(`/restaurants/${id}/`);
-        setRestaurant(response.data);
-        setIsFavourite(response.data.isFavourite ?? false);
+        const isLoggedIn = !!localStorage.getItem('access_token');
+        const requests = [api.get(`/restaurants/${id}/`)];
+        if (isLoggedIn) requests.push(api.get("/profiles/me/favourites/"));
+
+        const [restaurantRes, favouritesRes] = await Promise.all(requests);
+        setRestaurant(restaurantRes.data);
+        if (favouritesRes) {
+          setIsFavourite(favouritesRes.data.includes(parseInt(id)));
+        }
       } catch (err) {
         const status = err?.response?.status;
         console.error("Failed to fetch restaurant:", err?.response?.data || err.message);
@@ -69,6 +75,19 @@ export default function RestaurantDetail() {
 
     fetchRestaurant();
   }, [id]);
+
+  const handleFavouriteToggle = async () => {
+    const isLoggedIn = !!localStorage.getItem('access_token');
+    if (!isLoggedIn) return;
+
+    setIsFavourite((prev) => !prev);
+    try {
+      await api.post("/profiles/me/favourites/toggle/", { restaurant_id: parseInt(id) });
+    } catch (err) {
+      setIsFavourite((prev) => !prev); // revert on failure
+      console.error("Failed to toggle favourite:", err?.response?.data || err.message);
+    }
+  };
 
   if (loading) {
     return (
@@ -127,7 +146,7 @@ export default function RestaurantDetail() {
             )}
           </div>
           <button
-            onClick={() => setIsFavourite((prev) => !prev)}
+            onClick={handleFavouriteToggle}
             aria-label={isFavourite ? "Remove from favourites" : "Add to favourites"}
             className="mt-1 ml-3"
           >

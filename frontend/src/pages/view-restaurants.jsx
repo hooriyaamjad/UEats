@@ -9,15 +9,23 @@ import TagFilter from "../components/TagFilter";
 export default function ViewRestaurants() {
   const [selectedTag, setSelectedTag] = useState(null);
   const [restaurants, setRestaurants] = useState([]);
+  const [favouriteIds, setFavouriteIds] = useState(new Set());
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    const fetchRestaurants = async () => {
+    const fetchData = async () => {
       try {
-        const response = await api.get("/restaurants/");
-        setRestaurants(response.data);
+        const isLoggedIn = !!localStorage.getItem('access_token');
+        const requests = [api.get("/restaurants/")];
+        if (isLoggedIn) requests.push(api.get("/profiles/me/favourites/"));
+
+        const [restaurantsRes, favouritesRes] = await Promise.all(requests);
+        setRestaurants(restaurantsRes.data);
+        if (favouritesRes) {
+          setFavouriteIds(new Set(favouritesRes.data));
+        }
       } catch (error) {
         console.error(
           "Failed to fetch restaurants:",
@@ -29,26 +37,35 @@ export default function ViewRestaurants() {
       }
     };
 
-    fetchRestaurants();
+    fetchData();
   }, []);
 
-  // TODO: Hardcoded filter data for now, have to decide how we want to implement this
-
-  const filterTags = [
-    "Halal",
-    "Vegetarian",
-    "Filling",
-    "Baked Goods",
-    "Clean",
-    "Cheap",
-  ];
+  const filterTags = ["Halal", "Vegetarian", "Filling", "Baked Goods", "Clean", "Cheap"];
 
   const handleSearch = (value) => {
     setSearchQuery(value);
   };
 
-  const handleFavouriteToggle = (restaurant) => {
-    console.log("Favourite clicked:", restaurant);
+  const handleFavouriteToggle = async (id) => {
+    const isLoggedIn = !!localStorage.getItem('access_token');
+    if (!isLoggedIn) return;
+
+    setFavouriteIds((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+
+    try {
+      await api.post("/profiles/me/favourites/toggle/", { restaurant_id: id });
+    } catch (error) {
+      setFavouriteIds((prev) => {
+        const next = new Set(prev);
+        next.has(id) ? next.delete(id) : next.add(id);
+        return next;
+      });
+      console.error("Failed to toggle favourite:", error?.response?.data || error.message);
+    }
   };
 
   const filteredRestaurants = restaurants.filter((restaurant) => {
@@ -87,6 +104,7 @@ export default function ViewRestaurants() {
         ) : (
           <div className="flex justify-center">
             <ExpandedRestaurantCard
+              favouriteIds={favouriteIds}
               restaurants={filteredRestaurants}
               onFavouriteToggle={handleFavouriteToggle}
             />
