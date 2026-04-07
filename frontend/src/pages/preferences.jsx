@@ -5,6 +5,7 @@ import BottomNavBar from "../components/BottomNavBar";
 import { Chip } from "@mui/material";
 import api from "../utils/api";
 import { useEffect } from "react";
+import ResponseBanner from "../components/ResponseBanner";
 
 const dietaryOptions = [
   "Halal",
@@ -36,8 +37,9 @@ export default function Preferences() {
   const [selectedDietary, setSelectedDietaryRestrictions] = useState([]);
   const [selectedAllergens, setSelectedAllergens] = useState([]);
 
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(""); 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleSave = async () => {
     const token = localStorage.getItem("access_token");
@@ -62,11 +64,13 @@ export default function Preferences() {
       );
 
       console.log("Preferences saved:", response.data);
+      setSuccess("Preferences saved!");
     } catch (error) {
       console.error(
         "Failed to save preferences:",
         error?.response?.data || error.message
       );
+      setError("Failed to save preferences.");
     }
   };
 
@@ -155,7 +159,8 @@ export default function Preferences() {
       />
 
       <main className="w-full max-w-2xl mx-auto px-5 pt-5 pb-32">
-        {error && <p className="mb-3 text-sm text-red-500">{error}</p>}
+        <ResponseBanner message={success} type="success" onClose={() => setSuccess("")} />
+        <ResponseBanner message={error} type="error" onClose={() => setError("")} />
 
         <h2 className="pt-5 mb-[10px] text-lg font-bold">
           Dietary Restrictions
