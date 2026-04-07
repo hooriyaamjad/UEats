@@ -72,7 +72,7 @@ export default function Help() {
       </div>
       <img src="/src/assets/ueats_logo.png" alt="UEats logo" className="w-[12rem] h-[9rem] md:w-[16rem] md:h-[12rem] object-contain" />
       <h1 className="text-[2rem] font-bold my-4">Help & FAQ</h1>
-      <div className="w-full max-w-[40rem]">
+      <div className="w-full max-w-[48rem]">
         {faqs.map((faq) => (
           <Accordion key={faq.question} question={faq.question} answer={faq.answer} />
         ))}
