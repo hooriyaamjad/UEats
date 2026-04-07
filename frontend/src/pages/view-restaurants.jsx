@@ -1,7 +1,7 @@
 import api from "../utils/api";
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import Header from "../components/Header";
-import SearchBar from "../components/SearchBar";
+import SearchBar from "../components/Searchbar";
 import ExpandedRestaurantCard from "../components/ExpandedRestaurantCard";
 import BottomNavBar from "../components/BottomNavBar";
 import TagFilter from "../components/TagFilter";
@@ -12,6 +12,7 @@ export default function ViewRestaurants() {
   const [favouriteIds, setFavouriteIds] = useState(new Set());
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,7 +27,10 @@ export default function ViewRestaurants() {
           setFavouriteIds(new Set(favouritesRes.data));
         }
       } catch (error) {
-        console.error("Failed to fetch restaurants:", error?.response?.data || error.message);
+        console.error(
+          "Failed to fetch restaurants:",
+          error?.response?.data || error.message
+        );
         setError("Couldn't connect to the backend. Is the server running?");
       } finally {
         setLoading(false);
@@ -39,7 +43,7 @@ export default function ViewRestaurants() {
   const filterTags = ["Halal", "Vegetarian", "Filling", "Baked Goods", "Clean", "Cheap"];
 
   const handleSearch = (value) => {
-    console.log("Search:", value);
+    setSearchQuery(value);
   };
 
   const handleFavouriteToggle = async (id) => {
@@ -64,12 +68,19 @@ export default function ViewRestaurants() {
     }
   };
 
+  const filteredRestaurants = restaurants.filter((restaurant) => {
+    const matchesSearch = restaurant.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+
+    const matchesTag = !selectedTag || restaurant.tags?.includes(selectedTag);
+
+    return matchesSearch && matchesTag;
+  });
+
   return (
     <div className="min-h-screen bg-[#f5f4f2]">
-      <Header
-        showBack={false}
-        title="University of Calgary"
-      />
+      <Header showBack={false} title="University of Calgary" />
 
       <main className="w-full max-w-2xl mx-auto px-5 pt-5 pb-32 flex flex-col gap-6">
         <SearchBar
@@ -95,6 +106,7 @@ export default function ViewRestaurants() {
             <ExpandedRestaurantCard
               restaurants={restaurants}
               favouriteIds={favouriteIds}
+              restaurants={filteredRestaurants}
               onFavouriteToggle={handleFavouriteToggle}
             />
           </div>
