@@ -39,7 +39,7 @@ export default function MyReviews() {
     <div className="min-h-screen bg-[#f5f4f2]">
       <Header showBack={true} title="Your Reviews" />
 
-      <main className="w-full max-w-2xl mx-auto px-4 pb-32 flex flex-col gap-4 mt-2">
+      <main className="w-full max-w-2xl mx-auto px-5 pt-5 pb-32 flex flex-col gap-6">
         {loading ? (
           <div className="py-16 text-center text-gray-400 text-sm">Loading...</div>
         ) : reviews.length === 0 ? (
