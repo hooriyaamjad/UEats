@@ -1,7 +1,7 @@
 import api from "../utils/api";
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import Header from "../components/Header";
-import SearchBar from "../components/SearchBar";
+import SearchBar from "../components/Searchbar";
 import ExpandedRestaurantCard from "../components/ExpandedRestaurantCard";
 import BottomNavBar from "../components/BottomNavBar";
 import TagFilter from "../components/TagFilter";
@@ -11,6 +11,7 @@ export default function ViewRestaurants() {
   const [restaurants, setRestaurants] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchRestaurants = async () => {
@@ -18,7 +19,10 @@ export default function ViewRestaurants() {
         const response = await api.get("/restaurants/");
         setRestaurants(response.data);
       } catch (error) {
-        console.error("Failed to fetch restaurants:", error?.response?.data || error.message);
+        console.error(
+          "Failed to fetch restaurants:",
+          error?.response?.data || error.message
+        );
         setError("Couldn't connect to the backend. Is the server running?");
       } finally {
         setLoading(false);
@@ -28,25 +32,38 @@ export default function ViewRestaurants() {
     fetchRestaurants();
   }, []);
 
-
   // TODO: Hardcoded filter data for now, have to decide how we want to implement this
 
-  const filterTags = ["Halal", "Vegetarian", "Filling", "Baked Goods", "Clean", "Cheap"];
+  const filterTags = [
+    "Halal",
+    "Vegetarian",
+    "Filling",
+    "Baked Goods",
+    "Clean",
+    "Cheap",
+  ];
 
   const handleSearch = (value) => {
-    console.log("Search:", value);
+    setSearchQuery(value);
   };
 
   const handleFavouriteToggle = (restaurant) => {
     console.log("Favourite clicked:", restaurant);
   };
 
+  const filteredRestaurants = restaurants.filter((restaurant) => {
+    const matchesSearch = restaurant.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+
+    const matchesTag = !selectedTag || restaurant.tags?.includes(selectedTag);
+
+    return matchesSearch && matchesTag;
+  });
+
   return (
     <div className="min-h-screen bg-[#f5f4f2]">
-      <Header
-        showBack={false}
-        title="University of Calgary"
-      />
+      <Header showBack={false} title="University of Calgary" />
 
       <main className="w-full max-w-2xl mx-auto px-5 pt-5 pb-32 flex flex-col gap-6">
         <SearchBar
@@ -70,7 +87,7 @@ export default function ViewRestaurants() {
         ) : (
           <div className="flex justify-center">
             <ExpandedRestaurantCard
-              restaurants={restaurants}
+              restaurants={filteredRestaurants}
               onFavouriteToggle={handleFavouriteToggle}
             />
           </div>
