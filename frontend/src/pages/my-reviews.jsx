@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronLeft, Pencil } from "lucide-react";
+import { Pencil } from "lucide-react";
 import api from "../utils/api";
+import Header from "../components/Header";
 import BottomNavBar from "../components/BottomNavBar";
 
 function StarRating({ rating }) {
@@ -36,17 +37,7 @@ export default function MyReviews() {
 
   return (
     <div className="min-h-screen bg-[#f5f4f2]">
-      {/* Header */}
-      <div className="flex items-center gap-3 px-4 py-3 bg-[#f5f4f2]">
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center justify-center rounded-full p-1 hover:bg-gray-200 transition"
-          aria-label="Go back"
-        >
-          <ChevronLeft className="h-6 w-6 text-gray-700" />
-        </button>
-        <span className="text-base font-semibold text-gray-800">Your Reviews</span>
-      </div>
+      <Header showBack={true} title="Your Reviews" />
 
       <main className="w-full max-w-2xl mx-auto px-4 pb-32 flex flex-col gap-4 mt-2">
         {loading ? (
