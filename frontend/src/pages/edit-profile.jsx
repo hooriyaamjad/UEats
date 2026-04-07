@@ -7,6 +7,8 @@ import PlaceholderProfilePic from "../assets/placeholder_pfp.png";
 import { ArrowLeft, Pencil } from "lucide-react";
 import ResponseBanner from "../components/ResponseBanner";
 import ProfilePicSelector from "../components/ProfilePicSelector";
+import ShowPassword from "../assets/show_password.png";
+import HidePassword from "../assets/hide_password.png";
 
 const TABS = ["My Reviews", "My Recommendations", "My Preferences"];
 
@@ -18,6 +20,14 @@ export default function ViewRestaurants() {
   const [profile, setProfile] = useState(location.state?.profileData || {});
   const [success, setSuccess] = useState("");
   const [showProfilePicSelector, setShowProfilePicSelector] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const passwordsMatch =
+    newPassword.length > 0 &&
+    confirmPassword.length > 0 &&
+    newPassword === confirmPassword;
 
   const [form, setForm] = useState({
     firstName: profile?.first_name || "",
@@ -58,6 +68,15 @@ export default function ViewRestaurants() {
 
       if (form.profilePic !== (profile.image_url || "")) {
         updatedFields.image_url = form.profilePic;
+      }
+
+      if (newPassword) {
+        if (!passwordsMatch) {
+          setError("New password and confirm password do not match.");
+          setSaving(false);
+          return;
+        }
+        updatedFields.password = newPassword;
       }
 
       // TODO: add more editable fields here
@@ -191,18 +210,78 @@ export default function ViewRestaurants() {
       transition-all duration-200"
             />
           </div>
+
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-gray-600">
+              New Password
+            </label>
+            <div className="relative">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 
+      focus:outline-none focus:bg-white focus:border-red-400 
+      transition-all duration-200"
+                placeholder="Password"
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm"
+              >
+                <img
+                  src={showPassword ? HidePassword : ShowPassword}
+                  alt="toggle password"
+                  className="w-5 h-5"
+                />
+              </button>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-gray-600">
+              Confirm New Password
+            </label>
+            <div className="relative">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 
+      focus:outline-none focus:bg-white focus:border-red-400 
+      transition-all duration-200"
+                placeholder="Password"
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm"
+              >
+                <img
+                  src={showPassword ? HidePassword : ShowPassword}
+                  alt="toggle password"
+                  className="w-5 h-5"
+                />
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Save button */}
         <div className="flex justify-center mt-6">
           <button
-            className="flex items-center gap-2 bg-white rounded-2xl px-5 py-4 text-sm font-semibold shadow-sm 
-  cursor-pointer  hover:shadow-[0_12px_22px_rgba(0,0,0,0.18)]
-  hover:bg-gray-50
-  hover:-translate-y-1
-  transition-all duration-200"
             onClick={handleSave}
-            disabled={saving}
+            disabled={!passwordsMatch && (newPassword || confirmPassword)}
+            className={`px-4 py-3 rounded-xl font-semibold transition
+    ${
+      !passwordsMatch && (newPassword || confirmPassword)
+        ? "bg-gray-300 cursor-not-allowed"
+        : "bg-red-500 hover:bg-red-600 text-white"
+    }
+  `}
           >
             Save Changes
           </button>
