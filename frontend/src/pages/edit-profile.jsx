@@ -4,7 +4,7 @@ import { useState } from "react";
 import Header from "../components/Header";
 import BottomNavBar from "../components/BottomNavBar";
 import PlaceholderProfilePic from "../assets/placeholder_pfp.png";
-import { ArrowLeft, Pencil } from "lucide-react";
+import { Pencil } from "lucide-react";
 import ResponseBanner from "../components/ResponseBanner";
 import ProfilePicSelector from "../components/ProfilePicSelector";
 import ShowPassword from "../assets/show_password.png";
@@ -107,11 +107,7 @@ export default function ViewRestaurants() {
 
   return (
     <div className="min-h-screen bg-[#f5f4f2]">
-      <Header
-        showBack={true}
-        onBack={() => navigate(-1)}
-        title="University of Calgary"
-      />
+      <Header showBack={true} title="Edit Profile" />
 
       <main className="w-full max-w-2xl mx-auto px-5 pt-5 pb-32 flex flex-col gap-6">
         <ResponseBanner
@@ -125,13 +121,7 @@ export default function ViewRestaurants() {
           type="error"
           onClose={() => setError("")}
         />
-        {/* Back button */}
-        <button
-          onClick={() => navigate("/profile")}
-          className="flex items-center gap-2 text-red-500 font-semibold w-fit"
-        >
-          <ArrowLeft size={18} />
-        </button>
+
         <div className="flex justify-center">
           <div className="relative w-fit">
             <img
