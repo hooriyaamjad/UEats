@@ -50,7 +50,7 @@ function Accordion({question, answer}) {
 
   return (
     <div className="w-full bg-[#eee] my-8 rounded-md">
-      <button type="button" onClick={() => setOpen(!open)} className="w-full flex justify-between items-center py-4 text-left text-[1rem] md:text-[1.4rem] px-4">
+      <button type="button" onClick={() => setOpen(!open)} className="w-full flex justify-between items-center py-4 text-left text-[1rem] md:text-[1.4rem] px-4 cursor-pointer">
         {question}
         <ArrowDropDownIcon className={`!text-4xl transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
