@@ -21,10 +21,11 @@ class ProfileSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(source="user.first_name")
     last_name = serializers.CharField(source="user.last_name")
     email = serializers.EmailField(source="user.email", read_only=True)
+    password = serializers.CharField(write_only=True, required=False)
 
     class Meta:
         model = Profile
-        fields = ["id", "first_name", "last_name", "email", "is_student", "university", "student_id", "image_url", "preferences", "works_for"]
+        fields = ["id", "first_name", "last_name", "email", "password", "is_student", "university", "student_id", "image_url", "preferences", "works_for"]
 
     def update(self, instance, validated_data):
         user_data = validated_data.pop("user", {})
@@ -36,6 +37,11 @@ class ProfileSerializer(serializers.ModelSerializer):
 
         if "last_name" in user_data:
             user.last_name = user_data["last_name"]
+
+        password = validated_data.pop("password", None)
+
+        if password:
+            user.set_password(password)
 
         #TODO: add more editable fields here
 
