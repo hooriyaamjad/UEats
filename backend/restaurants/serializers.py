@@ -16,7 +16,7 @@ class ReviewProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['id', 'first_name', 'last_name', 'is_student']
+        fields = ['id', 'first_name', 'last_name', 'is_student', 'image_url']
 
 
 class ReviewSerializer(serializers.ModelSerializer):

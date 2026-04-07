@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ChevronLeft, MapPin, Heart, BadgeCheck, Pencil, Trash2, TriangleAlert, ChevronUp, ChevronDown } from "lucide-react";
+import { ChevronLeft, MapPin, Heart, BadgeCheck, Pencil, Trash2, TriangleAlert, ChevronUp, ChevronDown, HeartIcon } from "lucide-react";
 import api from "../utils/api";
 import BottomNavBar from "../components/BottomNavBar";
 
@@ -104,7 +104,7 @@ export default function RestaurantDetail() {
           <ChevronLeft className="h-6 w-6 text-gray-700" />
         </button>
         <span className="text-base font-semibold text-gray-800">
-          Restaurant's Menu
+          Restaurant Profile
         </span>
       </div>
 
@@ -166,7 +166,7 @@ export default function RestaurantDetail() {
 
       {/* Tabs + Content */}
       <div className="mt-4 mx-4 rounded-2xl bg-white shadow-sm">
-        <div className="flex px-5 border-b border-gray-200">
+        <div className="flex px-5 border-b border-gray-200 pt-4">
           {TABS.map((t) => (
             <button
               key={t}
@@ -275,8 +275,11 @@ function RecommendationsTab({ restaurantId }) {
       <div className="flex items-center justify-between py-4 border-b border-gray-100">
         <button
           onClick={() => navigate(`/restaurant/${restaurantId}/recommendations/new`)}
-          className="m-auto rounded-full bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 transition-colors"
-        >
+          className="m-auto rounded-full bg-red-500 rounded-2xl px-6 py-2 text-sm text-white font-semibold shadow-sm 
+  cursor-pointer hover:shadow-md hover:bg-red-600 hover:shadow-[0_12px_22px_rgba(0,0,0,0.18)]
+  hover:-translate-y-1
+  transition-all duration-200"
+ >
           Recommend Something
         </button>
       </div>
@@ -299,8 +302,12 @@ function RecommendationsTab({ restaurantId }) {
                 <div className="flex items-center justify-between gap-2">
                   {/* Avatar + name + stars */}
                   <div className="flex items-center gap-3">
-                    <div className="h-9 w-9 rounded-full bg-orange-400 flex items-center justify-center text-white text-sm font-bold shrink-0">
-                      {initial}
+                     <div className="h-9 w-9 rounded-full bg-orange-400 flex items-center justify-center text-white text-sm font-bold shrink-0">
+                     <img
+                        src={pd.image_url ?? initial}
+                        alt={displayName}
+                        className="h-full w-full object-cover rounded-full"
+                      />
                     </div>
                     <div>
                       <div className="flex items-center gap-1.5 flex-wrap">
@@ -514,8 +521,10 @@ function ReviewsTab({ restaurantId, restaurantRating }) {
         </div>
         <button
           onClick={() => navigate(`/restaurant/${restaurantId}/reviews/new`)}
-          className="rounded-full bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 transition-colors"
-        >
+ className="rounded-full bg-red-500 rounded-2xl px-6 py-2 text-sm text-white font-semibold shadow-sm 
+  cursor-pointer hover:shadow-md hover:bg-red-600 hover:shadow-[0_12px_22px_rgba(0,0,0,0.18)]
+  hover:-translate-y-1
+  transition-all duration-200"        >
           Add a Review
         </button>
       </div>
@@ -541,7 +550,11 @@ function ReviewsTab({ restaurantId, restaurantRating }) {
                   {/* Avatar + name + stars */}
                   <div className="flex items-start gap-3">
                     <div className="h-9 w-9 rounded-full bg-orange-400 flex items-center justify-center text-white text-sm font-bold shrink-0">
-                      {initial}
+                     <img
+                        src={pd.image_url ?? initial}
+                        alt={displayName}
+                        className="h-full w-full object-cover rounded-full"
+                      />
                     </div>
                     <div>
                       <div className="flex items-center gap-1.5 flex-wrap">
