@@ -12,7 +12,6 @@ import ThumbsUp from "../assets/thumbs_up.png";
 import EditIcon from "../assets/editing.png";
 import ProfileRouteCard from "../components/ProfileRouteCard";
 
-
 export default function ViewRestaurants() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState([]);
@@ -66,7 +65,7 @@ export default function ViewRestaurants() {
           <img
             src={profile?.image_url || PlaceholderProfilePic}
             alt="Profile picture"
-            className="h-35  w-35 rounded-full object-cover"
+            className="h-35 w-35 rounded-full object-cover"
           />
         </div>
         <div className="flex items-center gap-4 justify-center font-bold text-lg">
@@ -75,7 +74,6 @@ export default function ViewRestaurants() {
         <div className="flex items-center gap-4 justify-center font text-md mt-[-15px] text-gray-600">
           {profile.email}
         </div>
-      
 
         <div className="grid gap-4">
           <ProfileRouteCard
@@ -104,10 +102,9 @@ export default function ViewRestaurants() {
           />
         </div>
 
-          <div className="flex items-center gap-4 mt-10 justify-center text-gray-600">
-          
+        <div className="flex items-center gap-4 mt-10 justify-center text-gray-600">
           <button
-            className="flex items-center gap-2 bg-red-500 rounded-xl px-10 py-3 text-sm text-white font-semibold shadow-sm 
+            className="flex items-center gap-2 bg-red-500 rounded-xl px-10 py-3 text-sm text-white font-semibold shadow-sm
   cursor-pointer hover:shadow-md hover:bg-red-600 hover:shadow-[0_12px_22px_rgba(0,0,0,0.18)]
   hover:-translate-y-1
   transition-all duration-200"
@@ -127,7 +124,6 @@ export default function ViewRestaurants() {
             onCancel={() => setShowLogoutPopup(false)}
           />
         </div>
-
       </main>
 
       <BottomNavBar />
