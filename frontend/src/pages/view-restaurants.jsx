@@ -1,5 +1,4 @@
 import api from "../utils/api";
-import { useNavigate } from "react-router-dom";
 import { useState, useEffect} from "react";
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
@@ -8,7 +7,6 @@ import BottomNavBar from "../components/BottomNavBar";
 import TagFilter from "../components/TagFilter";
 
 export default function ViewRestaurants() {
-  const navigate = useNavigate();
   const [selectedTag, setSelectedTag] = useState(null);
   const [restaurants, setRestaurants] = useState([]);
   const [error, setError] = useState(null);
@@ -33,7 +31,7 @@ export default function ViewRestaurants() {
 
   // TODO: Hardcoded filter data for now, have to decide how we want to implement this
 
-  const filterTags = ["Halal", "Vegetarian", "Coffee", "Pizza", "Burgers"];
+  const filterTags = ["Halal", "Vegetarian", "Filling", "Baked Goods", "Clean", "Cheap"];
 
   const handleSearch = (value) => {
     console.log("Search:", value);
