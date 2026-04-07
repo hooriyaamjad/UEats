@@ -182,7 +182,7 @@ export default function RestaurantDetail() {
           ))}
         </div>
         <div className="px-5 pt-2 pb-4">
-          {activeTab === "Menu" && <MenuTab />}
+          {activeTab === "Menu" && <MenuTab restaurantId={id}/>}
           {activeTab === "Recommendations" && <RecommendationsTab restaurantId={id} />}
           {activeTab === "Reviews" && (
             <ReviewsTab restaurantId={id} restaurantRating={restaurant.rating} />
@@ -196,10 +196,88 @@ export default function RestaurantDetail() {
 }
 
 // placeholder text, for development of features
-function MenuTab() {
+function MenuTab({ restaurantId }) {
+  const navigate = useNavigate();
+  const [restData, setRestData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isStoreEmployee, setisStoreEmployee] = useState(false)
+
+  const handleDelete = async (menu_item_index) => {
+    try {
+      const updatedMenu = [...(restData.menu_items ?? [])];
+      updatedMenu.splice(Number(menu_item_index), 1);
+
+      await api.patch(`/restaurants/${restaurantId}/`, { menu_items: updatedMenu });
+      setRestData((prev) => ({ ...prev, menu_items: updatedMenu }));
+    } catch (err) {
+      console.error("Failed to delete menu item:", err);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [restRes, profileRes] = await Promise.all([
+          api.get(`/restaurants/${restaurantId}/`),
+          api.get("/profiles/me/"),
+        ]);
+        setRestData(restRes.data)
+        setisStoreEmployee(profileRes.data.works_for === parseInt(restaurantId));
+      } catch (err) {
+        console.error("Failed to fetch restaurant:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [restaurantId]);
+
+  if (loading) {
+    return (
+      <div className="py-12 text-center text-gray-400 text-sm">
+        Loading menu...
+      </div>
+    );
+  }
+
   return (
-    <div className="text-center py-12 text-gray-400 text-sm">
-      Menu coming soon.
+    <div className="text-center text-gray-400 text-xs">
+      {isStoreEmployee &&
+        <div className="flex items-center justify-between py-4 border-gray-100">
+          <button
+            onClick={() => navigate(`/restaurant/${restaurantId}/menu_item/new`)}
+            className="m-auto rounded-full bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 transition-colors cursor-pointer"
+          >
+            Add an Item
+          </button>
+        </div>
+      }
+      <div className="m-auto grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+        {restData.menu_items.map((menu_item, index) => {
+          return (
+            <div className="md:w-2/3 lg:w-4/5 flex flex-col gap-1 items-center" key={menu_item.name}>
+              {/* Image Sqaure */}
+              <div
+                className="w-full aspect-square bg-gray-200 bg-cover bg-center bg-no-repeat rounded-md shadow-sm flex flex-row-reverse"
+                style={menu_item.image_url ? { backgroundImage: `url(${menu_item.image_url})` } : undefined}
+              >
+                {isStoreEmployee &&
+                  <div>
+                    <div className="p-1 shadow-xs rounded w-fit h-fit bg-white m-1 cursor-pointer">
+                      <Pencil className="h-4 w-4 text-gray-400" onClick={() => navigate(`/restaurant/${restaurantId}/menu_item/${index}`)}/>
+                    </div>
+                    <div className="p-1 shadow-xs rounded w-fit h-fit bg-white m-1 cursor-pointer">
+                      <Trash2 className="h-4 w-4 text-gray-400" onClick={() => handleDelete(index)} />
+                    </div>
+                  </div>
+                }
+              </div>
+              <div>{menu_item.name}</div>
+              <div>${menu_item.price}</div>
+            </div>
+          )
+        })}
+      </div>
     </div>
   );
 }
