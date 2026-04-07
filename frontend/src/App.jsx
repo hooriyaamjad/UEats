@@ -15,6 +15,7 @@ import RestaurantDetail from "./pages/restaurant-detail";
 import WriteReview from "./pages/write-review";
 import ProtectedRoute from "./components/ProtectedRoute";
 import WriteRecommendation from "./pages/write-recc";
+import MyReviews from "./pages/my-reviews";
 
 function RestaurantRedirect() {
   const { id } = useParams();
@@ -42,6 +43,7 @@ export default function App() {
         <Route path="/restaurant/:id/reviews/new" element={<WriteReview />} />
         <Route path="/restaurant/:id/recommendations/new" element={<WriteRecommendation/>}/>
         <Route path="/restaurant/:id/recommendations/:recc_id" element={<WriteRecommendation edit_mode={true}/>}/>
+        <Route path="/my-reviews" element={<MyReviews />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/home" element={<Home />} />
         </Route>
