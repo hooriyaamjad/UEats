@@ -2,11 +2,11 @@ import axios from 'axios';
 
 const baseURL = import.meta.env.VITE_API_URL ?? 'http://localhost:8000/api'
 
+const isNgrok = baseURL.includes('ngrok');
+
 const api = axios.create({
     baseURL: baseURL,
-    headers: {
-        'ngrok-skip-browser-warning': 'true',
-    },
+    headers: isNgrok ? { 'ngrok-skip-browser-warning': 'true' } : {},
 });
 
 // adds the access token to every api request
