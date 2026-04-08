@@ -1,12 +1,21 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import BackButton from "../components/BackButton";
 
 export default function ForgotPassword() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
 
-  const handleNext = () => {
-    update(email);
+  const handleSubmit = () => {
+    setEmail(email);
+    setError("");
+    
+    if (!email) {
+      setError("Please enter your email address.");
+      return;
+    }
+
     navigate("/forgot-password/confirmation");
   };
 
@@ -20,7 +29,8 @@ export default function ForgotPassword() {
       <form className="flex flex-col text-[1.2rem] md:text-[1.5rem] mb-4 w-full max-w-[25rem] gap-1">
         <label htmlFor="Email">Email</label>
         <input id="email" type="email" onChange={(e) => setEmail(e.target.value)} className="w-full h-[3rem] md:h-[3.5rem] bg-[#F3F3F3] text-[#726F6F] p-4 mb-2" placeholder="example@ucalgary.ca" />
-        <button type="button" onClick={handleNext} className="self-center rounded-[5px] bg-[#E50000] w-full max-w-[16rem] h-[3rem] md:max-w-[20rem] md:h-[3.5rem] text-white text-[1.5rem] md:text-[2rem] font-bold hover:brightness-95 cursor-pointer my-8">Send Reset Link</button>
+        {error && <p className="text-red-500 text-[1rem]">{error}</p>}
+        <button type="button" onClick={handleSubmit} className="self-center rounded-[5px] bg-[#E50000] w-full max-w-[16rem] h-[3rem] md:max-w-[20rem] md:h-[3.5rem] text-white text-[1.5rem] md:text-[2rem] font-bold hover:brightness-95 cursor-pointer my-8">Send Reset Link</button>
       </form>
     </main>
   );
