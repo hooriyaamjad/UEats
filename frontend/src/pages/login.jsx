@@ -63,7 +63,7 @@ export default function Login() {
         </div>
 
           {/* show "Forgot Password?" here on desktop */}
-          <Link to="/login" className="hidden md:block text-[#726F6F] text-[1.5rem] italic hover:underline cursor-pointer">
+          <Link to="/forgot-password" className="hidden md:block text-[#726F6F] text-[1.5rem] italic hover:underline cursor-pointer">
             Forgot Password?
           </Link>
         </div>
@@ -71,7 +71,7 @@ export default function Login() {
         <div className="flex justify-center w-full my-4">
           <div className="flex items-center gap-4">
             <div className="w-[1.5rem]" />
-            <button type="submit" className="flex items-center justify-center rounded-[5px] bg-[#E50000] w-[10rem] h-[3rem] md:h-[3.5rem] text-white text-[1.5rem] md:text-[2rem] font-bold hover:brightness-95 cursor-pointer">
+            <button type="submit" className="flex items-center justify-center rounded-[5px] bg-[#E50000] w-[10rem] h-[3rem] md:h-[3.5rem] text-white text-[1.5rem] md:text-[1.5rem] font-bold hover:brightness-95 cursor-pointer">
               Login
             </button>
             <Link to="/help">
@@ -80,7 +80,7 @@ export default function Login() {
           </div>
         </div>
         {/* show "Forgot Password?" here on mobile */}
-        <Link to="/login" className="md:hidden text-[#726F6F] text-[1.2rem] italic self-center hover:underline cursor-pointer">
+        <Link to="/forgot-password" className="md:hidden text-[#726F6F] text-[1.2rem] italic self-center hover:underline cursor-pointer">
           Forgot Password?
         </Link>
       </form>
