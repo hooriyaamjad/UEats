@@ -4,10 +4,12 @@ from typing import Optional
 from pathlib import Path
 
 from django.core.exceptions import ImproperlyConfigured
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class AppConfig(BaseSettings):
+    model_config = SettingsConfigDict(env_file=Path(__file__).resolve().parent.parent / ".env", env_file_encoding="utf-8")
+
     env: str = 'dev'
     postgres_db: Optional[str] = None
     postgres_user: Optional[str] = None
@@ -15,6 +17,8 @@ class AppConfig(BaseSettings):
     postgres_host: Optional[str] = None
     postgres_port: Optional[int] = None
     debug: bool = True
+    email_host_user: str = ""
+    email_host_password: str = ""
 
 def get_db_config(cfg: AppConfig, base_dir: Path) -> dict:
     """Get the db configs based on the app configs"""
