@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate, useParams, Outlet } from "react
 import Landing from "./pages/landing";
 import Help from "./pages/help";
 import Login from "./pages/login";
+import ForgotPassword from "./pages/forgot-password"
 import Signup from "./pages/signup";
 import SignupRole from "./pages/signupRole";
 import SignupConfirmation from "./pages/signupConfirmation";
@@ -20,6 +21,7 @@ import WriteMenuItem from "./pages/write-menu-item";
 import MyReviews from "./pages/my-reviews";
 import WriteReviewReply from "./pages/write-review-reply"
 
+
 function RestaurantRedirect() {
   const { id } = useParams();
   return <Navigate to={`/restaurant/${id}/menu`} replace />;
@@ -37,6 +39,7 @@ export default function App() {
           <Route path="/signup/confirmation" element={<SignupConfirmation />} />
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/view-restaurants" element={<ViewRestaurants />} /> {/* Move this to protected unless we're doing guest view */}
         <Route path="/profile" element={<Profile />} /> {/* TODO: Move this to protected. Putting this here for dev purposes */}
         <Route path="/edit-profile" element={<EditProfile />} /> {/* TODO: Move this to protected. Putting this here for dev purposes */}
