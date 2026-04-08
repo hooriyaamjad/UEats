@@ -15,6 +15,8 @@ class AppConfig(BaseSettings):
     postgres_host: Optional[str] = None
     postgres_port: Optional[int] = None
     debug: bool = True
+    email_host_user: str = ""
+    email_host_password: str = ""
 
 def get_db_config(cfg: AppConfig, base_dir: Path) -> dict:
     """Get the db configs based on the app configs"""

@@ -2,7 +2,7 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from .views import SignupView, ProfileViewSet
+from .views import SignupView, ProfileViewSet, PasswordResetRequestView, PasswordResetConfirmView
 
 router = DefaultRouter()
 router.register(r'', ProfileViewSet, basename='profile')
@@ -16,4 +16,6 @@ urlpatterns = [
     path("me/favourites/", ProfileViewSet.as_view({"get": "favourites"}), {"pk": "me"}, name="my-favourites"),
     path("me/favourites/toggle/", ProfileViewSet.as_view({"post": "toggle_favourite"}), {"pk": "me"}, name="toggle-favourite"),
     path('', include(router.urls)),
+    path('password-reset/', PasswordResetRequestView.as_view(), name='password-reset'),
+    path('password-reset/confirm/', PasswordResetConfirmView.as_view(), name='password-reset-confirm'),
 ]

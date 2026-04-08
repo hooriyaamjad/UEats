@@ -153,3 +153,13 @@ UNFOLD = {
     "SITE_TITLE": "UEats Admin",
     "SITE_HEADER": "UEats Admin",
 }
+
+
+# Password Reset
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = app_config.email_host_user
+EMAIL_HOST_PASSWORD = app_config.email_host_password
+DEFAULT_FROM_EMAIL = app_config.email_host_user
