@@ -86,7 +86,7 @@ export default function Signup() {
             
             <div className="flex flex-row items-center justify-center mb-8 gap-[2rem]">
               <div className="w-[1.5rem]" />
-              <button type="button" onClick={handleNext} className="flex items-center justify-center rounded-[5px] bg-[#E50000] w-full max-w-[10rem] h-[3rem] md:h-[3.5rem] text-white text-[1.5rem] md:text-[2rem] font-bold hover:brightness-95 cursor-pointer">
+              <button type="button" onClick={handleNext} className="flex items-center justify-center rounded-[5px] bg-[#E50000] w-full max-w-[10rem] h-[3rem] md:h-[3.5rem] text-white text-[1.5rem] md:text-[1.5rem] font-bold hover:brightness-95 cursor-pointer">
                 Next
               </button>
               <Link to="/help" className="w-[1.5rem] flex justify-center">

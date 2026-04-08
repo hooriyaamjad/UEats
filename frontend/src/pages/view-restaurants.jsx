@@ -73,7 +73,14 @@ export default function ViewRestaurants() {
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
 
-    const matchesTag = !selectedTag || restaurant.tags?.includes(selectedTag);
+    // combine both tag sources
+    const allTags = [
+      ...(restaurant.dietary_restrictions || []),
+      ...(restaurant.other_tags || []),
+    ].map((tag) => tag.toLowerCase());
+
+    const matchesTag =
+      !selectedTag || allTags.includes(selectedTag.toLowerCase());
 
     return matchesSearch && matchesTag;
   });
@@ -100,6 +107,12 @@ export default function ViewRestaurants() {
           <div className="mt-10 flex flex-col items-center gap-2 text-center">
             <span className="text-3xl">⚠️</span>
             <p className="text-sm font-medium text-gray-700">{error}</p>
+          </div>
+        ) : filteredRestaurants.length === 0 ? (
+          <div className="mt-10 flex flex-col items-center justify-center text-center">
+            <p className="bg-gray-100 text-gray-600 text-sm font-medium px-6 py-4 rounded-xl shadow-sm">
+              No matches found.
+            </p>
           </div>
         ) : (
           <div className="flex justify-center">

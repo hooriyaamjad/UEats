@@ -55,7 +55,7 @@ export default function ViewRestaurants() {
   return (
     <div className="min-h-screen bg-[#f5f4f2]">
       <Header
-        showBack={true}
+        showBack={false}
         onBack={() => navigate(-1)}
         title="University of Calgary"
       />
@@ -97,7 +97,7 @@ export default function ViewRestaurants() {
 
           <ProfileRouteCard
             icon={ThumbsUp}
-            text="My Recommendations"
+            text="Stores For You"
             to="/recommendations"
           />
         </div>
