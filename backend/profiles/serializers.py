@@ -4,7 +4,7 @@ from django.db import transaction
 from rest_framework import serializers
 
 from .models import Profile
-from restaurants.models import Review
+from restaurants.models import Review, Recommendation
 
 
 class MyReviewSerializer(serializers.ModelSerializer):
@@ -15,6 +15,15 @@ class MyReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ['id', 'rating', 'description', 'tags', 'created_at', 'restaurant_id', 'restaurant_name', 'restaurant_image_url']
+
+class MyReccSerializer(serializers.ModelSerializer):
+    restaurant_id = serializers.IntegerField(source='restaurant.id', read_only=True)
+    restaurant_name = serializers.CharField(source='restaurant.name', read_only=True)
+    restaurant_image_url = serializers.URLField(source='restaurant.image_url', read_only=True, allow_null=True)
+
+    class Meta:
+        model = Recommendation
+        fields = ['id','description', 'created_at', 'restaurant_id', 'restaurant_name', 'restaurant_image_url']
 
 
 class ProfileSerializer(serializers.ModelSerializer):
