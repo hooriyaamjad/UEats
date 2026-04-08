@@ -8,7 +8,6 @@ export default function ForgotPassword() {
   const [error, setError] = useState("");
 
   const handleSubmit = () => {
-    setEmail(email);
     setError("");
     
     if (!email) {
