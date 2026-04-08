@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Pencil } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import api from "../utils/api";
 import Header from "../components/Header";
 import BottomNavBar from "../components/BottomNavBar";
@@ -9,6 +9,16 @@ export default function MyReccs() {
   const navigate = useNavigate();
   const [reccs, setReccs] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const handleDelete = async (reccId, restaurantId) => {
+    try {
+        await api.delete(`/restaurants/${restaurantId}/recommendations/${reccId}/`);
+        setReccs((prev) => prev.filter((r) => r.id !== reccId));
+    } catch (err) {
+        console.error("Failed to delete recommendation:", err);
+    }
+  };
+
 
   useEffect(() => {
     api
@@ -51,7 +61,6 @@ export default function MyReccs() {
               )}
 
               <div className="px-4 pb-4 pt-2">
-                {/* Stars + edit */}
                 <div className="flex items-center justify-between">
                   <button
                     onClick={() =>
@@ -62,6 +71,12 @@ export default function MyReccs() {
                   >
                     <Pencil className="h-4 w-4 text-gray-400 hover:text-gray-600" />
                   </button>
+                    <button
+                        onClick={() => handleDelete(recommendation.id, recommendation.restaurant_id)}
+                        aria-label="Delete recommendation"
+                    >
+                        <Trash2 className="h-4 w-4 text-gray-400 hover:text-red-500 transition-colors" />
+                    </button>
                 </div>
 
                 {/* Description */}
