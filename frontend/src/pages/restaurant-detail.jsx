@@ -57,9 +57,16 @@ export default function RestaurantDetail() {
       try {
         const isLoggedIn = !!localStorage.getItem('access_token');
         const requests = [api.get(`/restaurants/${id}/`)];
-        if (isLoggedIn) requests.push(api.get("/profiles/me/favourites/"));
+        if (isLoggedIn) {
+          requests.push(api.get("/profiles/me/favourites/"));
+          requests.push(api.get("/profiles/me/"));
+      }
 
-        const [restaurantRes, favouritesRes] = await Promise.all(requests);
+        const responses = await Promise.all(requests);
+
+        const restaurantRes = responses[0];
+        const favouritesRes = isLoggedIn ? responses[1] : null;
+
         setRestaurant(restaurantRes.data);
         if (favouritesRes) {
           setIsFavourite(favouritesRes.data.includes(parseInt(id)));
@@ -236,10 +243,18 @@ function MenuTab({ restaurantId }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [restRes, profileRes] = await Promise.all([
-          api.get(`/restaurants/${restaurantId}/`),
-          api.get("/profiles/me/"),
-        ]);
+        const isLoggedIn = !!localStorage.getItem('access_token');
+        const requests = [api.get(`/restaurants/${restaurantId}/`)];
+
+         if (isLoggedIn) {
+          requests.push(api.get("/profiles/me/"));
+        }
+
+        const responses = await Promise.all(requests);
+
+        const restRes = responses[0];
+        const profileRes = isLoggedIn ? responses[1] : null;
+
         setRestData(restRes.data)
         setisStoreEmployee(profileRes.data.works_for === parseInt(restaurantId));
       } catch (err) {
@@ -338,10 +353,17 @@ function RecommendationsTab({ restaurantId }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [reccRes, profileRes] = await Promise.all([
-          api.get(`/restaurants/${restaurantId}/recommendations/`),
-          api.get("/profiles/me/"),
-        ]);
+        const isLoggedIn = !!localStorage.getItem('access_token');
+        const requests = [api.get(`/restaurants/${restaurantId}/recommendations/`)];
+        if (isLoggedIn) {
+          requests.push(api.get("/profiles/me/"));
+        }
+
+        const responses = await Promise.all(requests);
+
+        const reccRes = responses[0];
+        const profileRes = isLoggedIn ? responses[1] : null;
+
         const rankedRecommendations = reccRes.data
           .map(({ liked_by, disliked_by, ...rest }) => ({
             ...rest,
@@ -563,10 +585,16 @@ function ReviewsTab({ restaurantId, restaurantRating, restaurantName }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [reviewsRes, profileRes] = await Promise.all([
-          api.get(`/restaurants/${restaurantId}/reviews/`),
-          api.get("/profiles/me/"),
-        ]);
+        const isLoggedIn = !!localStorage.getItem('access_token');
+        const requests = [api.get(`/restaurants/${restaurantId}/reviews/`)];
+        if (isLoggedIn) {
+          requests.push(api.get("/profiles/me/"));
+        }
+
+        const responses = await Promise.all(requests);
+        const reviewsRes = responses[0];
+        const profileRes = isLoggedIn ? responses[1] : null;
+
         setReviews(reviewsRes.data);
         setMyProfileId(profileRes.data.id);
         setisStoreEmployee(profileRes.data.works_for === parseInt(restaurantId));
