@@ -97,7 +97,7 @@ export default function ViewRestaurants() {
 
           <ProfileRouteCard
             icon={ThumbsUp}
-            text="My Recommendations"
+            text="Stores For You"
             to="/recommendations"
           />
         </div>
