@@ -40,30 +40,30 @@ export default function Login() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-[1.25rem] md:text-[1.5rem] w-full max-w-[25rem]">
         <input id="email" type="text" onChange={(e) => setEmail(e.target.value)} className="w-full h-[4rem] bg-[#F3F3F3] text-[#726F6F] p-4" placeholder="Email"/>
         <div className="flex flex-col items-end gap-1">
-         <div className="relative w-full">
-          <input
-            id="password"
-            type={showPassword ? "text" : "password"}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full h-[4rem] bg-[#F3F3F3] text-[#726F6F] p-4 pr-14 rounded-md"
-            placeholder="Password"
-          />
-
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-7 h-7 rounded-full hover:bg-gray-200 transition"
-          >
-            <img
-              src={showPassword ? HidePassword : ShowPassword}
-              alt="toggle password"
-              className="w-5 h-5 opacity-70 hover:opacity-100 cursor-pointer"
+          <div className="relative w-full">
+            <input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full h-[4rem] bg-[#F3F3F3] text-[#726F6F] p-4 pr-14 rounded-md"
+              placeholder="Password"
             />
-          </button>
-        </div>
+
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-7 h-7 rounded-full hover:bg-gray-200 transition"
+            >
+              <img
+                src={showPassword ? HidePassword : ShowPassword}
+                alt="toggle password"
+                className="w-5 h-5 opacity-70 hover:opacity-100 cursor-pointer"
+              />
+            </button>
+          </div>
 
           {/* show "Forgot Password?" here on desktop */}
-          <Link to="/login" className="hidden md:block text-[#726F6F] text-[1.5rem] italic hover:underline cursor-pointer">
+          <Link to="/forgot-password" className="hidden md:block text-[#726F6F] text-[1.5rem] italic hover:underline cursor-pointer">
             Forgot Password?
           </Link>
         </div>
@@ -80,7 +80,7 @@ export default function Login() {
           </div>
         </div>
         {/* show "Forgot Password?" here on mobile */}
-        <Link to="/login" className="md:hidden text-[#726F6F] text-[1.2rem] italic self-center hover:underline cursor-pointer">
+        <Link to="/forgot-password" className="md:hidden text-[#726F6F] text-[1.2rem] italic self-center hover:underline cursor-pointer">
           Forgot Password?
         </Link>
       </form>
