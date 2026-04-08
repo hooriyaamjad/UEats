@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { ChevronRight } from "lucide-react";
 
 export default function ProfileRouteCard({
   icon,
@@ -15,29 +16,43 @@ export default function ProfileRouteCard({
           state,
         })
       }
-      className="
-        flex flex-col items-center justify-center text-center
-        cursor-pointer
-        bg-white
-        rounded-xl
-        shadow-[0_6px_12px_rgba(0,0,0,0.15)]
-        hover:shadow-[0_10px_18px_rgba(0,0,0,0.2)]
-        transition-all duration-200
-        px-4 py-5
-        w-full
-      "
+     className="
+      flex items-center justify-between
+      cursor-pointer
+      bg-white
+      rounded-xl
+      shadow-[0_6px_12px_rgba(0,0,0,0.12)]
+      hover:shadow-[0_12px_22px_rgba(0,0,0,0.18)]
+      hover:bg-gray-50
+      hover:-translate-y-1
+      transform
+      transition-all duration-300 ease-out
+      px-5 py-4
+      w-full
+    "
     >
-      <div className="mb-3 text-3xl"> 
-        {typeof icon === "string" ? (
-          <img src={icon} alt={text} className="w-8 h-8 object-contain" /> 
-        ) : (
-          icon
-        )}
+      <div className="flex items-center gap-4">
+
+        <div className="text-xl text-gray-600">
+          {typeof icon === "string" ? (
+            <img
+              src={icon}
+              alt={text}
+              className="w-6 h-6 object-contain"
+            />
+          ) : (
+            icon
+          )}
+        </div>
+
+        <p className="text-base font-semibold text-black">
+          {text}
+        </p>
+
       </div>
 
-      <p className="text-sm font-semibold text-black"> 
-        {text}
-      </p>
+      <ChevronRight className="h-5 w-5 text-gray-400" />
+
     </div>
   );
 }

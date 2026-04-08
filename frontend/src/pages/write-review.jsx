@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { ChevronLeft, Plus, X } from "lucide-react";
 import api from "../utils/api";
 import BottomNavBar from "../components/BottomNavBar";
 
 const RATING_LABELS = ["", "Poor", "Fair", "Good", "Great", "Excellent"];
 
-const PRESET_TAGS = ["Halal", "Filling", "Vegetarian", "Baked Goods", "Clean", "Expensive"];
+const PRESET_TAGS = ["Halal", "Filling", "Vegetarian", "Baked Goods", "Clean", "Cheap"];
 
 function TagPopup({ currentTags, onSubmit, onCancel }) {
   const [pendingTags, setPendingTags] = useState([...currentTags]);
@@ -140,11 +140,15 @@ function TagPopup({ currentTags, onSubmit, onCancel }) {
 export default function WriteReview() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const editState = location.state ?? {};
+  const isEditing = !!editState.reviewId;
+
   const [restaurantName, setRestaurantName] = useState("");
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(editState.initialRating ?? 0);
   const [hoverRating, setHoverRating] = useState(0);
-  const [description, setDescription] = useState("");
-  const [tags, setTags] = useState([]);
+  const [description, setDescription] = useState(editState.initialDescription ?? "");
+  const [tags, setTags] = useState(editState.initialTags ?? []);
   const [showTagPopup, setShowTagPopup] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -172,7 +176,11 @@ export default function WriteReview() {
     setSubmitting(true);
     setError(null);
     try {
-      await api.post(`/restaurants/${id}/reviews/`, { rating, description, tags });
+      if (isEditing) {
+        await api.put(`/restaurants/${id}/reviews/${editState.reviewId}/`, { rating, description, tags });
+      } else {
+        await api.post(`/restaurants/${id}/reviews/`, { rating, description, tags });
+      }
       navigate(`/restaurant/${id}/reviews`);
     } catch (err) {
       console.error("Failed to submit review:", err);
@@ -196,7 +204,7 @@ export default function WriteReview() {
           <ChevronLeft className="h-6 w-6 text-gray-700" />
         </button>
         <span className="text-base font-semibold text-gray-800">
-          Write a Review
+          {isEditing ? "Edit Review" : "Write a Review"}
         </span>
       </div>
 
@@ -303,7 +311,7 @@ export default function WriteReview() {
           className="w-full rounded-2xl bg-red-500 py-3 text-sm font-semibold text-white shadow-sm
             hover:bg-red-600 transition-colors disabled:opacity-60"
         >
-          {submitting ? "Submitting..." : "Submit Review"}
+          {submitting ? "Submitting..." : isEditing ? "Update Review" : "Submit Review"}
         </button>
       </div>
 

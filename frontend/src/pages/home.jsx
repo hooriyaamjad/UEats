@@ -6,7 +6,7 @@ import RestaurantCard from "../components/RestaurantCard";
 import Carousel from "../components/Carousel";
 import BottomNavBar from "../components/BottomNavBar";
 
-const FILTER_TAGS = ["Halal", "Vegetarian", "Coffee", "Breakfast", "Pizza", "Burgers"];
+const FILTER_TAGS = ["Halal", "Vegetarian", "Filling", "Baked Goods", "Clean", "Cheap"];
 
 export default function Home() {
   const [restaurants, setRestaurants] = useState([]);
@@ -16,15 +16,22 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchRestaurants = async () => {
+    const fetchData = async () => {
       try {
-        const response = await api.get("/restaurants/");
-        const normalized = response.data.map((r) => ({
+        const isLoggedIn = !!localStorage.getItem('access_token');
+        const requests = [api.get("/restaurants/")];
+        if (isLoggedIn) requests.push(api.get("/profiles/me/favourites/"));
+
+        const [restaurantsRes, favouritesRes] = await Promise.all(requests);
+        const normalized = restaurantsRes.data.map((r) => ({
           ...r,
           image: r.image_url || `https://placehold.co/300x200/e8d5b7/555?text=${encodeURIComponent(r.name)}`,
           tags: r.tags ?? [],
         }));
         setRestaurants(normalized);
+        if (favouritesRes) {
+          setFavouriteIds(new Set(favouritesRes.data));
+        }
       } catch (error) {
         console.error("Failed to fetch restaurants:", error?.response?.data || error.message);
         setError("Couldn't connect to the backend. Is the server running?");
@@ -33,15 +40,30 @@ export default function Home() {
       }
     };
 
-    fetchRestaurants();
+    fetchData();
   }, []);
 
-  const handleFavouriteToggle = (id) => {
+  const handleFavouriteToggle = async (id) => {
+    const isLoggedIn = !!localStorage.getItem('access_token');
+    if (!isLoggedIn) return;
+
     setFavouriteIds((prev) => {
       const next = new Set(prev);
       next.has(id) ? next.delete(id) : next.add(id);
       return next;
     });
+
+    try {
+      await api.post("/profiles/me/favourites/toggle/", { restaurant_id: id });
+    } catch (error) {
+      // Revert optimistic update on failure
+      setFavouriteIds((prev) => {
+        const next = new Set(prev);
+        next.has(id) ? next.delete(id) : next.add(id);
+        return next;
+      });
+      console.error("Failed to toggle favourite:", error?.response?.data || error.message);
+    }
   };
 
   const favourites = restaurants.filter((r) => favouriteIds.has(r.id));
