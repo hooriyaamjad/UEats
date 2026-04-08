@@ -49,10 +49,11 @@ const TagPill = ({ label }) => {
 
 export default function ExpandedRestaurantCard({
   restaurants = [],
+  favouriteIds = new Set(),
+  onFavouriteToggle = null,
   className = "",
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isFavourite, setIsFavourite] = useState(restaurants[0]?.isFavourite ?? false);
   const navigate = useNavigate();
 
   if (!restaurants.length) return null;
@@ -158,17 +159,18 @@ export default function ExpandedRestaurantCard({
 
           <div className="mt-6 flex justify-center">
             <button
-               onClick={() => setIsFavourite((prev) => !prev)}
+              onClick={() => onFavouriteToggle?.(currentRestaurant.id)}
               className="flex items-center gap-3 rounded-2xl bg-white px-5 py-2 text-base text-black shadow-md transition hover:scale-[1.02]"
             >
               <HeartIcon
-              className={`h-6 w-6 transition ${
-              isFavourite ? "fill-red-500 text-red-500"
-                : "text-gray-400 hover:text-red-400"
-            }`}
+                className={`h-6 w-6 transition ${
+                  favouriteIds.has(currentRestaurant.id)
+                    ? "fill-red-500 text-red-500"
+                    : "text-gray-400 hover:text-red-400"
+                }`}
               />
               <span>
-                {isFavourite
+                {favouriteIds.has(currentRestaurant.id)
                   ? "Added To Favourites"
                   : "Add To Favourites"}
               </span>

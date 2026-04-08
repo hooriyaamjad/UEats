@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ChevronLeft, MapPin, Heart, BadgeCheck, Pencil, Trash2, TriangleAlert, ChevronUp, ChevronDown, HeartIcon } from "lucide-react";
+import { ChevronLeft, MapPin, Heart, BadgeCheck, Pencil, Trash2, TriangleAlert, ChevronUp, ChevronDown, HeartIcon, Reply } from "lucide-react";
 import api from "../utils/api";
 import BottomNavBar from "../components/BottomNavBar";
 
@@ -55,9 +55,15 @@ export default function RestaurantDetail() {
   useEffect(() => {
     const fetchRestaurant = async () => {
       try {
-        const response = await api.get(`/restaurants/${id}/`);
-        setRestaurant(response.data);
-        setIsFavourite(response.data.isFavourite ?? false);
+        const isLoggedIn = !!localStorage.getItem('access_token');
+        const requests = [api.get(`/restaurants/${id}/`)];
+        if (isLoggedIn) requests.push(api.get("/profiles/me/favourites/"));
+
+        const [restaurantRes, favouritesRes] = await Promise.all(requests);
+        setRestaurant(restaurantRes.data);
+        if (favouritesRes) {
+          setIsFavourite(favouritesRes.data.includes(parseInt(id)));
+        }
       } catch (err) {
         const status = err?.response?.status;
         console.error("Failed to fetch restaurant:", err?.response?.data || err.message);
@@ -69,6 +75,19 @@ export default function RestaurantDetail() {
 
     fetchRestaurant();
   }, [id]);
+
+  const handleFavouriteToggle = async () => {
+    const isLoggedIn = !!localStorage.getItem('access_token');
+    if (!isLoggedIn) return;
+
+    setIsFavourite((prev) => !prev);
+    try {
+      await api.post("/profiles/me/favourites/toggle/", { restaurant_id: parseInt(id) });
+    } catch (err) {
+      setIsFavourite((prev) => !prev); // revert on failure
+      console.error("Failed to toggle favourite:", err?.response?.data || err.message);
+    }
+  };
 
   if (loading) {
     return (
@@ -127,7 +146,7 @@ export default function RestaurantDetail() {
             )}
           </div>
           <button
-            onClick={() => setIsFavourite((prev) => !prev)}
+            onClick={handleFavouriteToggle}
             aria-label={isFavourite ? "Remove from favourites" : "Add to favourites"}
             className="mt-1 ml-3"
           >
@@ -182,10 +201,10 @@ export default function RestaurantDetail() {
           ))}
         </div>
         <div className="px-5 pt-2 pb-4">
-          {activeTab === "Menu" && <MenuTab />}
+          {activeTab === "Menu" && <MenuTab restaurantId={id}/>}
           {activeTab === "Recommendations" && <RecommendationsTab restaurantId={id} />}
           {activeTab === "Reviews" && (
-            <ReviewsTab restaurantId={id} restaurantRating={restaurant.rating} />
+            <ReviewsTab restaurantId={id} restaurantRating={restaurant.rating} restaurantName={restaurant.name} />
           )}
         </div>
       </div>
@@ -196,10 +215,88 @@ export default function RestaurantDetail() {
 }
 
 // placeholder text, for development of features
-function MenuTab() {
+function MenuTab({ restaurantId }) {
+  const navigate = useNavigate();
+  const [restData, setRestData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isStoreEmployee, setisStoreEmployee] = useState(false)
+
+  const handleDelete = async (menu_item_index) => {
+    try {
+      const updatedMenu = [...(restData.menu_items ?? [])];
+      updatedMenu.splice(Number(menu_item_index), 1);
+
+      await api.patch(`/restaurants/${restaurantId}/`, { menu_items: updatedMenu });
+      setRestData((prev) => ({ ...prev, menu_items: updatedMenu }));
+    } catch (err) {
+      console.error("Failed to delete menu item:", err);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [restRes, profileRes] = await Promise.all([
+          api.get(`/restaurants/${restaurantId}/`),
+          api.get("/profiles/me/"),
+        ]);
+        setRestData(restRes.data)
+        setisStoreEmployee(profileRes.data.works_for === parseInt(restaurantId));
+      } catch (err) {
+        console.error("Failed to fetch restaurant:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [restaurantId]);
+
+  if (loading) {
+    return (
+      <div className="py-12 text-center text-gray-400 text-sm">
+        Loading menu...
+      </div>
+    );
+  }
+
   return (
-    <div className="text-center py-12 text-gray-400 text-sm">
-      Menu coming soon.
+    <div className="text-center text-gray-400 text-xs">
+      {isStoreEmployee &&
+        <div className="flex items-center justify-between py-4 border-gray-100">
+          <button
+            onClick={() => navigate(`/restaurant/${restaurantId}/menu_item/new`)}
+            className="m-auto rounded-full bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 transition-colors cursor-pointer"
+          >
+            Add an Item
+          </button>
+        </div>
+      }
+      <div className="m-auto grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+        {restData.menu_items.map((menu_item, index) => {
+          return (
+            <div className="md:w-2/3 lg:w-4/5 flex flex-col gap-1 items-center" key={menu_item.name}>
+              {/* Image Sqaure */}
+              <div
+                className="w-full aspect-square bg-gray-200 bg-cover bg-center bg-no-repeat rounded-md shadow-sm flex flex-row-reverse"
+                style={menu_item.image_url ? { backgroundImage: `url(${menu_item.image_url})` } : undefined}
+              >
+                {isStoreEmployee &&
+                  <div>
+                    <div className="p-1 shadow-xs rounded w-fit h-fit bg-white m-1 cursor-pointer">
+                      <Pencil className="h-4 w-4 text-gray-400" onClick={() => navigate(`/restaurant/${restaurantId}/menu_item/${index}`)}/>
+                    </div>
+                    <div className="p-1 shadow-xs rounded w-fit h-fit bg-white m-1 cursor-pointer">
+                      <Trash2 className="h-4 w-4 text-gray-400" onClick={() => handleDelete(index)} />
+                    </div>
+                  </div>
+                }
+              </div>
+              <div>{menu_item.name}</div>
+              <div>${menu_item.price}</div>
+            </div>
+          )
+        })}
+      </div>
     </div>
   );
 }
@@ -455,12 +552,13 @@ function ReportModal({ restaurantId, reviewId, onClose }) {
   );
 }
 
-function ReviewsTab({ restaurantId, restaurantRating }) {
+function ReviewsTab({ restaurantId, restaurantRating, restaurantName }) {
   const navigate = useNavigate();
   const [reviews, setReviews] = useState([]);
   const [myProfileId, setMyProfileId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [reportingReviewId, setReportingReviewId] = useState(null);
+  const [isStoreEmployee, setisStoreEmployee] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -471,6 +569,7 @@ function ReviewsTab({ restaurantId, restaurantRating }) {
         ]);
         setReviews(reviewsRes.data);
         setMyProfileId(profileRes.data.id);
+        setisStoreEmployee(profileRes.data.works_for === parseInt(restaurantId));
       } catch (err) {
         console.error("Failed to fetch reviews:", err);
       } finally {
@@ -488,6 +587,15 @@ function ReviewsTab({ restaurantId, restaurantRating }) {
       console.error("Failed to delete review:", err);
     }
   };
+
+  const handleDeleteReply = async (reviewId) => {
+  try {
+    await api.delete(`/restaurants/${restaurantId}/reviews/${reviewId}/reply/`);
+    setReviews((prev) => prev.map((r) => (r.id === reviewId ? { ...r, restaurant_reply: "" } : r)));
+  } catch (err) {
+    console.error("Failed to delete reply:", err);
+  }
+};
 
   if (loading) {
     return (
@@ -574,6 +682,14 @@ function ReviewsTab({ restaurantId, restaurantRating }) {
 
                   {/* Action buttons */}
                   <div className="flex items-center gap-2 shrink-0">
+                    {isStoreEmployee && (
+                      <button
+                        onClick={() => navigate(`/restaurant/${restaurantId}/reviews/${review.id}/reply`)}
+                        aria-label="reply review"
+                      >
+                        <Reply className="h-4 w-4 text-gray-400 hover:text-gray-600 transition-colors" />
+                      </button>
+                    )}
                     {isOwner ? (
                       <>
                         <button aria-label="Edit review">
@@ -614,6 +730,26 @@ function ReviewsTab({ restaurantId, restaurantRating }) {
                     ))}
                   </div>
                 )}
+                <div>
+                  {review.restaurant_reply && (
+                    <div className="ml-12 border-gray-400 mt-4">
+                      <div className="flex flex-row gap-3">
+                        <text className="text-sm mb-1">{restaurantName}'s reply</text>
+                        {isStoreEmployee &&
+                          <button
+                            onClick={() => handleDeleteReply(review.id)}
+                            aria-label="Delete reply"
+                          >
+                            <Trash2 className="h-4 w-4 text-gray-400 hover:text-red-500 transition-colors" />
+                          </button>
+                        }
+                      </div>
+                      <p className="text-sm leading-relaxed pl-2 border-l border-gray-400 text-gray-600">
+                        {review.restaurant_reply}
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
             );
           })}

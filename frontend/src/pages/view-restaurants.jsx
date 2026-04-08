@@ -1,7 +1,7 @@
 import api from "../utils/api";
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import Header from "../components/Header";
-import SearchBar from "../components/SearchBar";
+import SearchBar from "../components/Searchbar";
 import ExpandedRestaurantCard from "../components/ExpandedRestaurantCard";
 import BottomNavBar from "../components/BottomNavBar";
 import TagFilter from "../components/TagFilter";
@@ -9,32 +9,41 @@ import TagFilter from "../components/TagFilter";
 export default function ViewRestaurants() {
   const [selectedTag, setSelectedTag] = useState(null);
   const [restaurants, setRestaurants] = useState([]);
+  const [favouriteIds, setFavouriteIds] = useState(new Set());
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    const fetchRestaurants = async () => {
+    const fetchData = async () => {
       try {
-        const response = await api.get("/restaurants/");
-        setRestaurants(response.data);
+        const isLoggedIn = !!localStorage.getItem('access_token');
+        const requests = [api.get("/restaurants/")];
+        if (isLoggedIn) requests.push(api.get("/profiles/me/favourites/"));
+
+        const [restaurantsRes, favouritesRes] = await Promise.all(requests);
+        setRestaurants(restaurantsRes.data);
+        if (favouritesRes) {
+          setFavouriteIds(new Set(favouritesRes.data));
+        }
       } catch (error) {
-        console.error("Failed to fetch restaurants:", error?.response?.data || error.message);
+        console.error(
+          "Failed to fetch restaurants:",
+          error?.response?.data || error.message
+        );
         setError("Couldn't connect to the backend. Is the server running?");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchRestaurants();
+    fetchData();
   }, []);
-
-
-  // TODO: Hardcoded filter data for now, have to decide how we want to implement this
 
   const filterTags = ["Halal", "Vegetarian", "Filling", "Baked Goods", "Clean", "Cheap"];
 
   const handleSearch = (value) => {
-    console.log("Search:", value);
+    setSearchQuery(value);
   };
 
   const handleFavouriteToggle = async (id) => {
@@ -77,10 +86,7 @@ export default function ViewRestaurants() {
 
   return (
     <div className="min-h-screen bg-[#f5f4f2]">
-      <Header
-        showBack={false}
-        title="University of Calgary"
-      />
+      <Header showBack={false} title="University of Calgary" />
 
       <main className="w-full max-w-2xl mx-auto px-5 pt-5 pb-32 flex flex-col gap-6">
         <SearchBar
@@ -110,7 +116,8 @@ export default function ViewRestaurants() {
         ) : (
           <div className="flex justify-center">
             <ExpandedRestaurantCard
-              restaurants={restaurants}
+              favouriteIds={favouriteIds}
+              restaurants={filteredRestaurants}
               onFavouriteToggle={handleFavouriteToggle}
             />
           </div>

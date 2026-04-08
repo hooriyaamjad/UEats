@@ -12,5 +12,8 @@ urlpatterns = [
     path('login/', TokenObtainPairView.as_view(), name='login'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path("me/", ProfileViewSet.as_view({"get": "retrieve", "patch": "partial_update"}), {"pk": "me"}, name="me"),
+    path("me/reviews/", ProfileViewSet.as_view({"get": "my_reviews"}), {"pk": "me"}, name="my-reviews"),
+    path("me/favourites/", ProfileViewSet.as_view({"get": "favourites"}), {"pk": "me"}, name="my-favourites"),
+    path("me/favourites/toggle/", ProfileViewSet.as_view({"post": "toggle_favourite"}), {"pk": "me"}, name="toggle-favourite"),
     path('', include(router.urls)),
 ]
