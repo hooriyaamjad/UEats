@@ -98,13 +98,13 @@ export default function Recommendations() {
   }
   
   return (
-    <div className="font-sans max-[393px]:max-w-full">
+    <div className="min-h-screen bg-[#f5f4f2]">
       <Header
         showBack={true}
         title="Your Recommendations"
       />
 
-      <div className="mx-auto pt-[5px] px-[20px] pb-[20px] text-[14px]">
+      <main className="w-full max-w-2xl mx-auto px-5 pt-5 pb-32">
         {error && <p className="mb-3 text-sm text-red-500">{error}</p>}
 
         {matchedRestaurants.length > 0 ? (
@@ -131,7 +131,7 @@ export default function Recommendations() {
           </div>
         )}
 
-      </div>
+      </main>
       <BottomNavBar />
     </div>
   );
