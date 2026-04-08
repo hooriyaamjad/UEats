@@ -65,9 +65,8 @@ export default function Home() {
 
   const favourites = restaurants.filter((r) => favouriteIds.has(r.id));
 
-  const forYou = selectedTag
-    ? restaurants.filter((r) => r.tags.includes(selectedTag))
-    : restaurants;
+  const popularRestaurants = restaurants.filter(
+  (r) => Number(r.rating || 0) >= 4.0 );
 
   return (
     <div className="min-h-screen bg-[#f5f4f2]">
@@ -105,12 +104,12 @@ export default function Home() {
         {/* For You */}
         {!loading && !error && (
           <section>
-            <h2 className="text-base font-semibold mb-3">For You</h2>
-            {forYou.length === 0 ? (
+            <h2 className="text-base font-semibold mb-3">Popular Restaurants</h2>
+            {popularRestaurants.length === 0 ? (
               <p className="text-sm text-gray-400">No restaurants match this tag.</p>
             ) : (
               <Carousel>
-                {forYou.map((r) => (
+                {popularRestaurants.map((r) => (
                   <RestaurantCard
                     key={r.id}
                     restaurant={{ ...r, isFavourite: favouriteIds.has(r.id) }}
