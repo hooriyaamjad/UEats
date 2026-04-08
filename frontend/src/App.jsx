@@ -40,8 +40,6 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/view-restaurants" element={<ViewRestaurants />} /> {/* Move this to protected unless we're doing guest view */}
-        <Route path="/profile" element={<Profile />} /> {/* TODO: Move this to protected. Putting this here for dev purposes */}
-        <Route path="/edit-profile" element={<EditProfile />} /> {/* TODO: Move this to protected. Putting this here for dev purposes */}
         <Route path="/restaurant/:id" element={<RestaurantRedirect />} />
         <Route path="/restaurant/:id/:tab" element={<RestaurantDetail />} />
         <Route path="/preferences" element={<Preferences />} />
@@ -55,6 +53,8 @@ export default function App() {
         <Route path="/my-reviews" element={<MyReviews />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/home" element={<Home />} />
+          <Route path="/profile" element={<Profile />} /> {/* TODO: Move this to protected. Putting this here for dev purposes */}
+          <Route path="/edit-profile" element={<EditProfile />} /> {/* TODO: Move this to protected. Putting this here for dev purposes */}
         </Route>
       </Routes>
     </BrowserRouter>
