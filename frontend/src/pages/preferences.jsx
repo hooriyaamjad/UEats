@@ -5,6 +5,7 @@ import BottomNavBar from "../components/BottomNavBar";
 import { Chip } from "@mui/material";
 import api from "../utils/api";
 import { useEffect } from "react";
+import ResponseBanner from "../components/ResponseBanner";
 
 const dietaryOptions = [
   "Halal",
@@ -36,8 +37,9 @@ export default function Preferences() {
   const [selectedDietary, setSelectedDietaryRestrictions] = useState([]);
   const [selectedAllergens, setSelectedAllergens] = useState([]);
 
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(""); 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleSave = async () => {
     const token = localStorage.getItem("access_token");
@@ -62,11 +64,13 @@ export default function Preferences() {
       );
 
       console.log("Preferences saved:", response.data);
+      setSuccess("Preferences saved!");
     } catch (error) {
       console.error(
         "Failed to save preferences:",
         error?.response?.data || error.message
       );
+      setError("Failed to save preferences.");
     }
   };
 
@@ -126,14 +130,7 @@ export default function Preferences() {
               key={item}
               label={item}
               clickable
-              onClick={() =>
-                toggleSelection(item, setSelectedItems)
-              }
-              onDelete={
-                selected
-                  ? () => toggleSelection(item, setSelectedItems)
-                  : undefined
-              }
+              onClick={() => toggleSelection(item, setSelectedItems)}
               sx={{
                 height: 40,
                 borderRadius: "700px",
@@ -155,31 +152,32 @@ export default function Preferences() {
   };
   
   return (
-    <div className="font-sans max-[393px]:max-w-full">
+    <div className="min-h-screen bg-[#f5f4f2]">
       <Header
         showBack={true}
         title="Your Preferences"
       />
 
-      <div className="mx-auto pt-[5px] px-[20px] pb-[20px] text-[14px]">
-        {error && <p className="mb-3 text-sm text-red-500">{error}</p>}
+      <main className="w-full max-w-2xl mx-auto px-5 pt-5 pb-32">
+        <ResponseBanner message={success} type="success" onClose={() => setSuccess("")} />
+        <ResponseBanner message={error} type="error" onClose={() => setError("")} />
 
-        <h2 className="pt-5 mb-[10px] text-[18px] font-bold">
+        <h2 className="pt-5 mb-[10px] text-lg font-bold">
           Dietary Restrictions
         </h2>
 
         {preferencesChips(dietaryOptions, selectedDietary, setSelectedDietaryRestrictions, "dietary")}
 
-        <h2 className="pt-5 mb-[10px] text-[18px] font-bold">
+        <h2 className="pt-5 mb-[10px] text-lg font-bold">
           Allergens
         </h2>
 
         {preferencesChips(allergenOptions, selectedAllergens, setSelectedAllergens, "allergens")}
 
-        <h2 className="pt-5 mb-[10px] text-[18px] font-bold">
+        <h2 className="pt-5 mb-[10px] text-lg font-bold">
           Price Range
         </h2>
-        <div className="mb-[5px] text-right text-[14px]">$100</div>
+        <div className="mb-[5px] text-right text-sm">$100</div>
         <input
             type="range"
             min="0"
@@ -192,7 +190,7 @@ export default function Preferences() {
             }}
         />
 
-        <p className="text-[12px] text-[#5d5d5d]"> Set Price Range: $0 - ${priceRange} </p>
+        <p className="text-xs text-gray-500"> Set Price Range: $0 - ${priceRange} </p>
         
         <div className="flex justify-end pb-6 pt-4">
           <button
@@ -204,7 +202,7 @@ export default function Preferences() {
           </button>
         </div>
 
-      </div>
+      </main>
       <BottomNavBar />
     </div>
   );
