@@ -16,8 +16,6 @@ export default function Landing() {
       </nav>
       <p className="md:text-[1.2rem] italic text-[#555555]">Not a UCalgary student?</p>
       <Link to="/view-restaurants" className="text-blue-400 hover:underline cursor-pointer italic md:text-[1.2rem]">View Restaurants as Guest</Link>
-      <Link to="/profile" className="text-blue-600 underline">Profile</Link>
-      <Link to="/edit-profile" className="text-blue-600 underline">Edit Profile</Link>
     </main>
   );
 }

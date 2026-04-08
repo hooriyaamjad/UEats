@@ -63,7 +63,7 @@ export default function Login() {
         </div>
 
           {/* show "Forgot Password?" here on desktop */}
-          <Link to="/login" className="hidden md:block text-[#726F6F] text-[1.5rem] italic hover:underline cursor-pointer">
+          <Link to="/forgot-password" className="hidden md:block text-[#726F6F] text-[1.5rem] italic hover:underline cursor-pointer">
             Forgot Password?
           </Link>
         </div>
@@ -80,7 +80,7 @@ export default function Login() {
           </div>
         </div>
         {/* show "Forgot Password?" here on mobile */}
-        <Link to="/login" className="md:hidden text-[#726F6F] text-[1.2rem] italic self-center hover:underline cursor-pointer">
+        <Link to="/forgot-password" className="md:hidden text-[#726F6F] text-[1.2rem] italic self-center hover:underline cursor-pointer">
           Forgot Password?
         </Link>
       </form>
