@@ -1,12 +1,9 @@
 import { useState, useEffect } from "react";
 import api from "../utils/api";
 import Header from "../components/Header";
-import TagFilter from "../components/TagFilter";
 import RestaurantCard from "../components/RestaurantCard";
 import Carousel from "../components/Carousel";
 import BottomNavBar from "../components/BottomNavBar";
-
-const FILTER_TAGS = ["Halal", "Vegetarian", "Filling", "Baked Goods", "Clean", "Cheap"];
 
 export default function Home() {
   const [restaurants, setRestaurants] = useState([]);
@@ -77,15 +74,6 @@ export default function Home() {
       <Header title="University of Calgary" />
 
       <main className="w-full max-w-2xl mx-auto px-5 pt-5 pb-32 flex flex-col gap-8">
-        {/* Explore by Tags */}
-        <section>
-          <h2 className="text-base font-semibold mb-3">Explore by Tags</h2>
-          <TagFilter
-            tags={FILTER_TAGS}
-            selectedTag={selectedTag}
-            onSelect={setSelectedTag}
-          />
-        </section>
 
         {/* Error / loading state */}
         {loading && (
