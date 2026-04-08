@@ -55,7 +55,7 @@ export default function ForgotPassword() {
 
         <button
           onClick={() => navigate("/login")}
-          className="flex items-center justify-center rounded-[5px] bg-[#E50000] w-[16rem] h-[3rem] md:h-[3.5rem] text-white text-[1.5rem] md:text-[2rem] font-bold hover:brightness-95 cursor-pointer"
+          className="flex items-center justify-center rounded-[5px] bg-[#E50000] w-[16rem] h-[3rem] md:h-[3.5rem] text-white text-[1.5rem] md:text-[1.5rem] font-bold hover:brightness-95 cursor-pointer"
         >
           Back To Login
         </button>

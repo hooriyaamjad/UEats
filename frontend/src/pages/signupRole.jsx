@@ -87,7 +87,7 @@ export default function SignupRole() {
               </>
             )}
             
-            <button type="button" onClick={handleSubmit} className="rounded-[5px] bg-[#E50000] w-full max-w-[12rem] h-[3rem] md:h-[3.5rem] text-white text-[1.75rem] md:text-[2rem] font-bold hover:brightness-95 cursor-pointer">
+            <button type="button" onClick={handleSubmit} className="rounded-[5px] bg-[#E50000] w-full max-w-[12rem] h-[3rem] md:h-[3.5rem] text-white text-[1.75rem] md:text-[1.5rem] font-bold hover:brightness-95 cursor-pointer">
               Sign-Up
             </button>
           </form>
