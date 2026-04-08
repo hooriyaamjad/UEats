@@ -68,6 +68,8 @@ export default function Home() {
   const popularRestaurants = restaurants.filter(
   (r) => Number(r.rating || 0) >= 4.0 );
 
+  const allRestaurants = restaurants
+
   return (
     <div className="min-h-screen bg-[#f5f4f2]">
       <Header title="University of Calgary" />
@@ -118,6 +120,21 @@ export default function Home() {
                 ))}
               </Carousel>
             )}
+          </section>
+        )}
+
+        {!loading && !error && (
+          <section>
+            <h2 className="text-base font-semibold mb-3">All Restaurants</h2>
+            <Carousel>
+              {allRestaurants.map((r) => (
+                <RestaurantCard
+                  key={r.id}
+                  restaurant={{ ...r, isFavourite: favouriteIds.has(r.id) }}
+                  onFavouriteToggle={handleFavouriteToggle}
+                />
+              ))}
+            </Carousel>
           </section>
         )}
       </main>
