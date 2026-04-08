@@ -1,13 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import BackButton from "../components/BackButton";
+import axios from "axios";
+
 
 export default function ForgotPassword() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setError("");
     
     if (!email) {
@@ -15,8 +18,18 @@ export default function ForgotPassword() {
       return;
     }
 
-    navigate("/forgot-password/confirmation");
+    setLoading(true);
+    try {
+      const baseURL = import.meta.env.VITE_API_URL ?? 'http://localhost:8000/api';
+await axios.post(`${baseURL}/profiles/password-reset/`, { email });
+      navigate("/forgot-password/confirmation");
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
+
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-white gap-8 px-8">
@@ -29,7 +42,9 @@ export default function ForgotPassword() {
         <label htmlFor="Email">Email</label>
         <input id="email" type="email" onChange={(e) => setEmail(e.target.value)} className="w-full h-[3rem] md:h-[3.5rem] bg-[#F3F3F3] text-[#726F6F] p-4 mb-2" placeholder="example@ucalgary.ca" />
         {error && <p className="text-red-500 text-[1rem]">{error}</p>}
-        <button type="button" onClick={handleSubmit} className="self-center rounded-[5px] bg-[#E50000] w-full max-w-[16rem] h-[3rem] md:max-w-[20rem] md:h-[3.5rem] text-white text-[1.5rem] md:text-[2rem] font-bold hover:brightness-95 cursor-pointer my-8">Send Reset Link</button>
+        <button type="button" onClick={handleSubmit} className="self-center rounded-[5px] bg-[#E50000] w-full max-w-[16rem] h-[3rem] md:max-w-[20rem] md:h-[3.5rem] text-white text-[1.5rem] md:text-[2rem] font-bold hover:brightness-95 cursor-pointer my-8">
+          {loading ? "Sending..." : "Send Reset Link"}
+        </button>
       </form>
     </main>
   );
