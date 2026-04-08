@@ -37,9 +37,43 @@ export default function ViewRestaurants() {
     console.log("Search:", value);
   };
 
-  const handleFavouriteToggle = (restaurant) => {
-    console.log("Favourite clicked:", restaurant);
+  const handleFavouriteToggle = async (id) => {
+    const isLoggedIn = !!localStorage.getItem('access_token');
+    if (!isLoggedIn) return;
+
+    setFavouriteIds((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+
+    try {
+      await api.post("/profiles/me/favourites/toggle/", { restaurant_id: id });
+    } catch (error) {
+      setFavouriteIds((prev) => {
+        const next = new Set(prev);
+        next.has(id) ? next.delete(id) : next.add(id);
+        return next;
+      });
+      console.error("Failed to toggle favourite:", error?.response?.data || error.message);
+    }
   };
+
+  const filteredRestaurants = restaurants.filter((restaurant) => {
+    const matchesSearch = restaurant.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+
+    const allTags = [
+      ...(restaurant.dietary_restrictions || []),
+      ...(restaurant.other_tags || []),
+    ].map((tag) => tag.toLowerCase());
+
+    const matchesTag =
+      !selectedTag || allTags.includes(selectedTag.toLowerCase());
+
+    return matchesSearch && matchesTag;
+  });
 
   return (
     <div className="min-h-screen bg-[#f5f4f2]">
@@ -66,6 +100,12 @@ export default function ViewRestaurants() {
           <div className="mt-10 flex flex-col items-center gap-2 text-center">
             <span className="text-3xl">⚠️</span>
             <p className="text-sm font-medium text-gray-700">{error}</p>
+          </div>
+        ) : filteredRestaurants.length === 0 ? (
+          <div className="mt-10 flex flex-col items-center justify-center text-center">
+            <p className="bg-gray-100 text-gray-600 text-sm font-medium px-6 py-4 rounded-xl shadow-sm">
+              No matches found.
+            </p>
           </div>
         ) : (
           <div className="flex justify-center">
