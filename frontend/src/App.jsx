@@ -22,6 +22,7 @@ import WriteRecommendation from "./pages/write-recc";
 import WriteMenuItem from "./pages/write-menu-item";
 import MyReviews from "./pages/my-reviews";
 import WriteReviewReply from "./pages/write-review-reply"
+import MyReccs from "./pages/my-reccs";
 
 
 function RestaurantRedirect() {
@@ -56,6 +57,7 @@ export default function App() {
         <Route path="/restaurant/:id/menu_item/:menu_item_index" element={<WriteMenuItem edit_mode={true}/>}/>
         <Route path="/restaurant/:id/reviews/:review_id/reply" element={<WriteReviewReply/>}/>
         <Route path="/my-reviews" element={<MyReviews />} />
+        <Route path="/my-recommendations" element={<MyReccs />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} /> 

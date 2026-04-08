@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import BottomNavBar from "../components/BottomNavBar";
 import PlaceholderProfilePic from "../assets/placeholder_pfp.png";
-import { LogOut } from "lucide-react";
+import { LogOut, HandHeart } from "lucide-react";
 import ConfirmationPopup from "../components/ConfirmationPopup";
 import PreferencesIcon from "../assets/preferences.png";
 import EmptyStar from "../assets/empty_star.png";
@@ -93,6 +93,13 @@ export default function ViewRestaurants() {
             icon={EmptyStar}
             text="My Reviews"
             to="/my-reviews"
+          />
+
+          
+          <ProfileRouteCard
+            icon={<HandHeart color="black"/>}
+            text="What I've Recommended"
+            to="/my-recommendations"
           />
 
           <ProfileRouteCard

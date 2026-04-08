@@ -10,9 +10,9 @@ from django.utils.encoding import force_bytes, force_str
 from django.core.mail import send_mail
 from django.conf import settings
 
-from .serializers import SignupSerializer, ProfileSerializer, MyReviewSerializer
+from .serializers import SignupSerializer, ProfileSerializer, MyReviewSerializer, MyReccSerializer
 from .models import Profile
-from restaurants.models import Review, Restaurant
+from restaurants.models import Review, Restaurant, Recommendation
 
 class SignupView(generics.CreateAPIView):
     serializer_class = SignupSerializer
@@ -65,6 +65,17 @@ class ProfileViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance, data=data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        return Response(serializer.data)
+
+    @action(detail=True, methods=["get"], url_path="recommendations")
+    def my_reccs(self, request, *args, **kwargs):
+        profile = self.get_object()
+        reccs = (
+            Recommendation.objects
+            .select_related('restaurant')
+            .filter(profile=profile)
+        )
+        serializer = MyReccSerializer(reccs, many=True)
         return Response(serializer.data)
 
     @action(detail=True, methods=["get"], url_path="reviews")
