@@ -5,6 +5,7 @@ import Profile from "../assets/profile.png";
 
 export default function BottomNavBar() {
   const location = useLocation();
+  const isLoggedIn = !!localStorage.getItem("access_token");
 
   const navItems = [
     {
@@ -17,11 +18,15 @@ export default function BottomNavBar() {
       icon: Search,
       path: "/view-restaurants",
     },
-    {
-      label: "Profile",
-      icon: Profile,
-      path: "/profile", // TODO: add right path
-    },
+    ...(isLoggedIn
+      ? [
+          {
+            label: "Profile",
+            icon: Profile,
+            path: "/profile",
+          },
+        ]
+      : []),
   ];
 
   return (

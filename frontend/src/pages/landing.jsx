@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Landing() {
+  const navigate = useNavigate();
+
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-white px-4">
       <img src="/src/assets/ueats_logo.png" alt="UEats logo" className="w-[16rem] h-[12rem] md:w-[24rem] md:h-[18rem] object-contain" />
@@ -15,7 +17,12 @@ export default function Landing() {
         </Link>
       </nav>
       <p className="md:text-[1.2rem] italic text-[#555555]">Not a UCalgary student?</p>
-      <Link to="/view-restaurants" className="text-blue-400 hover:underline cursor-pointer italic md:text-[1.2rem]">View Restaurants as Guest</Link>
+        <button
+            onClick={() => navigate("/view-restaurants")}
+            className={`mt-5 px-4 py-3 cursor-pointer bg-white text-black font-semibold rounded-xl shadow-[0_6px_12px_rgba(0,0,0,0.12)]
+ hover:shadow-[0_12px_22px_rgba(0,0,0,0.18)] hover:bg-gray-50 hover:-translate-y-1 transform transition-all duration-300 ease-out`}
+          > View as Guest          
+        </button>
     </main>
   );
 }
