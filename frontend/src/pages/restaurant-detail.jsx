@@ -49,6 +49,7 @@ export default function RestaurantDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isFavourite, setIsFavourite] = useState(false);
+  const isLoggedIn = !!localStorage.getItem("access_token");
 
   const activeTab = TAB_PARAM_MAP[tab] ?? "Menu";
 
@@ -152,17 +153,19 @@ export default function RestaurantDetail() {
               <p className="mt-0.5 text-sm font-medium text-gray-500">{restaurant.price}</p>
             )}
           </div>
-          <button
-            onClick={handleFavouriteToggle}
-            aria-label={isFavourite ? "Remove from favourites" : "Add to favourites"}
-            className="mt-1 ml-3"
-          >
+          {isLoggedIn && (
+            <button
+              onClick={handleFavouriteToggle}
+              aria-label={isFavourite ? "Remove from favourites" : "Add to favourites"}
+              className="mt-1 ml-3"
+            >
             <Heart
               className={`h-6 w-6 ${
                 isFavourite ? "fill-red-500 text-red-500" : "text-red-400"
               }`}
             />
           </button>
+          )}
         </div>
 
         {restaurant.location && (
@@ -322,6 +325,8 @@ function RecommendationsTab({ restaurantId }) {
   const [recommendations, setRecommendations] = useState([]);
   const [myProfileId, setMyProfileId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const isLoggedIn = !!localStorage.getItem('access_token');
+
 
   const handleVote = async (recommendationId, vote) => {
     try {
@@ -384,7 +389,7 @@ function RecommendationsTab({ restaurantId }) {
   if (loading) {
     return (
       <div className="py-12 text-center text-gray-400 text-sm">
-        Loading reviews...
+        Loading recommendations...
       </div>
     );
   }
@@ -392,15 +397,17 @@ function RecommendationsTab({ restaurantId }) {
   return (
     <div>
       <div className="flex items-center justify-between py-4 border-b border-gray-100">
-        <button
-          onClick={() => navigate(`/restaurant/${restaurantId}/recommendations/new`)}
-          className="m-auto rounded-full bg-red-500 rounded-2xl px-6 py-2 text-sm text-white font-semibold shadow-sm 
+      {isLoggedIn && (
+          <button
+            onClick={() => navigate(`/restaurant/${restaurantId}/recommendations/new`)}
+            className="m-auto rounded-full bg-red-500 rounded-2xl px-6 py-2 text-sm text-white font-semibold shadow-sm 
   cursor-pointer hover:shadow-md hover:bg-red-600 hover:shadow-[0_12px_22px_rgba(0,0,0,0.18)]
   hover:-translate-y-1
   transition-all duration-200"
  >
           Recommend Something
         </button>
+    )}
       </div>
       {/* Reccomendations list */}
       {recommendations.length == 0 ? (
@@ -462,11 +469,12 @@ function RecommendationsTab({ restaurantId }) {
                         <TriangleAlert className="h-4 w-4 text-yellow-500 hover:text-yellow-600 transition-colors" />
                       </button>
                     )}
-                    <div className="flex flex-col">
-                      <button
-                        onClick={() => handleVote(recc.id, "like")}
-                        aria-label="Upvote recommendation"
-                      >
+                    {isLoggedIn && (
+                      <div className="flex flex-col">
+                        <button
+                          onClick={() => handleVote(recc.id, "like")}
+                          aria-label="Upvote recommendation"
+                        >
                         <ChevronUp className={`h-4 w-4 hover:text-green-600 transition-colors ${recc.current_user_vote === 'like' ? 'text-green-600' : ''}`} />
                         {recc.rank}
                       </button>
@@ -477,6 +485,7 @@ function RecommendationsTab({ restaurantId }) {
                         <ChevronDown className={`h-4 w-4 hover:text-red-600 transition-colors  ${recc.current_user_vote === 'dislike' ? 'text-red-600' : ''}`} />
                       </button>
                     </div>
+                    )}
                   </div>
                 </div>
 
@@ -581,6 +590,7 @@ function ReviewsTab({ restaurantId, restaurantRating, restaurantName }) {
   const [loading, setLoading] = useState(true);
   const [reportingReviewId, setReportingReviewId] = useState(null);
   const [isStoreEmployee, setisStoreEmployee] = useState(false)
+  const isLoggedIn = !!localStorage.getItem("access_token");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -655,14 +665,16 @@ function ReviewsTab({ restaurantId, restaurantRating, restaurantName }) {
             </p>
           </div>
         </div>
-        <button
-          onClick={() => navigate(`/restaurant/${restaurantId}/reviews/new`)}
- className="rounded-full bg-red-500 rounded-2xl px-6 py-2 text-sm text-white font-semibold shadow-sm 
+        {isLoggedIn && (
+          <button
+            onClick={() => navigate(`/restaurant/${restaurantId}/reviews/new`)}
+            className="rounded-full bg-red-500 rounded-2xl px-6 py-2 text-sm text-white font-semibold shadow-sm 
   cursor-pointer hover:shadow-md hover:bg-red-600 hover:shadow-[0_12px_22px_rgba(0,0,0,0.18)]
   hover:-translate-y-1
   transition-all duration-200"        >
           Add a Review
         </button>
+        )}
       </div>
 
       {/* Review list */}

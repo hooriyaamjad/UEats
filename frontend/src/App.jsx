@@ -53,8 +53,8 @@ export default function App() {
         <Route path="/my-reviews" element={<MyReviews />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/home" element={<Home />} />
-          <Route path="/profile" element={<Profile />} /> {/* TODO: Move this to protected. Putting this here for dev purposes */}
-          <Route path="/edit-profile" element={<EditProfile />} /> {/* TODO: Move this to protected. Putting this here for dev purposes */}
+          <Route path="/profile" element={<Profile />} /> 
+          <Route path="/edit-profile" element={<EditProfile />} />
         </Route>
       </Routes>
     </BrowserRouter>
