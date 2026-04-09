@@ -38,7 +38,7 @@ await axios.post(`${baseURL}/profiles/password-reset/`, { email });
       </div>
       <img src="/src/assets/ueats_logo.png" alt="UEats logo" className="w-[12rem] h-[9rem] object-contain" />
       <h1 className="w-full max-w-[25rem] text-center text-black text-[2.5rem] font-bold">Forgot Password?</h1>
-      <form className="flex flex-col text-[1.2rem] md:text-[1.5rem] mb-4 w-full max-w-[25rem] gap-1">
+      <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} className="flex flex-col text-[1.2rem] md:text-[1.5rem] mb-4 w-full max-w-[25rem] gap-1">
         <label htmlFor="Email">Email</label>
         <input id="email" type="email" onChange={(e) => setEmail(e.target.value)} className="w-full h-[3rem] md:h-[3.5rem] bg-[#F3F3F3] text-[#726F6F] p-4 mb-2" placeholder="example@ucalgary.ca" />
         {error && <p className="text-red-500 text-[1rem]">{error}</p>}
