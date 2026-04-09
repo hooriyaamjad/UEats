@@ -8,16 +8,20 @@ class Command(BaseCommand):
 	help = "Seed the database with sample restaurant recommendations"
 
 	def handle(self, *args, **kwargs):
-		profiles = list(Profile.objects.all())
-		restaurants = list(Restaurant.objects.all())
-
-		if not profiles:
+		try:
+			john = Profile.objects.get(user__username="user123")
+			jane = Profile.objects.get(user__username="jane_smith")
+			mike = Profile.objects.get(user__username="mike_ross")
+			profiles = [john, jane, mike]
+		except Profile.DoesNotExist:
 			self.stdout.write(
 				self.style.WARNING(
-					"No profiles found. Run seed_profiles before seeding recommendations."
+					"Seeded profiles not found. Run seed_profiles before seeding reviews."
 				)
 			)
 			return
+		
+		restaurants = list(Restaurant.objects.all())
 
 		if not restaurants:
 			self.stdout.write(
@@ -26,8 +30,6 @@ class Command(BaseCommand):
 				)
 			)
 			return
-
-		Recommendation.objects.all().delete()
 
 		descriptions = [
 			"Chicken Bun + Spicy Beef Sub.",
