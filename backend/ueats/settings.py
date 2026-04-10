@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 from .config import AppConfig, get_db_config
+import ssl
+import certifi
 
 app_config = AppConfig()
 
@@ -163,3 +165,4 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = app_config.email_host_user
 EMAIL_HOST_PASSWORD = app_config.email_host_password
 DEFAULT_FROM_EMAIL = app_config.email_host_user
+EMAIL_SSL_CONTEXT = ssl.create_default_context(cafile=certifi.where())
