@@ -4,7 +4,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from profiles.models import Profile
+from profiles.models import EmployeeEmail, Profile
 from .models import Restaurant, Review
 
 
@@ -37,12 +37,16 @@ class ReviewReplyTest(APITestCase):
 			},
 		}
 
+		
+		EmployeeEmail.objects.create(email="employee@ucalgary.ca")
+
 		self.reviewer = self._signup_user('reviewer', 'reviewer@ucalgary.ca')
 		self.employee = self._signup_user(
 			'employee',
 			'employee@ucalgary.ca',
 			works_for=self.restaurant.pk,
 		)
+
 
 		self.review = Review.objects.create(
 			profile=self.reviewer,
@@ -124,11 +128,13 @@ class ReviewReplyTest(APITestCase):
 			closing_hours='18:00',
 			rating=4.0,
 		)
+		EmployeeEmail.objects.create(email="other-employee@ucalgary.ca")
 		other_employee = self._signup_user(
 			'other-employee',
 			'other-employee@ucalgary.ca',
 			works_for=other_restaurant.pk,
 		)
+
 
 		self.client.force_authenticate(user=other_employee.user)
 
