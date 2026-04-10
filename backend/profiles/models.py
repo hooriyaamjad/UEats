@@ -29,3 +29,10 @@ class Profile(models.Model):
                 name='unique_university_student_id_when_student'
             )
         ]
+
+
+class EmployeeEmail(models.Model):
+    """
+    Stores employee email addresses.
+    """
+    email = models.EmailField(unique=True)

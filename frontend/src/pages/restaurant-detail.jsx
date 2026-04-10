@@ -259,7 +259,7 @@ function MenuTab({ restaurantId }) {
         const profileRes = isLoggedIn ? responses[1] : null;
 
         setRestData(restRes.data)
-        setisStoreEmployee(profileRes.data.works_for === parseInt(restaurantId));
+        setisStoreEmployee(profileRes.data.works_for === parseInt(restaurantId) || profileRes.data.is_superuser);
       } catch (err) {
         console.error("Failed to fetch restaurant:", err);
       } finally {
@@ -295,9 +295,14 @@ function MenuTab({ restaurantId }) {
             <div className="md:w-2/3 lg:w-4/5 flex flex-col gap-1 items-center" key={menu_item.name}>
               {/* Image Sqaure */}
               <div
-                className="w-full aspect-square bg-gray-200 bg-cover bg-center bg-no-repeat rounded-md shadow-sm flex flex-row-reverse"
+                className="w-full aspect-square bg-gray-200 bg-cover bg-center bg-no-repeat rounded-md shadow-sm relative flex flex-row-reverse"
                 style={menu_item.image_url ? { backgroundImage: `url(${menu_item.image_url})` } : undefined}
               >
+                {!menu_item.image_url && (
+                  <div className="pointer-events-none absolute inset-0 grid place-items-center text-3xl font-semibold text-gray-500 select-none">
+                    ?
+                  </div>
+                )}
                 {isStoreEmployee &&
                   <div>
                     <div className="p-1 shadow-xs rounded w-fit h-fit bg-white m-1 cursor-pointer">
@@ -325,6 +330,7 @@ function RecommendationsTab({ restaurantId }) {
   const [recommendations, setRecommendations] = useState([]);
   const [myProfileId, setMyProfileId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isSuper, setIsSuper] = useState(false)
   const isLoggedIn = !!localStorage.getItem('access_token');
 
 
@@ -377,6 +383,7 @@ function RecommendationsTab({ restaurantId }) {
           .sort((r1, r2) => r2.rank - r1.rank);
         setRecommendations(rankedRecommendations);
         setMyProfileId(profileRes.data.id);
+        setIsSuper(profileRes.data.is_superuser)
       } catch (err) {
         console.error("Failed to fetch recommendations:", err);
       } finally {
@@ -417,7 +424,7 @@ function RecommendationsTab({ restaurantId }) {
       ) : (
         <div className="divide-y divide-gray-100">
           {recommendations.map((recc) => {
-            const isOwner = recc.profile === myProfileId;
+            const isOwner = recc.profile === myProfileId || isSuper;
             const pd = recc.profile_data;
             const displayName = pd
               ? `${pd.first_name} ${pd.last_name?.[0] ?? ""}.`
@@ -591,6 +598,7 @@ function ReviewsTab({ restaurantId, restaurantRating, restaurantName }) {
   const [reportingReviewId, setReportingReviewId] = useState(null);
   const [isStoreEmployee, setisStoreEmployee] = useState(false)
   const isLoggedIn = !!localStorage.getItem("access_token");
+  const [isSuper, setIsSuper] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -607,7 +615,8 @@ function ReviewsTab({ restaurantId, restaurantRating, restaurantName }) {
 
         setReviews(reviewsRes.data);
         setMyProfileId(profileRes.data.id);
-        setisStoreEmployee(profileRes.data.works_for === parseInt(restaurantId));
+        setisStoreEmployee(profileRes.data.works_for === parseInt(restaurantId) || profileRes.data.is_superuser);
+        setIsSuper(profileRes.data.is_superuser)
       } catch (err) {
         console.error("Failed to fetch reviews:", err);
       } finally {
@@ -685,7 +694,7 @@ function ReviewsTab({ restaurantId, restaurantRating, restaurantName }) {
       ) : (
         <div className="divide-y divide-gray-100">
           {reviews.map((review) => {
-            const isOwner = review.profile === myProfileId;
+            const isOwner = review.profile === myProfileId || isSuper;
             const pd = review.profile_data;
             const displayName = pd
               ? `${pd.first_name} ${pd.last_name?.[0] ?? ""}.`

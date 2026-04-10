@@ -30,11 +30,12 @@ class ProfileSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(source="user.first_name")
     last_name = serializers.CharField(source="user.last_name")
     email = serializers.EmailField(source="user.email", read_only=True)
+    is_superuser = serializers.BooleanField(source="user.is_superuser", read_only=True)
     password = serializers.CharField(write_only=True, required=False)
 
     class Meta:
         model = Profile
-        fields = ["id", "first_name", "last_name", "email", "password", "is_student", "university", "student_id", "image_url", "preferences", "works_for"]
+        fields = ["id", "first_name", "last_name", "email", "is_superuser", "password", "is_student", "university", "student_id", "image_url", "preferences", "works_for"]
 
     def update(self, instance, validated_data):
         user_data = validated_data.pop("user", {})
