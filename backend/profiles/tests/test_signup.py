@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from restaurants.models import Restaurant
+from profiles.models import EmployeeEmail
 
 class SignupTest(APITestCase):
     
@@ -94,6 +95,8 @@ class SignupTest(APITestCase):
                           )
         rest.save()
 
+        EmployeeEmail.objects.create(email=self.valid_payload["email"])
+
         payload = deepcopy(self.valid_payload)
         payload['profile']['works_for'] = rest.pk
         response = self.client.post(self.signup_url, payload, format='json')
@@ -101,6 +104,26 @@ class SignupTest(APITestCase):
 
         user = User.objects.get(username=payload["username"])
         self.assertEqual(user.profile.works_for_id, rest.pk)
+
+    def test_signup_employee_fails_when_email_not_authorized(self):
+        rest = Restaurant(
+            name="rest",
+            location="location",
+            min_price=0,
+            max_price=1,
+            days_of_operation="MWF",
+            opening_hours="1",
+            closing_hours="1",
+            rating=1,
+        )
+        rest.save()
+
+        payload = deepcopy(self.valid_payload)
+        payload["profile"]["works_for"] = rest.pk
+        response = self.client.post(self.signup_url, payload, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("email", response.data)
 
 
 
