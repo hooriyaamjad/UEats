@@ -1,16 +1,67 @@
-# React + Vite
+# UEats Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the React frontend for UEats, a campus food discovery app that helps users browse university-area restaurants, explore menus, save favourites, write reviews, and share recommendations.
 
-Currently, two official plugins are available:
+The frontend is built with Vite and connects to the Django REST backend.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Frontend Includes
 
-## React Compiler
+The client app covers the main user flows for UEats:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- landing page with guest access
+- signup, login, and password reset flows
+- protected profile pages for authenticated users
+- restaurant browsing with search and tag filtering
+- restaurant detail pages with menu, recommendations, and reviews tabs
+- favourites, personal preferences, and profile editing
+- review creation and restaurant replies
+- recommendation creation and voting
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```text
+frontend/
+|-- public/
+|-- src/
+|   |-- assets/        # images and icons
+|   |-- components/    # reusable UI components
+|   |-- context/       # shared React context
+|   |-- pages/         # route-level screens
+|   `-- utils/         # API client and helpers
+|-- package.json
+`-- vite.config.js
+```
+
+## Running the Frontend
+
+From the `frontend/` directory:
+
+```bash
+npm install
+npm run dev
+```
+
+The app will start on:
+
+```text
+http://localhost:5173
+```
+
+## Available Scripts
+
+- `npm run dev` starts the Vite development server
+- `npm run build` creates a production build
+- `npm run preview` previews the production build locally
+- `npm run lint` runs ESLint
+
+## Routing Overview
+
+Some of the main routes in the app include:
+
+- `/` landing page
+- `/login` and `/signup` authentication flows
+- `/view-restaurants` restaurant listing page
+- `/restaurant/:id/:tab` restaurant detail page
+- `/home` authenticated home screen
+- `/profile` and `/edit-profile` profile management
+- `/my-reviews` and `/my-recommendations` personal activity pages
