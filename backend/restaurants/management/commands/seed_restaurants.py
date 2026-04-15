@@ -20,8 +20,8 @@ class Command(BaseCommand):
                 "location": "MacEwan Student Centre",
                 "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/bc/A%26W_Canada_Logo.svg",
                 "menu_items": [
-                    {"name": "Teen Burger", "price": 8.99},
-                    {"name": "Mama Burger", "price": 6.49},
+                    {"name": "Teen Burger", "price": 8.99, "image_url": "https://web.aw.ca/i/items/?i=teen-burger&d=teen-burger&cat=burgers&lang=teen-burger-en"},
+                    {"name": "Mama Burger", "price": 6.49, "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-VV9otoWzns6QJQMjgn2EUYrC9kEg5cQsAA&s"},
                     {"name": "Mozza Burger", "price": 8.79},
                     {"name": "Beyond Meat Burger", "price": 9.29},
                     {"name": "Chicken Burger", "price": 7.49},

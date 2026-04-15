@@ -5,6 +5,9 @@ from restaurants.models import Restaurant
 class IsOwnerOrReadOnly(permissions.BasePermission):
     
     def has_object_permission(self, request, _view, obj):
+        if request.user.is_superuser:
+            return True
+
         if request.method in permissions.SAFE_METHODS:
             return True
 
@@ -12,6 +15,9 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 
 class IsRestaurantEmployee(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
+        if request.user.is_superuser:
+            return True
+
         if not request.user.is_authenticated:
             return False
         if isinstance(obj, Restaurant):

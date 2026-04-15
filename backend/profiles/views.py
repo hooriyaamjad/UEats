@@ -10,9 +10,9 @@ from django.utils.encoding import force_bytes, force_str
 from django.core.mail import send_mail
 from django.conf import settings
 
-from .serializers import SignupSerializer, ProfileSerializer, MyReviewSerializer
-from .models import Profile
-from restaurants.models import Review, Restaurant
+from .serializers import SignupSerializer, ProfileSerializer, MyReviewSerializer, MyReccSerializer
+from .models import EmployeeEmail, Profile
+from restaurants.models import Review, Restaurant, Recommendation
 
 class SignupView(generics.CreateAPIView):
     serializer_class = SignupSerializer
@@ -21,6 +21,16 @@ class SignupView(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+
+        profile_data = serializer.validated_data.get("profile", {})
+        works_for = profile_data.get("works_for")
+        email = serializer.validated_data.get("email")
+
+        if works_for is not None and not EmployeeEmail.objects.filter(email__iexact=email).exists():
+            return Response(
+                {"email": ["Email is not authorized for employee signup."]},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         
         user = serializer.save()
 
@@ -65,6 +75,17 @@ class ProfileViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance, data=data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        return Response(serializer.data)
+
+    @action(detail=True, methods=["get"], url_path="recommendations")
+    def my_reccs(self, request, *args, **kwargs):
+        profile = self.get_object()
+        reccs = (
+            Recommendation.objects
+            .select_related('restaurant')
+            .filter(profile=profile)
+        )
+        serializer = MyReccSerializer(reccs, many=True)
         return Response(serializer.data)
 
     @action(detail=True, methods=["get"], url_path="reviews")

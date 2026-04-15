@@ -44,7 +44,7 @@ export default function ResetPassword() {
     <main className="min-h-screen flex flex-col items-center justify-center bg-white gap-8 px-8">
       <img src="/src/assets/ueats_logo.png" alt="UEats logo" className="w-[12rem] h-[9rem] object-contain" />
       <h1 className="w-full max-w-[25rem] text-center text-black text-[2.5rem] font-bold">Reset Password</h1>
-      <form className="flex flex-col text-[1.2rem] md:text-[1.5rem] mb-4 w-full max-w-[25rem] gap-1">
+      <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} className="flex flex-col text-[1.2rem] md:text-[1.5rem] mb-4 w-full max-w-[25rem] gap-1">
         <label htmlFor="new-password">New Password</label>
         <input
           id="new-password"

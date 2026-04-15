@@ -49,6 +49,7 @@ export default function RestaurantDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isFavourite, setIsFavourite] = useState(false);
+  const isLoggedIn = !!localStorage.getItem("access_token");
 
   const activeTab = TAB_PARAM_MAP[tab] ?? "Menu";
 
@@ -57,9 +58,16 @@ export default function RestaurantDetail() {
       try {
         const isLoggedIn = !!localStorage.getItem('access_token');
         const requests = [api.get(`/restaurants/${id}/`)];
-        if (isLoggedIn) requests.push(api.get("/profiles/me/favourites/"));
+        if (isLoggedIn) {
+          requests.push(api.get("/profiles/me/favourites/"));
+          requests.push(api.get("/profiles/me/"));
+      }
 
-        const [restaurantRes, favouritesRes] = await Promise.all(requests);
+        const responses = await Promise.all(requests);
+
+        const restaurantRes = responses[0];
+        const favouritesRes = isLoggedIn ? responses[1] : null;
+
         setRestaurant(restaurantRes.data);
         if (favouritesRes) {
           setIsFavourite(favouritesRes.data.includes(parseInt(id)));
@@ -145,17 +153,19 @@ export default function RestaurantDetail() {
               <p className="mt-0.5 text-sm font-medium text-gray-500">{restaurant.price}</p>
             )}
           </div>
-          <button
-            onClick={handleFavouriteToggle}
-            aria-label={isFavourite ? "Remove from favourites" : "Add to favourites"}
-            className="mt-1 ml-3"
-          >
+          {isLoggedIn && (
+            <button
+              onClick={handleFavouriteToggle}
+              aria-label={isFavourite ? "Remove from favourites" : "Add to favourites"}
+              className="mt-1 ml-3"
+            >
             <Heart
               className={`h-6 w-6 ${
                 isFavourite ? "fill-red-500 text-red-500" : "text-red-400"
               }`}
             />
           </button>
+          )}
         </div>
 
         {restaurant.location && (
@@ -236,12 +246,20 @@ function MenuTab({ restaurantId }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [restRes, profileRes] = await Promise.all([
-          api.get(`/restaurants/${restaurantId}/`),
-          api.get("/profiles/me/"),
-        ]);
+        const isLoggedIn = !!localStorage.getItem('access_token');
+        const requests = [api.get(`/restaurants/${restaurantId}/`)];
+
+         if (isLoggedIn) {
+          requests.push(api.get("/profiles/me/"));
+        }
+
+        const responses = await Promise.all(requests);
+
+        const restRes = responses[0];
+        const profileRes = isLoggedIn ? responses[1] : null;
+
         setRestData(restRes.data)
-        setisStoreEmployee(profileRes.data.works_for === parseInt(restaurantId));
+        setisStoreEmployee(profileRes.data.works_for === parseInt(restaurantId) || profileRes.data.is_superuser);
       } catch (err) {
         console.error("Failed to fetch restaurant:", err);
       } finally {
@@ -277,9 +295,14 @@ function MenuTab({ restaurantId }) {
             <div className="md:w-2/3 lg:w-4/5 flex flex-col gap-1 items-center" key={menu_item.name}>
               {/* Image Sqaure */}
               <div
-                className="w-full aspect-square bg-gray-200 bg-cover bg-center bg-no-repeat rounded-md shadow-sm flex flex-row-reverse"
+                className="w-full aspect-square bg-gray-200 bg-cover bg-center bg-no-repeat rounded-md shadow-sm relative flex flex-row-reverse"
                 style={menu_item.image_url ? { backgroundImage: `url(${menu_item.image_url})` } : undefined}
               >
+                {!menu_item.image_url && (
+                  <div className="pointer-events-none absolute inset-0 grid place-items-center text-3xl font-semibold text-gray-500 select-none">
+                    ?
+                  </div>
+                )}
                 {isStoreEmployee &&
                   <div>
                     <div className="p-1 shadow-xs rounded w-fit h-fit bg-white m-1 cursor-pointer">
@@ -307,6 +330,9 @@ function RecommendationsTab({ restaurantId }) {
   const [recommendations, setRecommendations] = useState([]);
   const [myProfileId, setMyProfileId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isSuper, setIsSuper] = useState(false)
+  const isLoggedIn = !!localStorage.getItem('access_token');
+
 
   const handleVote = async (recommendationId, vote) => {
     try {
@@ -338,10 +364,17 @@ function RecommendationsTab({ restaurantId }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [reccRes, profileRes] = await Promise.all([
-          api.get(`/restaurants/${restaurantId}/recommendations/`),
-          api.get("/profiles/me/"),
-        ]);
+        const isLoggedIn = !!localStorage.getItem('access_token');
+        const requests = [api.get(`/restaurants/${restaurantId}/recommendations/`)];
+        if (isLoggedIn) {
+          requests.push(api.get("/profiles/me/"));
+        }
+
+        const responses = await Promise.all(requests);
+
+        const reccRes = responses[0];
+        const profileRes = isLoggedIn ? responses[1] : null;
+
         const rankedRecommendations = reccRes.data
           .map(({ liked_by, disliked_by, ...rest }) => ({
             ...rest,
@@ -350,6 +383,7 @@ function RecommendationsTab({ restaurantId }) {
           .sort((r1, r2) => r2.rank - r1.rank);
         setRecommendations(rankedRecommendations);
         setMyProfileId(profileRes.data.id);
+        setIsSuper(profileRes.data.is_superuser)
       } catch (err) {
         console.error("Failed to fetch recommendations:", err);
       } finally {
@@ -362,7 +396,7 @@ function RecommendationsTab({ restaurantId }) {
   if (loading) {
     return (
       <div className="py-12 text-center text-gray-400 text-sm">
-        Loading reviews...
+        Loading recommendations...
       </div>
     );
   }
@@ -370,15 +404,17 @@ function RecommendationsTab({ restaurantId }) {
   return (
     <div>
       <div className="flex items-center justify-between py-4 border-b border-gray-100">
-        <button
-          onClick={() => navigate(`/restaurant/${restaurantId}/recommendations/new`)}
-          className="m-auto rounded-full bg-red-500 rounded-2xl px-6 py-2 text-sm text-white font-semibold shadow-sm 
+      {isLoggedIn && (
+          <button
+            onClick={() => navigate(`/restaurant/${restaurantId}/recommendations/new`)}
+            className="m-auto rounded-full bg-red-500 rounded-2xl px-6 py-2 text-sm text-white font-semibold shadow-sm 
   cursor-pointer hover:shadow-md hover:bg-red-600 hover:shadow-[0_12px_22px_rgba(0,0,0,0.18)]
   hover:-translate-y-1
   transition-all duration-200"
  >
           Recommend Something
         </button>
+    )}
       </div>
       {/* Reccomendations list */}
       {recommendations.length == 0 ? (
@@ -388,7 +424,7 @@ function RecommendationsTab({ restaurantId }) {
       ) : (
         <div className="divide-y divide-gray-100">
           {recommendations.map((recc) => {
-            const isOwner = recc.profile === myProfileId;
+            const isOwner = recc.profile === myProfileId || isSuper;
             const pd = recc.profile_data;
             const displayName = pd
               ? `${pd.first_name} ${pd.last_name?.[0] ?? ""}.`
@@ -440,11 +476,12 @@ function RecommendationsTab({ restaurantId }) {
                         <TriangleAlert className="h-4 w-4 text-yellow-500 hover:text-yellow-600 transition-colors" />
                       </button>
                     )}
-                    <div className="flex flex-col">
-                      <button
-                        onClick={() => handleVote(recc.id, "like")}
-                        aria-label="Upvote recommendation"
-                      >
+                    {isLoggedIn && (
+                      <div className="flex flex-col">
+                        <button
+                          onClick={() => handleVote(recc.id, "like")}
+                          aria-label="Upvote recommendation"
+                        >
                         <ChevronUp className={`h-4 w-4 hover:text-green-600 transition-colors ${recc.current_user_vote === 'like' ? 'text-green-600' : ''}`} />
                         {recc.rank}
                       </button>
@@ -455,6 +492,7 @@ function RecommendationsTab({ restaurantId }) {
                         <ChevronDown className={`h-4 w-4 hover:text-red-600 transition-colors  ${recc.current_user_vote === 'dislike' ? 'text-red-600' : ''}`} />
                       </button>
                     </div>
+                    )}
                   </div>
                 </div>
 
@@ -559,17 +597,26 @@ function ReviewsTab({ restaurantId, restaurantRating, restaurantName }) {
   const [loading, setLoading] = useState(true);
   const [reportingReviewId, setReportingReviewId] = useState(null);
   const [isStoreEmployee, setisStoreEmployee] = useState(false)
+  const isLoggedIn = !!localStorage.getItem("access_token");
+  const [isSuper, setIsSuper] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [reviewsRes, profileRes] = await Promise.all([
-          api.get(`/restaurants/${restaurantId}/reviews/`),
-          api.get("/profiles/me/"),
-        ]);
+        const isLoggedIn = !!localStorage.getItem('access_token');
+        const requests = [api.get(`/restaurants/${restaurantId}/reviews/`)];
+        if (isLoggedIn) {
+          requests.push(api.get("/profiles/me/"));
+        }
+
+        const responses = await Promise.all(requests);
+        const reviewsRes = responses[0];
+        const profileRes = isLoggedIn ? responses[1] : null;
+
         setReviews(reviewsRes.data);
         setMyProfileId(profileRes.data.id);
-        setisStoreEmployee(profileRes.data.works_for === parseInt(restaurantId));
+        setisStoreEmployee(profileRes.data.works_for === parseInt(restaurantId) || profileRes.data.is_superuser);
+        setIsSuper(profileRes.data.is_superuser)
       } catch (err) {
         console.error("Failed to fetch reviews:", err);
       } finally {
@@ -627,14 +674,16 @@ function ReviewsTab({ restaurantId, restaurantRating, restaurantName }) {
             </p>
           </div>
         </div>
-        <button
-          onClick={() => navigate(`/restaurant/${restaurantId}/reviews/new`)}
- className="rounded-full bg-red-500 rounded-2xl px-6 py-2 text-sm text-white font-semibold shadow-sm 
+        {isLoggedIn && (
+          <button
+            onClick={() => navigate(`/restaurant/${restaurantId}/reviews/new`)}
+            className="rounded-full bg-red-500 rounded-2xl px-6 py-2 text-sm text-white font-semibold shadow-sm 
   cursor-pointer hover:shadow-md hover:bg-red-600 hover:shadow-[0_12px_22px_rgba(0,0,0,0.18)]
   hover:-translate-y-1
   transition-all duration-200"        >
           Add a Review
         </button>
+        )}
       </div>
 
       {/* Review list */}
@@ -645,7 +694,7 @@ function ReviewsTab({ restaurantId, restaurantRating, restaurantName }) {
       ) : (
         <div className="divide-y divide-gray-100">
           {reviews.map((review) => {
-            const isOwner = review.profile === myProfileId;
+            const isOwner = review.profile === myProfileId || isSuper;
             const pd = review.profile_data;
             const displayName = pd
               ? `${pd.first_name} ${pd.last_name?.[0] ?? ""}.`

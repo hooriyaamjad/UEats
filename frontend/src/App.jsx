@@ -22,6 +22,7 @@ import WriteRecommendation from "./pages/write-recc";
 import WriteMenuItem from "./pages/write-menu-item";
 import MyReviews from "./pages/my-reviews";
 import WriteReviewReply from "./pages/write-review-reply"
+import MyReccs from "./pages/my-reccs";
 
 
 function RestaurantRedirect() {
@@ -45,8 +46,6 @@ export default function App() {
         <Route path="/forgot-password/confirmation" element={<ForgotPasswordConfirmation />} />
         <Route path="/reset-password/:uid/:token" element={<ResetPassword />} />
         <Route path="/view-restaurants" element={<ViewRestaurants />} /> {/* Move this to protected unless we're doing guest view */}
-        <Route path="/profile" element={<Profile />} /> {/* TODO: Move this to protected. Putting this here for dev purposes */}
-        <Route path="/edit-profile" element={<EditProfile />} /> {/* TODO: Move this to protected. Putting this here for dev purposes */}
         <Route path="/restaurant/:id" element={<RestaurantRedirect />} />
         <Route path="/restaurant/:id/:tab" element={<RestaurantDetail />} />
         <Route path="/preferences" element={<Preferences />} />
@@ -58,8 +57,11 @@ export default function App() {
         <Route path="/restaurant/:id/menu_item/:menu_item_index" element={<WriteMenuItem edit_mode={true}/>}/>
         <Route path="/restaurant/:id/reviews/:review_id/reply" element={<WriteReviewReply/>}/>
         <Route path="/my-reviews" element={<MyReviews />} />
+        <Route path="/my-recommendations" element={<MyReccs />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/home" element={<Home />} />
+          <Route path="/profile" element={<Profile />} /> 
+          <Route path="/edit-profile" element={<EditProfile />} />
         </Route>
       </Routes>
     </BrowserRouter>
