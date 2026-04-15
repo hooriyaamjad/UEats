@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-v(w=!_n_z&vit^u2(tqoyp0k!=h^s=354ub!)@ybh3+bzy&yjo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = app_config.debug
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok-free.app', '.ngrok.io']
 
 
 # Application definition
@@ -62,6 +62,10 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = DEBUG
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://.*\.ngrok-free\.app$",
+    r"^https://.*\.ngrok\.io$",
+]
 
 ROOT_URLCONF = 'ueats.urls'
 
@@ -149,3 +153,13 @@ UNFOLD = {
     "SITE_TITLE": "UEats Admin",
     "SITE_HEADER": "UEats Admin",
 }
+
+
+# Password Reset
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = app_config.email_host_user
+EMAIL_HOST_PASSWORD = app_config.email_host_password
+DEFAULT_FROM_EMAIL = app_config.email_host_user

@@ -4,16 +4,18 @@ import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import BottomNavBar from "../components/BottomNavBar";
 import PlaceholderProfilePic from "../assets/placeholder_pfp.png";
-import { Pencil, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import ConfirmationPopup from "../components/ConfirmationPopup";
-
-const TABS = ["My Reviews", "My Recommendations", "My Preferences"];
+import PreferencesIcon from "../assets/preferences.png";
+import EmptyStar from "../assets/empty_star.png";
+import ThumbsUp from "../assets/thumbs_up.png";
+import EditIcon from "../assets/editing.png";
+import ProfileRouteCard from "../components/ProfileRouteCard";
 
 export default function ViewRestaurants() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState("My Reviews");
   const [, setError] = useState(null);
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
 
@@ -53,7 +55,7 @@ export default function ViewRestaurants() {
   return (
     <div className="min-h-screen bg-[#f5f4f2]">
       <Header
-        showBack={true}
+        showBack={false}
         onBack={() => navigate(-1)}
         title="University of Calgary"
       />
@@ -63,7 +65,7 @@ export default function ViewRestaurants() {
           <img
             src={profile?.image_url || PlaceholderProfilePic}
             alt="Profile picture"
-            className="h-35  w-35 rounded-full object-cover"
+            className="h-35 w-35 rounded-full object-cover"
           />
         </div>
         <div className="flex items-center gap-4 justify-center font-bold text-lg">
@@ -72,23 +74,39 @@ export default function ViewRestaurants() {
         <div className="flex items-center gap-4 justify-center font text-md mt-[-15px] text-gray-600">
           {profile.email}
         </div>
-        <div className="flex items-center gap-4 justify-center text-gray-600">
+
+        <div className="grid gap-4">
+          <ProfileRouteCard
+            icon={EditIcon}
+            text="Edit Profile"
+            to="/edit-profile"
+            state={{ profileData: profile }}
+          />
+
+          <ProfileRouteCard
+            icon={PreferencesIcon}
+            text="My Preferences"
+            to="/preferences"
+          />
+
+          <ProfileRouteCard
+            icon={EmptyStar}
+            text="My Reviews"
+            to="/my-reviews"
+          />
+
+          <ProfileRouteCard
+            icon={ThumbsUp}
+            text="Stores For You"
+            to="/recommendations"
+          />
+        </div>
+
+        <div className="flex items-center gap-4 mt-10 justify-center text-gray-600">
           <button
-            className="flex items-center gap-2 bg-white rounded-2xl px-5 py-2 text-sm font-semibold shadow-sm 
-  cursor-pointer hover:shadow-md hover:bg-gray-50 hover:scale-105 
-  transition-all duration-200"
-            onClick={() =>
-              navigate("/edit-profile", {
-                state: { profileData: profile },
-              })
-            }
-          >
-            <Pencil size={16} />
-            Edit Profile
-          </button>
-          <button
-            className="flex items-center gap-2 bg-red-500 rounded-2xl px-5 py-2 text-sm text-white font-semibold shadow-sm 
-  cursor-pointer hover:shadow-md hover:bg-red-600 hover:scale-105 
+            className="flex items-center gap-2 bg-red-500 rounded-xl px-10 py-3 text-sm text-white font-semibold shadow-sm
+  cursor-pointer hover:shadow-md hover:bg-red-600 hover:shadow-[0_12px_22px_rgba(0,0,0,0.18)]
+  hover:-translate-y-1
   transition-all duration-200"
             onClick={() => setShowLogoutPopup(true)}
           >
@@ -106,61 +124,9 @@ export default function ViewRestaurants() {
             onCancel={() => setShowLogoutPopup(false)}
           />
         </div>
-
-        {/* Tabs */}
-        <div className=" w-full rounded-2xl bg-white shadow-sm">
-          <div className="flex border-b border-gray-200">
-            {TABS.map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`flex-1 text-center py-3 text-xs sm:text-sm md:text-base font-semibold transition-all ${
-                  activeTab === tab
-                    ? "border-b-2 border-red-500 text-red-500"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
-        </div>
-        {/* Tab content */}
-        <div className="px-5 pt-4">
-          {activeTab === "My Reviews" && <MyReviewsTab />}
-          {activeTab === "My Recommendations" && <MyRecommendationsTab />}
-          {activeTab === "My Preferences" && <MyPreferencesTab />}
-        </div>
       </main>
 
       <BottomNavBar />
-    </div>
-  );
-}
-
-// placeholder text, for development of features
-function MyReviewsTab() {
-  return (
-    <div className="text-center py-12 text-gray-400 text-sm">
-      My Reviews coming soon.
-    </div>
-  );
-}
-
-// placeholder text, for development of features
-function MyRecommendationsTab() {
-  return (
-    <div className="text-center py-12 text-gray-400 text-sm">
-      My Recommendations coming soon.
-    </div>
-  );
-}
-
-// placeholder text, for development of features
-function MyPreferencesTab() {
-  return (
-    <div className="text-center py-12 text-gray-400 text-sm">
-      My Preferences coming soon.
     </div>
   );
 }

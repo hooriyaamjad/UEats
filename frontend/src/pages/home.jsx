@@ -1,12 +1,9 @@
 import { useState, useEffect } from "react";
 import api from "../utils/api";
 import Header from "../components/Header";
-import TagFilter from "../components/TagFilter";
 import RestaurantCard from "../components/RestaurantCard";
 import Carousel from "../components/Carousel";
 import BottomNavBar from "../components/BottomNavBar";
-
-const FILTER_TAGS = ["Halal", "Vegetarian", "Coffee", "Breakfast", "Pizza", "Burgers"];
 
 export default function Home() {
   const [restaurants, setRestaurants] = useState([]);
@@ -16,15 +13,22 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchRestaurants = async () => {
+    const fetchData = async () => {
       try {
-        const response = await api.get("/restaurants/");
-        const normalized = response.data.map((r) => ({
+        const isLoggedIn = !!localStorage.getItem('access_token');
+        const requests = [api.get("/restaurants/")];
+        if (isLoggedIn) requests.push(api.get("/profiles/me/favourites/"));
+
+        const [restaurantsRes, favouritesRes] = await Promise.all(requests);
+        const normalized = restaurantsRes.data.map((r) => ({
           ...r,
           image: r.image_url || `https://placehold.co/300x200/e8d5b7/555?text=${encodeURIComponent(r.name)}`,
           tags: r.tags ?? [],
         }));
         setRestaurants(normalized);
+        if (favouritesRes) {
+          setFavouriteIds(new Set(favouritesRes.data));
+        }
       } catch (error) {
         console.error("Failed to fetch restaurants:", error?.response?.data || error.message);
         setError("Couldn't connect to the backend. Is the server running?");
@@ -33,37 +37,44 @@ export default function Home() {
       }
     };
 
-    fetchRestaurants();
+    fetchData();
   }, []);
 
-  const handleFavouriteToggle = (id) => {
+  const handleFavouriteToggle = async (id) => {
+    const isLoggedIn = !!localStorage.getItem('access_token');
+    if (!isLoggedIn) return;
+
     setFavouriteIds((prev) => {
       const next = new Set(prev);
       next.has(id) ? next.delete(id) : next.add(id);
       return next;
     });
+
+    try {
+      await api.post("/profiles/me/favourites/toggle/", { restaurant_id: id });
+    } catch (error) {
+      // Revert optimistic update on failure
+      setFavouriteIds((prev) => {
+        const next = new Set(prev);
+        next.has(id) ? next.delete(id) : next.add(id);
+        return next;
+      });
+      console.error("Failed to toggle favourite:", error?.response?.data || error.message);
+    }
   };
 
   const favourites = restaurants.filter((r) => favouriteIds.has(r.id));
 
-  const forYou = selectedTag
-    ? restaurants.filter((r) => r.tags.includes(selectedTag))
-    : restaurants;
+  const popularRestaurants = restaurants.filter(
+  (r) => Number(r.rating || 0) >= 4.0 );
+
+  const allRestaurants = restaurants
 
   return (
     <div className="min-h-screen bg-[#f5f4f2]">
       <Header title="University of Calgary" />
 
       <main className="w-full max-w-2xl mx-auto px-5 pt-5 pb-32 flex flex-col gap-8">
-        {/* Explore by Tags */}
-        <section>
-          <h2 className="text-base font-semibold mb-3">Explore by Tags</h2>
-          <TagFilter
-            tags={FILTER_TAGS}
-            selectedTag={selectedTag}
-            onSelect={setSelectedTag}
-          />
-        </section>
 
         {/* Error / loading state */}
         {loading && (
@@ -95,12 +106,12 @@ export default function Home() {
         {/* For You */}
         {!loading && !error && (
           <section>
-            <h2 className="text-base font-semibold mb-3">For You</h2>
-            {forYou.length === 0 ? (
+            <h2 className="text-base font-semibold mb-3">Popular Restaurants</h2>
+            {popularRestaurants.length === 0 ? (
               <p className="text-sm text-gray-400">No restaurants match this tag.</p>
             ) : (
               <Carousel>
-                {forYou.map((r) => (
+                {popularRestaurants.map((r) => (
                   <RestaurantCard
                     key={r.id}
                     restaurant={{ ...r, isFavourite: favouriteIds.has(r.id) }}
@@ -109,6 +120,21 @@ export default function Home() {
                 ))}
               </Carousel>
             )}
+          </section>
+        )}
+
+        {!loading && !error && (
+          <section>
+            <h2 className="text-base font-semibold mb-3">All Restaurants</h2>
+            <Carousel>
+              {allRestaurants.map((r) => (
+                <RestaurantCard
+                  key={r.id}
+                  restaurant={{ ...r, isFavourite: favouriteIds.has(r.id) }}
+                  onFavouriteToggle={handleFavouriteToggle}
+                />
+              ))}
+            </Carousel>
           </section>
         )}
       </main>

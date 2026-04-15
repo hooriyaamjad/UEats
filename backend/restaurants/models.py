@@ -10,6 +10,9 @@ class Restaurant(models.Model):
     menu_items = models.JSONField(default=list, blank=True)
     min_price = models.DecimalField(max_digits=6, decimal_places=2)
     max_price = models.DecimalField(max_digits=6, decimal_places=2)
+    other_tags = models.JSONField(blank=True, default=list)
+    dietary_restrictions = models.JSONField(blank=True, default=list)
+    allergens = models.JSONField(blank=True, default=list)
     days_of_operation = models.CharField(max_length=255)
     opening_hours = models.CharField(max_length=255)
     closing_hours = models.CharField(max_length=255)
@@ -25,8 +28,12 @@ class Review(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='reviews')
     rating = models.DecimalField(max_digits=2, decimal_places=1, default=Decimal(0.0))
     description = models.TextField(blank=True)
+    tags = models.JSONField(default=list, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    restaurant_reply = models.TextField(blank=True, null=True)
+    is_reported = models.BooleanField(default=False)
+    report_reason = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return self.description

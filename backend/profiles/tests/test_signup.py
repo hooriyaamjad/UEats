@@ -1,7 +1,11 @@
+from copy import deepcopy
+
 from django.urls import reverse
 from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.test import APITestCase
+
+from restaurants.models import Restaurant
 
 class SignupTest(APITestCase):
     
@@ -77,3 +81,26 @@ class SignupTest(APITestCase):
         response = self.client.post(self.signup_url, payload, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_signup_employee(self):
+        rest = Restaurant(name="rest", 
+                          location="location", 
+                          min_price = 0, 
+                          max_price=1,
+                          days_of_operation = "MWF",
+                          opening_hours="1",
+                          closing_hours="1",
+                          rating=1,
+                          )
+        rest.save()
+
+        payload = deepcopy(self.valid_payload)
+        payload['profile']['works_for'] = rest.pk
+        response = self.client.post(self.signup_url, payload, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        user = User.objects.get(username=payload["username"])
+        self.assertEqual(user.profile.works_for_id, rest.pk)
+
+
+
